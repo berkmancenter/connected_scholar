@@ -1,6 +1,6 @@
-= Setup
+# Setup
 
-== Install etherpad-lite
+## Install etherpad-lite
 
 Run the following command to install Node.js, NPM and etherpad-lite
 
