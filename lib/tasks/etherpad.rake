@@ -4,19 +4,22 @@ namespace :etherpad do
     # TODO make sure its not already installed
     
     # Step 1: install Node.js
+    # create tmp dir if it does not exist
+    system "mkdir tmp" unless Dir.exists?("tmp")
     system "cd tmp; curl -O http://nodejs.org/dist/node-v0.4.10.tar.gz"
     system "cd tmp; tar xf node-v0.4.10.tar.gz"
-    system "cd tmp/node-v0.4.10; ./configure && make && make install"
+    system "mkdir ~/opt" unless Dir.exists?("~/opt")
+    system "cd tmp/node-v0.4.10; export PREFIX=~/opt; ./configure && make && make install"
     
     # Step 2: install npm
-    system "curl http://npmjs.org/install.sh | sh"
+    system "export PATH=~/opt/bin:${PATH}; curl http://npmjs.org/install.sh | sh"
 
     # Step 3: clone etherpad
     system "git clone git://github.com/Pita/etherpad-lite.git vendor/etherpad-lite"
     
     # Step 4: setup etherpad
     # TODO adjust settings.json correctly
-    system "cd vendor/etherpad-lite; ./bin/installDeps.sh"
+    system "export PATH=~/opt/bin:${PATH}; cd vendor/etherpad-lite; ./bin/installDeps.sh"
   end
   
   task :run, [:no_check] do |t, args|
@@ -25,7 +28,7 @@ namespace :etherpad do
       # check that we are on the correct version
       # error out if not
     end
-    system "cd vendor/etherpad-lite; ./bin/run.sh"
+    system "export PATH=~/opt/bin:${PATH}; cd vendor/etherpad-lite; ./bin/run.sh"
   end
   
   task :check do
