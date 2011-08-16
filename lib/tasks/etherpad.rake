@@ -14,8 +14,9 @@ namespace :etherpad do
     # Step 2: install npm
     system "export PATH=~/opt/bin:${PATH}; curl http://npmjs.org/install.sh | sh"
 
-    # Step 3: clone etherpad
+    # Step 3: clone etherpad and checkout the right version
     system "git clone git://github.com/Pita/etherpad-lite.git vendor/etherpad-lite"
+    system "cd vendor/etherpad-lite; git checkout e24b8ac93afff5880bbdbe4a57ed9d56622efe01"
     
     # Step 4: setup etherpad
     # TODO adjust settings.json correctly
