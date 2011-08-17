@@ -1,6 +1,8 @@
-# Setup
+# Connected Scholar
 
-## Install etherpad-lite
+## Setup
+
+### Install etherpad-lite
 
 Run the following command to install Node.js, NPM and etherpad-lite
 
@@ -13,7 +15,5 @@ In a seperate terminal, run etherpad so we can make sure it works.
 And check it thusly
 
     rake etherpad:check
-    
 
-    
     

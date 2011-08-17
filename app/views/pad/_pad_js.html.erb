@@ -1,15 +1,17 @@
 <!-- javascript -->
 <script type="text/javascript">
-var clientVars = {};
+    var clientVars = {};
 </script>
 
 <% with_etherpad_server do |protocol, host, port| %>
     <script type="text/javascript" src="<%= protocol %>://<%= host %>:<%= port %>/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="<%= protocol %>://<%= host %>:<%= port %>/minified/pad.js"></script>
-    <script type="text/javascript" src="/js/handshake.js">
+    <script>
         var etherpadServerConfig = new Array();
-        etherpadServerConfig["host"] = "<%= host %>";
-        etherpadServerConfig["port"] = "<%= port %>";
-        etherpadServerConfig["protocol"] = "<%= protocol %>";
+        etherpadServerConfig['host'] = "<%= host %>";
+        etherpadServerConfig['port'] = "<%= port %>";
+        etherpadServerConfig['protocol'] = "<%= protocol %>";
     </script>
+    <script type="text/javascript" src="/js/handshake.js"></script>
+
 <% end %>

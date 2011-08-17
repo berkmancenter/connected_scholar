@@ -10,7 +10,7 @@ function handshake()
   if (etherpadServerConfig != undefined && etherpadServerConfig != null) {
       port = etherpadServerConfig['port'];
       host = etherpadServerConfig['host'];
-      protocol = etherpadServerConfig['protocol'];
+      protocol = etherpadServerConfig['protocol'] + ":";
   }
 
   //create the url

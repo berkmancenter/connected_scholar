@@ -19,6 +19,14 @@ class GitResource
     @cache_path ||= URI.parse(@uri)
   end
 
+  def ref_checked_out?(ref=@revision)
+    Dir.chdir(path) do
+      cur_ref = git "rev-parse HEAD"
+      return cur_ref.strip == ref
+    end
+    false
+  end
+
   def checkout
     unless File.exist?(File.join(path, ".git"))
       FileUtils.mkdir_p(path)
