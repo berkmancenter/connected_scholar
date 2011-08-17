@@ -25,20 +25,21 @@ namespace :etherpad do
     end
   end
 
-  task :checkout, [] => [:init] do
-    # we can't simply load use the :environment because that will check if etherpad is installed
-    require "#{Rails.root}/lib/git_resource"
-    require "#{Rails.root}/lib/etherpad_helper"
+  task :checkout do
+    ENV['NO_ETHERPAD'] = '1'
+    Rake::Task['etherpad:_checkout_'].invoke
+  end
 
+  task :_checkout_, [] => [:init, :environment] do
     include EtherpadHelper
-    
+
     prefix = "~/opt" # todo check PREFIX env var
 
     with_etherpad_git do |git|
       git.checkout
 
       system "export PATH=#{prefix}/bin:${PATH}; cd #{git.install_path}; ./bin/installDeps.sh"
-            
+
       # TODO adjust settings.json correctly
     end
   end
