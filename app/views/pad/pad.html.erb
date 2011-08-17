@@ -1,13 +1,7 @@
 <% content_for :head do %>
   <!-- stylesheets -->
   <link href="/static/css/pad.css" rel="stylesheet" />
-  <!-- javascript -->
-  <script type="text/javascript">
-  	var clientVars = {};
-  </script>
-  <script type="text/javascript" src="http://localhost:9001/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="http://localhost:9001/minified/pad.js"></script>
-  <script type="text/javascript" src="/js/handshake.js"></script>
+  <%= render :partial => 'pad_js'%>
   <style type="text/css" title="dynamicsyntax"></style>
 
 <% end %>

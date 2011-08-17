@@ -5,3 +5,4 @@ tmp/
 .sass-cache/
 vendor/etherpad-lite
 .idea
+config/etherpad.local.yml
