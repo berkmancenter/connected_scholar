@@ -1,10 +1,20 @@
 function handshake()
 {
   var loc = document.location;
+
   //get the correct port
-  var port = '9001';  //loc.port == "" ? (loc.protocol == "https:" ? 443 : 80) : loc.port;
+  var port = loc.port == "" ? (loc.protocol == "https:" ? 443 : 80) : loc.port;
+  var host = loc.hostname;
+  var protocol = loc.protocol;
+
+  if (etherpadServerConfig != undefined && etherpadServerConfig != null) {
+      port = etherpadServerConfig['port'];
+      host = etherpadServerConfig['host'];
+      protocol = etherpadServerConfig['protocol'];
+  }
+
   //create the url
-  var url = loc.protocol + "//" + loc.hostname + ":" + port + "/";
+  var url = protocol + "//" + host + ":" + port + "/";
   //find out in which subfolder we are
   var resource = loc.pathname.substr(1, loc.pathname.indexOf("/p/")) + "socket.io";
   //connect

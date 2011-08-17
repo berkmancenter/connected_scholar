@@ -1,8 +1,8 @@
-include EtherpadHelper
+include EtherpadUtil
 
 unless ENV['NO_ETHERPAD']
-  with_etherpad_server do |host, port|
-    unless system "curl --silent http://#{host}:#{port} >/dev/null"
+  with_etherpad_server do |protocol, host, port|
+    unless system "curl --silent #{protocol}://#{host}:#{port} >/dev/null"
       print "Etherpad isn't running! Do you want to continue? (y/n): "
       answer = STDIN.gets
       unless answer.strip == 'y'

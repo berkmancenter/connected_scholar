@@ -1,3 +1,4 @@
-ip: "0.0.0.0"
+host: "0.0.0.0"
 port: 9001
+protocol: http
 path: vendor/etherpad-lite

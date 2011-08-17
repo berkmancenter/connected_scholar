@@ -31,7 +31,7 @@ namespace :etherpad do
   end
 
   task :_checkout_, [] => [:init, :environment] do
-    include EtherpadHelper
+    include EtherpadUtil
 
     prefix = "~/opt" # todo check PREFIX env var
 

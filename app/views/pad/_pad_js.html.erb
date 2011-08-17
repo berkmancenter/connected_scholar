@@ -2,8 +2,14 @@
 <script type="text/javascript">
 var clientVars = {};
 </script>
-<script type="text/javascript" src="http://localhost:9001/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="http://localhost:9001/minified/pad.js"></script>
-<script type="text/javascript" src="/js/handshake.js">
-  
-</script>
+
+<% with_etherpad_server do |protocol, host, port| %>
+    <script type="text/javascript" src="<%= protocol %>://<%= host %>:<%= port %>/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="<%= protocol %>://<%= host %>:<%= port %>/minified/pad.js"></script>
+    <script type="text/javascript" src="/js/handshake.js">
+        var etherpadServerConfig = new Array();
+        etherpadServerConfig["host"] = "<%= host %>";
+        etherpadServerConfig["port"] = "<%= port %>";
+        etherpadServerConfig["protocol"] = "<%= protocol %>";
+    </script>
+<% end %>
