@@ -8,6 +8,7 @@ ConnectedScholar::Application.routes.draw do
   match 'pad/' => 'pad#index'
   match 'pad/pad' => 'pad#pad'
   match 'p/:id' => 'pad#pad'
+  match 'ro/:id' => 'pad#read_only'
   
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
