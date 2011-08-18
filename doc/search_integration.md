@@ -6,6 +6,7 @@
 Primo Central is a cross-disciplinary resource that covers hundreds of millions of e-resources, such as journal articles, e-books, and digital collections.
 
 Features:
+
 +  Fielded resource search
 +  Suggestions for related searches
 +  Recommendations: 'Users interested in this article also expressed an interest in ..."
@@ -22,6 +23,7 @@ Primo is still in a trial period.
 [http://webservices.lib.harvard.edu/](http://webservices.lib.harvard.edu/)
 
 PRESTO is a RESTful data lookup service.  The API provides the following features:
+
 +  Request bibliographic information from HOLLIS or VIA.
 +  Request HOLLIS item availability information.
 +  Request library or archive information stored in the Harvard Libraries portal database.
