@@ -164,7 +164,7 @@ DEPENDENCIES
   coffee-rails (~> 3.1.0.rc)
   cucumber-rails
   httpclient
-  jquery-rails
+  jquery-rails (= 1.0.13)
   rails (= 3.1.0.rc5)
   rspec-rails
   sass-rails (~> 3.1.0.rc)
