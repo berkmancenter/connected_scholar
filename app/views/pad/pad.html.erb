@@ -4,6 +4,18 @@
   <%= render :partial => 'pad_js'%>
   <style type="text/css" title="dynamicsyntax"></style>
 
+  <script type="text/javascript">
+    $(function(){
+	  $("#draggable").draggable({zIndex: 1000, helper: 'clone', iframeFix: true});
+	  $("#editorcontainerbox").droppable({
+		accepts: "draggable", 
+	    drop: function(event, ui){
+		  $(window.parent.frames[1].frames[0].document).find("#innerdocbody").append("Dropped");
+	    }
+	  });
+	});
+  </script>
+
 <% end %>
 
 <div id="main">
