@@ -1,14 +1,6 @@
 class PadController < ApplicationController
-  def index
-    
-  end
-  
-  def pad
-    
-  end
-  
   def read_only
-    pad_id = params[:id]
+    pad_id = params[:pad_id]
     html = nil
     with_etherpad_url do |url|
       http = HTTPClient.new
