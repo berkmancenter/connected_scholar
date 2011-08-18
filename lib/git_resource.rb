@@ -1,6 +1,9 @@
 require "uri"
 require "open3"
 
+# This class represents a resource that resides in a git repository - much like Bundler's :git resources.
+# It can be used to checkout a particular version of a git repo and install it somewhere.  This is useful for resources
+# that a not Gems.  If the repo is a gem or has a .gemspec in it, then its probably better to use Bundler.
 class GitResource
   attr_reader :uri, :install_path
 
@@ -19,6 +22,9 @@ class GitResource
     @cache_path ||= URI.parse(@uri)
   end
 
+  # This method tests if the given repo is at the specificed revision.  However, it will not test for staged changes.
+  # @param [String] the git rev to test for.  defaults the revision defined for this instance
+  # @return [true, false] true if the give rev is checked out, false if not.
   def ref_checked_out?(ref=@revision)
     Dir.chdir(path) do
       cur_ref = git "rev-parse HEAD"
@@ -27,6 +33,7 @@ class GitResource
     false
   end
 
+  # This method checks out a the git rev specified when constructing this instance.  Really, it just does a 'git reset --hard'
   def checkout
     unless File.exist?(File.join(path, ".git"))
       FileUtils.mkdir_p(path)
