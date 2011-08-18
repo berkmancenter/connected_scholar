@@ -1,1 +1,37 @@
-<div id="padRight">right</div>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        $("#choices").accordion({
+            collapsible: true
+        });
+    });
+</script>
+
+<div id="padRight">
+  <div id="choices">
+    <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
+
+    <div>
+      <div>
+        <label>Primo Search:
+          <input id="primo-search" type="text">
+        </label>
+      </div>
+      <div style="margin: 20px 0 0 0">
+        <label>Subject Search:
+          <input id="subject-search" type="text">
+        </label>
+      </div>
+    </div>
+    <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
+
+    <div>Second content</div>
+    <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
+
+    <div>
+      <div>Third content</div>
+      <div>
+        <button>Add Comment</button>
+      </div>
+    </div>
+  </div>
+</div>
