@@ -1,4 +1,5 @@
 class PadController < ApplicationController
+  before_filter :authenticate_user!
   def read_only
     pad_id = params[:pad_id]
     html = nil
