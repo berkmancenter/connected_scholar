@@ -4,7 +4,7 @@ ConnectedScholar::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
   
-  root :to => "home#index"
+  root :to => "dashboard#index"
 
   devise_for :users
   #resources :users, :only => :show

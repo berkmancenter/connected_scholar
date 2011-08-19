@@ -62,6 +62,7 @@ GEM
       capybara (>= 1.0.0)
       cucumber (~> 1.0.0)
       nokogiri (>= 1.4.6)
+    database_cleaner (0.6.7)
     devise (1.4.2)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
@@ -170,6 +171,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 3.1.0.rc)
   cucumber-rails
+  database_cleaner
   devise (= 1.4.2)
   httpclient
   jquery-rails (= 1.0.13)
