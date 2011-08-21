@@ -5,15 +5,52 @@
   <style type="text/css" title="dynamicsyntax"></style>
 
   <script type="text/javascript">
+	
     $(function(){
-	  $("#draggable").draggable({zIndex: 1000, helper: 'clone', iframeFix: true});
-	  $("#editorcontainerbox").droppable({
-		accepts: "draggable", 
-	    drop: function(event, ui){
-		  $(window.parent.frames[1].frames[0].document).find("#innerdocbody").append("Dropped");
-	    }
+	  $("#draggable").draggable({zIndex: 1000, helper: 'clone', iframeFix: true,
+	    start: function(event,ui){
+		  setupDropzone();
+		}
 	  });
 	});
+	
+	function setupDropzone(){
+	  var innerdocbody = $(window.parent.frames[1].frames[0].document).find("#innerdocbody");
+	  var allmagic = innerdocbody.find('div[id^="magicdomid"]');
+	  allmagic.droppable({
+	    hoverClass: 'ui-state-highlight',
+		drop: function(event, ui){
+		  var elem = $(event.target);
+		  elem.after(ui.draggable.html());
+		  var id = elem.attr("id");
+		  var newElem = elem.next();
+		  var node = window.parent.frames[1].frames[0].document.getElementById(id);
+		  newElem.focus(function() {
+		    window.setTimeout(function() {
+		      var sel, range;
+			  if (window.getSelection && window.parent.frames[1].frames[0].document.createRange) {
+			    range = window.parent.frames[1].frames[0].document.createRange();
+			    range.setStart(node, 0);
+			    range.setEnd(node, 0);
+			    range.collapse(true);
+			    sel = window.getSelection();
+			    sel.removeAllRanges();
+			    sel.addRange(range);
+			  } else if (node.createTextRange) {
+			    range = node.createTextRange();
+			    range.collapse(true);
+			    range.select();
+			  }
+		    }, 1);
+		  });
+		  newElem.attr('tabindex', -1)
+		  newElem.focus();
+		  newElem.removeAttr('tabindex');
+		  return true;
+	    }
+	  });
+    }
+	
   </script>
 
 <% end %>
