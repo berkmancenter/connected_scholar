@@ -16,4 +16,16 @@ And check it thusly
 
     rake etherpad:check
 
+### Prepare the database
+
+The following commands will create the application's database, schema and some preloaded data:
+
+    rake db:migrate
+    rake db:seed
+
+## Login
+
+The following default user will have been created for you:
+
++  admin@test.com / password
     

@@ -7,7 +7,7 @@ gem 'rails', '3.1.0.rc5'
 
 gem 'httpclient'
 gem 'sqlite3'
-
+gem 'devise', '1.4.2'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -34,4 +34,7 @@ group :test do
   gem 'rspec-rails'
   gem 'cucumber-rails'
   gem 'capybara'
+  gem 'database_cleaner'
+  gem 'execjs'
+  gem 'therubyracer'
 end

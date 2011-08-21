@@ -1,6 +1,13 @@
 ConnectedScholar::Application.routes.draw do
+  devise_for :users
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
+  
+  root :to => "dashboard#index"
+
+  devise_for :users
+  #resources :users, :only => :show
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
