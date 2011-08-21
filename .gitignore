@@ -6,3 +6,4 @@ tmp/
 vendor/etherpad-lite
 .idea
 config/etherpad.local.yml
+**/*.DS_Store
