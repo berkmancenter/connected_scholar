@@ -12,7 +12,7 @@ require 'cucumber/rails'
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 
-if Capybara.current_driver == :selenium
+if ENV['HEADLESS'] == 'true' #Capybara.current_driver == :selenium
   require 'headless'
 
   headless = Headless.new
