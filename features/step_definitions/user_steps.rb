@@ -57,3 +57,9 @@ Then /^I should be signed out$/ do
   And %{I should see "Login"}
   And %{I should not see "Logout"}
 end
+
+Given /^I am logged in$?/ do
+  Given %{I am a user named "foo" with an email "admin@test.com" and password "password"}
+  When %{I sign in as "admin@test.com/password"}
+  Then %{I should be signed in}
+end

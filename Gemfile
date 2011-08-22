@@ -39,4 +39,5 @@ group :test do
   gem 'therubyracer'
   gem 'selenium-client', :require => 'selenium/client'
   gem 'selenium-webdriver'
+  gem 'headless'
 end

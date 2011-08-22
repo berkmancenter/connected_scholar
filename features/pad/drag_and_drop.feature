@@ -5,9 +5,7 @@ Feature: Drag and Drop
 
     @javascript
     Scenario: User drags and drops some text onto the document
-      Given I am a user named "foo" with an email "admin@test.com" and password "password"
-      When I sign in as "admin@test.com/password"
-      Then I should be signed in
+      Given I am logged in
       Then I create a new document
       When I drag "Drag Me Please" to the document
       Then I should see "Drag Me Please" in the document
