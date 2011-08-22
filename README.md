@@ -8,7 +8,10 @@ Run the following command to install Node.js, NPM and etherpad-lite
 
     rake etherpad:install
 
-In a seperate terminal, run etherpad so we can make sure it works.
+Node.js (one of etherpad-lite's dependencies) will be installed in ~/opt.  You can optionally set the PREFIX environment
+variable to the location you would like to install Node.js.
+
+Next, run etherpad in a seperate terminal so we can make sure it works.
 
     rake etherpad:run
     

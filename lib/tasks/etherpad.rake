@@ -2,21 +2,60 @@ require 'json'
 
 namespace :etherpad do
 
-  task :install, [] => [:prereqs, :checkout]
+  task :uninstall, [] => [:uninstall_prereqs] do
+    system "rm -rf vendor/etherpad-lite"
+    puts "Successfully uninstalled etherpad"
+  end
 
-  task :prereqs, [] do
-    prefix = "~/opt" # todo check PREFIX env var
+  task :uninstall_prereqs do
+    prefix = ENV['PREFIX']
+    prefix ||= "~/opt"
+    prefix = File.expand_path(prefix)
 
-    # Step 1: install Node.js
-    # create tmp dir if it does not exist
-    system "mkdir tmp" unless Dir.exists?("tmp")
-    system "cd tmp; curl -O http://nodejs.org/dist/node-v0.4.10.tar.gz"
-    system "cd tmp; tar xf node-v0.4.10.tar.gz"
-    system "mkdir #{prefix}" unless Dir.exists?(prefix)
-    system "cd tmp/node-v0.4.10; export PREFIX=#{prefix}; ./configure && make && make install"
+    if File.exists?(File.join(prefix, "bin/node"))
+      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; npm uninstall npm -g"
 
-    # Step 2: install npm
-    system "export PATH=#{prefix}/bin:${PATH}; curl http://npmjs.org/install.sh | sh"
+      system "mkdir tmp" unless Dir.exists?("tmp")
+
+      unless File.exists?("tmp/node-v0.4.10.tar.gz")
+        system "cd tmp; curl -O http://nodejs.org/dist/node-v0.4.10.tar.gz"
+      else
+        puts "Using previously downloaded node-v0.4.10.tar.gz"
+      end
+      
+      system "cd tmp; tar xf node-v0.4.10.tar.gz"
+      system "cd tmp/node-v0.4.10; export PREFIX=#{prefix}; ./configure && make uninstall"
+    end
+    puts "Successfully uninstalled prerequisites"
+  end
+
+  task :install, [] => [:install_prereqs, :checkout]
+
+  task :install_prereqs, [] do
+    prefix = ENV['PREFIX']
+    prefix ||= "~/opt"
+    prefix = File.expand_path(prefix)
+
+    if File.exists?(File.join(File.expand_path(prefix), "bin/node"))
+      puts "Etherpad prerequisites are already installed. Run 'rake etherpad:uninstall' if you need to refresh them."
+    else
+      # Step 1: install Node.js
+      # create tmp dir if it does not exist
+      system "mkdir tmp" unless Dir.exists?("tmp")
+
+      unless File.exists?("tmp/node-v0.4.10.tar.gz")
+        system "cd tmp; curl -O http://nodejs.org/dist/node-v0.4.10.tar.gz"
+      else
+        puts "Using previously downloaded node-v0.4.10.tar.gz"
+      end
+
+      system "cd tmp; tar xf node-v0.4.10.tar.gz"
+      system "mkdir #{prefix}"
+      system "cd tmp/node-v0.4.10; export PREFIX=#{prefix}; ./configure && make && make install"
+
+      # Step 2: install npm
+      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; curl http://npmjs.org/install.sh | sh"
+    end
   end
 
   task :init do
@@ -33,24 +72,30 @@ namespace :etherpad do
   task :_checkout_, [] => [:init, :environment] do
     include EtherpadUtil
 
-    prefix = "~/opt" # todo check PREFIX env var
+    prefix = ENV['PREFIX']
+    prefix ||= "~/opt"
+    prefix = File.expand_path(prefix)
 
     with_etherpad_git do |git|
       git.checkout
 
-      system "export PATH=#{prefix}/bin:${PATH}; cd #{git.install_path}; ./bin/installDeps.sh"
+      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd #{git.install_path}; ./bin/installDeps.sh"
 
       # TODO adjust settings.json correctly
     end
   end
   
   task :run, [:no_check] do |t, args|
+    prefix = ENV['PREFIX']
+    prefix ||= "~/opt"
+    prefix = File.expand_path(prefix)
+    
     unless args.no_check == 'true'
       puts 'Checking that correct version of etherpad-lite is installed'
       # check that we are on the correct version
       # error out if not
     end
-    system "export PATH=~/opt/bin:${PATH}; cd vendor/etherpad-lite; ./bin/run.sh"
+    system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd vendor/etherpad-lite; ./bin/run.sh"
   end
   
   task :check do
