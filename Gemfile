@@ -37,4 +37,6 @@ group :test do
   gem 'database_cleaner'
   gem 'execjs'
   gem 'therubyracer'
+  gem 'selenium-client', :require => 'selenium/client'
+  gem 'selenium-webdriver'
 end
