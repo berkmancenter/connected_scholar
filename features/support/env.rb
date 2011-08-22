@@ -19,6 +19,8 @@ if ENV['HEADLESS'] == 'true' #Capybara.current_driver == :selenium
   headless = Headless.new
   headless.start
 
+  Selenium::WebDriver::Firefox::Binary.path="#{Rails.root}/vendor/firefox/firefox"
+
   at_exit do
     headless.destroy
   end
