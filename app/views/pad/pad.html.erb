@@ -19,7 +19,7 @@
       var innerdocbody = $(doc).find("#innerdocbody");
       var allmagic = innerdocbody.find('div[id^="magicdomid"]');
       allmagic.droppable({
-        hoverClass: 'ui-state-highlight',
+	    hoverClass: 'custom-hover',
         drop: function(event, ui){
           var target = $(event.target);
           var node = doc.getElementById(target.attr("id"));
@@ -29,7 +29,7 @@
             });
           });
           //create the new line after drop target
-          target.after(ui.draggable.html());
+          target.after("Thanks for dropping me!");
           target.attr('tabindex', -1).focus().removeAttr('tabindex');
           return true;
         }
@@ -56,7 +56,6 @@
   </script>
 
 <% end %>
-
 <div id="main">
   <%= render :partial => 'pad_left'%>
   <%= render :partial => 'pad_middle'%>

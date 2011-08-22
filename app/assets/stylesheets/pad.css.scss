@@ -7,11 +7,28 @@ html {
 body {
   height: 100%;
 }
+.custom-hover{
+  background: blue;
+}
+#top{
+  position: relative;
+  width:  100%;
+}
+
+#mainContent {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+}
+
 #main {
+  position: relative;
   min-height: 100%;
   height: 100%;
   width:  100%;
 }
+
 #padLeft {  
   position: relative;
   float: left;
