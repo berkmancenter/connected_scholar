@@ -54,7 +54,7 @@ namespace :etherpad do
       system "cd tmp/node-v0.4.10; export PREFIX=#{prefix}; ./configure && make && make install"
 
       # Step 2: install npm
-      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; curl http://npmjs.org/install.sh | sh"
+      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; curl http://npmjs.org/install.sh | clean=yes sh"
     end
   end
 
