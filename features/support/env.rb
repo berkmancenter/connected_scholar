@@ -13,6 +13,7 @@ require 'cucumber/rails'
 Capybara.default_selector = :css
 
 if ENV['HEADLESS'] == 'true' #Capybara.current_driver == :selenium
+  puts "Running in headless mode"
   require 'headless'
 
   headless = Headless.new
