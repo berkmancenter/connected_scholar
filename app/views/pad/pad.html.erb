@@ -15,6 +15,7 @@
     });
     
     function setupDropzone(){
+	  var win = window.parent.frames[1].frames[0].window;
       var doc = window.parent.frames[1].frames[0].document;
       var innerdocbody = $(doc).find("#innerdocbody");
       var allmagic = innerdocbody.find('div[id^="magicdomid"]');
@@ -25,25 +26,27 @@
           var node = doc.getElementById(target.attr("id"));
           target.focus(function() {
             window.setTimeout(function() {
-              setCursorPosition(0, node, doc);
+              setCursorPosition(0, node, doc, win);
             }, 0);
           });
           //create the new line after drop target
           target.after("Thanks for dropping me!");
-          target.attr('tabindex', -1).focus().removeAttr('tabindex');
+          target.attr('tabindex', -1).focus()
+		  target.removeAttr('tabindex');
           return true;
         }
       });
     }
 
-    function setCursorPosition(pos, node, doc){
+    function setCursorPosition(pos, node, doc, win){
         var sel, range;
-        if (window.getSelection && doc.createRange) {
+        if (win.getSelection && doc.createRange) {
           range = doc.createRange();
+          range.selectNode(node);
           range.setStart(node, pos);
           range.setEnd(node, pos);
           range.collapse(true);
-          sel = window.getSelection();
+          sel = win.getSelection();
           sel.removeAllRanges();
           sel.addRange(range);
         } else if (node.createTextRange) {
