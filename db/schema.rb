@@ -10,7 +10,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110819145908) do
+ActiveRecord::Schema.define(:version => 20110822204614) do
+
+  create_table "comments", :force => true do |t|
+    t.text     "comment_text"
+    t.integer  "author_id"
+    t.string   "author_type",  :default => "User"
+    t.integer  "document_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "documents", :force => true do |t|
+    t.string   "name"
+    t.integer  "owner_id"
+    t.string   "owner_type", :default => "User"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
