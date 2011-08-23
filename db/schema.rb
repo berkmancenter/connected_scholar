@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110822204614) do
+ActiveRecord::Schema.define(:version => 20110823190606) do
 
   create_table "comments", :force => true do |t|
     t.text     "comment_text"
@@ -28,6 +28,21 @@ ActiveRecord::Schema.define(:version => 20110822204614) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "resources", :force => true do |t|
+    t.string   "title"
+    t.string   "authors"
+    t.date     "publication_date"
+    t.string   "source"
+    t.string   "isbn"
+    t.string   "url"
+    t.text     "abstract"
+    t.integer  "document_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "resources", ["document_id"], :name => "index_resources_on_document_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false

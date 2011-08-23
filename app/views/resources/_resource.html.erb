@@ -1,0 +1,40 @@
+<p>
+  <b>Title:</b>
+  <%= resource.title %>
+</p>
+
+<p>
+  <b>Authors:</b>
+  <%= resource.authors %>
+</p>
+
+<p>
+  <b>Publication date:</b>
+  <%= resource.publication_date %>
+</p>
+
+<p>
+  <b>Source:</b>
+  <%= resource.source %>
+</p>
+
+<p>
+  <b>Isbn:</b>
+  <%= resource.isbn %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= resource.url %>
+</p>
+
+<p>
+  <b>Abstract:</b>
+  <%= resource.abstract %>
+</p>
+
+<p>
+  <%= link_to 'Destroy Resource', [resource.document, resource],
+               :confirm => 'Are you sure?',
+               :method => :delete %>
+</p>

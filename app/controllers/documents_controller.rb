@@ -16,7 +16,7 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # _resource.html.erb
       format.json { render json: @document }
     end
   end

@@ -18,6 +18,17 @@
   <%= @document.updated_at %>
 </p>
 
+<hr/>
+
+<h2>Recommended Resouces:</h2>
+<%= render :partial => "resources/resource",
+           :collection => @document.recommended_resources %>
+
+<h2>Recommend a Resouce:</h2>
+<%= render "resources/form" %>
+
+<hr/>
+
 <h2>Comments</h2>
 <%= render :partial => "comments/comment",
            :collection => @document.comments %>

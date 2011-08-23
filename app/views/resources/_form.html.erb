@@ -1,0 +1,35 @@
+<%= form_for([@document, @document.recommended_resources.build]) do |f| %>
+
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :authors %><br />
+    <%= f.text_field :authors %>
+  </div>
+  <div class="field">
+    <%= f.label :publication_date %><br />
+    <%= f.date_select :publication_date %>
+  </div>
+  <div class="field">
+    <%= f.label :source %><br />
+    <%= f.text_field :source %>
+  </div>
+  <div class="field">
+    <%= f.label :isbn %><br />
+    <%= f.text_field :isbn %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :abstract %><br />
+    <%= f.text_area :abstract %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

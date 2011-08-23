@@ -1,6 +1,9 @@
 ConnectedScholar::Application.routes.draw do
+  resources :resources
+
   resources :documents do
     resources :comments
+    resources :resources
   end
 
   devise_for :users
