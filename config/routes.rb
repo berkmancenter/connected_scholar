@@ -1,4 +1,8 @@
 ConnectedScholar::Application.routes.draw do
+  resources :documents do
+    resources :comments
+  end
+
   devise_for :users
 
   # The priority is based upon order of creation:

@@ -12,6 +12,20 @@ require 'cucumber/rails'
 # steps to use the XPath syntax.
 Capybara.default_selector = :css
 
+if ENV['HEADLESS'] == 'true' #Capybara.current_driver == :selenium
+  puts "Running in headless mode"
+  require 'headless'
+
+  headless = Headless.new
+  headless.start
+
+  Selenium::WebDriver::Firefox::Binary.path="#{Rails.root}/vendor/firefox/firefox"
+
+  at_exit do
+    headless.destroy
+  end
+end
+
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
 # your application behaves in the production environment, where an error page will 
