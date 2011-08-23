@@ -8,5 +8,5 @@ Feature: Drag and Drop
       Given I am logged in
       Then I create a new document
       When I drag "Drag Me Please" to the document
-      Then I should see "Drag Me Please" in the document
+      Then I should see "Thanks for dropping me!" in the document
 
