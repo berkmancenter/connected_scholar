@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
   
-  has_one :author, :class_name => "User"
-  has_one :document
+  belongs_to :author, :class_name => "User"
+  belongs_to :document
 end

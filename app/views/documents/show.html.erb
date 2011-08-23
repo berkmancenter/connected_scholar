@@ -1,0 +1,29 @@
+<p>
+  <b>Name:</b>
+  <%= @document.name %>
+</p>
+
+<p>
+  <b>Owner:</b>
+
+</p>
+
+<p>
+  <b>Created At:</b>
+  <%= @document.created_at %>
+</p>
+
+<p>
+  <b>Updated At:</b>
+  <%= @document.updated_at %>
+</p>
+
+<h2>Comments</h2>
+<%= render :partial => "comments/comment",
+           :collection => @document.comments %>
+
+<h2>Add a comment:</h2>
+<%= render "comments/form" %>
+
+<%= link_to 'Edit Document', edit_document_path(@document) %> |
+<%= link_to 'Back to Documents', documents_path %> |

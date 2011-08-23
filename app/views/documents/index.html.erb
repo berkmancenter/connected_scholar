@@ -13,8 +13,8 @@
 <% @documents.each do |doc| %>
   <tr>
     <td><%= doc.name %></td>
-    <td><%= doc.title %></td>
-    <td><%= doc.content %></td>
+    <td></td>
+    <td><%= doc.created_at %></td>
     <td><%= link_to 'Show', doc %></td>
     <td><%= link_to 'Edit', edit_document_path(doc) %></td>
     <td><%= link_to 'Destroy', doc, :confirm => 'Are you sure?', :method => :delete %></td>

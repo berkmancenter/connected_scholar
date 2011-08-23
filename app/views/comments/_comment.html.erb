@@ -1,0 +1,15 @@
+<p>
+  <b>Commenter:</b>
+  <%= comment.author.name %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%= comment.comment_text %>
+</p>
+
+<p>
+  <%= link_to 'Destroy Comment', [comment.document, comment],
+               :confirm => 'Are you sure?',
+               :method => :delete %>
+</p>
