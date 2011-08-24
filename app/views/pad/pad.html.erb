@@ -7,7 +7,7 @@
   <script type="text/javascript">
     
     $(function(){
-      $("#draggable").draggable({zIndex: 1000, helper: 'clone', iframeFix: true,
+      $(".draggable").draggable({zIndex: 100, helper: 'clone', appendTo: 'body', iframeFix: true,
         start: function(event,ui){
           setupDropzone();
         }
@@ -30,7 +30,8 @@
             }, 0);
           });
           //create the new line after drop target
-          target.after("Thanks for dropping me!");
+		  resource_id = ui.draggable.attr("id").replace("resource_", "");
+          target.after("Resource Dropped:" + resource_id);
           target.attr('tabindex', -1).focus()
 		  target.removeAttr('tabindex');
           return true;
