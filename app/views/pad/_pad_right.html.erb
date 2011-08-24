@@ -9,28 +9,8 @@
 <div id="padRight">
   <h1>Resources</h1>
   <br/>
+
   <div id="choices">
-    <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
-
-    <div>
-      <div>
-        <label>Primo Search:
-          <input id="primo-search" type="text">&nbsp;
-          <button>Go</button>
-        </label>
-      </div>
-    </div>
-    <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
-
-    <div>Second content</div>
-    <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
-
-    <div>
-      <div>Third content</div>
-      <div>
-        <button>Add Comment</button>
-      </div>
-    </div>
 
     <h3 style="font-weight: bold;"><a href="#">Document Details</a></h3>
 
@@ -54,6 +34,30 @@
         <b>Updated At:</b>
         <%= @document.updated_at %>
       </p>
+    </div>
+    
+    <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
+
+    <div>
+      <div>
+        <label>Primo Search:
+          <input id="primo-search" type="text">&nbsp;
+          <button>Go</button>
+        </label>
+      </div>
+    </div>
+    <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
+
+    <div>
+      <%= render :partial => "resources/resource",
+                 :collection => @document.recommended_resources %>
+    </div>
+
+    <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
+
+    <div>
+      <%= render :partial => "comments/comment",
+                 :collection => @document.comments %>
     </div>
 
   </div>
