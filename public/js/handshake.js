@@ -1,7 +1,6 @@
 function handshake()
 {
   var loc = document.location;
-
   //get the correct port
   var port = loc.port == "" ? (loc.protocol == "https:" ? 443 : 80) : loc.port;
   var host = loc.hostname;
@@ -35,11 +34,16 @@ function handshake()
       token = randomString();
       createCookie("token", token, 60);
     }
+    
+    var sessionID = readCookie("sessionID");
+    var password = readCookie("password");
 
     var msg = {
       "component": "pad",
       "type": "CLIENT_READY",
       "padId": padId,
+      "sessionID": sessionID,
+      "password": password,
       "token": token,
       "protocolVersion": 2
     };
@@ -51,17 +55,41 @@ function handshake()
 
   socket.on('message', function(obj)
   {
-    //if we haven't recieved the clientVars yet, then this message should it be
-    if (!receivedClientVars)
+    //the access was not granted, give the user a message
+    if(!receivedClientVars && obj.accessStatus)
     {
+      if(obj.accessStatus == "deny")
+      {
+        $("#editorloadingbox").html("<b>You do not have permission to access this pad</b>");
+      }
+      else if(obj.accessStatus == "needPassword")
+      {
+        $("#editorloadingbox").html("<b>You need a password to access this pad</b><br>" +
+                                    "<input id='passwordinput' type='password' name='password'>"+
+                                    "<button type='button' onclick='savePassword()'>ok</button>");
+      }
+      else if(obj.accessStatus == "wrongPassword")
+      {
+        $("#editorloadingbox").html("<b>You're password was wrong</b><br>" +
+                                    "<input id='passwordinput' type='password' name='password'>"+
+                                    "<button type='button' onclick='savePassword()'>ok</button>");
+      }
+    }
+    
+    //if we haven't recieved the clientVars yet, then this message should it be
+    else if (!receivedClientVars)
+    {
+      //log the message
       if (window.console) console.log(obj);
 
       receivedClientVars = true;
 
+      //set some client vars
       clientVars = obj;
       clientVars.userAgent = "Anonymous";
       clientVars.collab_client_vars.clientAgent = "Anonymous";
 
+      //initalize the pad
       pad.init();
       initalized = true;
 
@@ -70,28 +98,26 @@ function handshake()
       {
         pad.changeViewOption('showLineNumbers', false);
       }
-
       // If the Monospacefont value is set to true then change it to monospace.
       if (useMonospaceFontGlobal == true)
       {
         pad.changeViewOption('useMonospaceFont', true);
       }
-
       // if the globalUserName value is set we need to tell the server and the client about the new authorname
       if (globalUserName !== false)
       {
         pad.notifyChangeName(globalUserName); // Notifies the server
         $('#myusernameedit').attr({"value":globalUserName}); // Updates the current users UI
       }
-
     }
     //This handles every Message after the clientVars
     else
     {
+      //this message advices the client to disconnect
       if (obj.disconnect)
       {
+        padconnectionstatus.disconnected(obj.disconnect);
         socket.disconnect();
-        padconnectionstatus.disconnected("userdup");
         return;
       }
       else
@@ -100,4 +126,7 @@ function handshake()
       }
     }
   });
+
+  // Bind the colorpicker
+  var fb = $('#colorpicker').farbtastic({ callback: '#mycolorpickerpreview', width: 220});
 }

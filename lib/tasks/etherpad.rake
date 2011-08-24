@@ -55,6 +55,7 @@ namespace :etherpad do
 
       # Step 2: install npm
       system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; curl http://npmjs.org/install.sh | clean=yes sh"
+      
     end
   end
 
@@ -78,7 +79,9 @@ namespace :etherpad do
 
     with_etherpad_git do |git|
       git.checkout
-
+      #install sqlite3
+      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd #{git.install_path}; npm install sqlite3"
+      
       system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd #{git.install_path}; ./bin/installDeps.sh"
 
       # TODO adjust settings.json correctly
