@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(:version => 20110823190606) do
   create_table "documents", :force => true do |t|
     t.string   "name"
     t.integer  "owner_id"
-    t.string   "owner_type", :default => "User"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

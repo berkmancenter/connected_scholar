@@ -40,7 +40,7 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.json
   def create
-    @document = Document.new(params[:document])
+    @document = Document.new(params[:document].merge(:owner => current_user))
 
     respond_to do |format|
       if @document.save

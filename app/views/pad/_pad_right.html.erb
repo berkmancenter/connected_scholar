@@ -8,13 +8,15 @@
 
 <div id="padRight">
   <h1>Resources</h1>
+  <br/>
   <div id="choices">
     <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
 
     <div>
       <div>
         <label>Primo Search:
-          <input id="primo-search" type="text">&nbsp;<button>Go</button>
+          <input id="primo-search" type="text">&nbsp;
+          <button>Go</button>
         </label>
       </div>
     </div>
@@ -29,5 +31,31 @@
         <button>Add Comment</button>
       </div>
     </div>
+
+    <h3 style="font-weight: bold;"><a href="#">Document Details</a></h3>
+
+    <div>
+      <p>
+        <b>Name:</b>
+        <%= @document.name %>
+      </p>
+
+      <p>
+        <b>Owner:</b>
+        <%= @document.owner.name %>
+      </p>
+
+      <p>
+        <b>Created At:</b>
+        <%= @document.created_at %>
+      </p>
+
+      <p>
+        <b>Updated At:</b>
+        <%= @document.updated_at %>
+      </p>
+    </div>
+
   </div>
+</div>
 </div>

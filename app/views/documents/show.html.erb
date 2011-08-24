@@ -5,7 +5,7 @@
 
 <p>
   <b>Owner:</b>
-
+  <%= @document.owner.name %>
 </p>
 
 <p>
@@ -17,6 +17,8 @@
   <b>Updated At:</b>
   <%= @document.updated_at %>
 </p>
+
+<%= link_to 'View Pad', "/p/#{@document.name}" %>
 
 <hr/>
 

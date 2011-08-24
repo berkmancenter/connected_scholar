@@ -8,6 +8,10 @@ class PadController < ApplicationController
     end
     render :text => html
   end
+
+  def pad
+    @document = Document.where(:name => params[:pad_id], :owner_id => current_user.id).first
+  end
   
   def export
     type = params[:type]
