@@ -27,4 +27,8 @@ class PadController < ApplicationController
       render :text => "Unsupported type."
     end
   end
+  
+  def timeslider
+    render :action => 'timeslider', :layout => false
+  end
 end

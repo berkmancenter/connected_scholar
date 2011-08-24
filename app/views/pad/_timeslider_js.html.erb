@@ -72,8 +72,9 @@
     var loc = document.location;
     //get the correct port
     var port = loc.port == "" ? (loc.protocol == "https:" ? 443 : 80) : loc.port;
-  	
-    if (etherpadServerConfig != undefined && etherpadServerConfig != null) {
+    var protocol = loc.protocol;
+    
+	if (etherpadServerConfig != undefined && etherpadServerConfig != null) {
       port = etherpadServerConfig['port'];
       host = etherpadServerConfig['host'];
       protocol = etherpadServerConfig['protocol'] + ":";
@@ -81,6 +82,7 @@
 
   	//create the url
   	var url = protocol + "//" + host + ":" + port + "/";
+	
     //find out in which subfolder we are
     var resource = loc.pathname.substr(1,loc.pathname.indexOf("/p/")) + "socket.io";
 
@@ -106,17 +108,26 @@
       {
         changesetLoader.handleSocketResponse(message);
       }
+      else if(message.accessStatus)
+      {
+        $("body").html("<h2>You have no permission to access this pad</h2>")
+      }
     });
   });
 
   //sends a message over the socket
   function sendSocketMsg(type, data)
   {
+    var sessionID = readCookie("sessionID");
+    var password = readCookie("password");
+
     var msg = { "component" : "timeslider",
                 "type": type,
                 "data": data, 
                 "padId": padId,
                 "token": token,
+                "sessionID": sessionID,
+                "password": password,
                 "protocolVersion": 2};
 
     socket.json.send(msg);

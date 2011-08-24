@@ -6,6 +6,9 @@
 <% with_etherpad_server do |protocol, host, port| %>
     <script type="text/javascript" src="<%= protocol %>://<%= host %>:<%= port %>/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="<%= protocol %>://<%= host %>:<%= port %>/minified/pad.js"></script>
+    <script type="text/javascript" src="/js/jquery.ui.draggable.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.ui.droppable.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.ui.accordion.min.js"></script>
     <script>
         var etherpadServerConfig = new Array();
         etherpadServerConfig['host'] = "<%= host %>";
