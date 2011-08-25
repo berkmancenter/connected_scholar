@@ -8,6 +8,7 @@ gem 'rails', '3.1.0.rc5'
 gem 'httpclient'
 gem 'sqlite3'
 gem 'devise', '1.4.2'
+gem 'rest-client', '1.6.7'
 
 # Gems used only for assets and not required
 # in production environments by default.
