@@ -1,4 +1,7 @@
 ConnectedScholar::Application.routes.draw do
+  #get "search/search"
+  post "search/search"
+
   resources :resources
 
   resources :documents do

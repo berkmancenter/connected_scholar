@@ -1,0 +1,17 @@
+<% if searchresults.length == 0 %>
+
+    <p>Sorry! No resources found...</p>
+
+<% elsif params[:query] == "" %>
+
+    <p>You must enter a search term.</p>
+
+<% else %>
+
+    <ul>
+      <% for r in searchresults %>
+          <li><%= r['title'] %></li>
+      <% end %>
+    </ul>
+
+<% end %>
