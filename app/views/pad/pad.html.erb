@@ -5,15 +5,17 @@
   <style type="text/css" title="dynamicsyntax"></style>
 
   <script type="text/javascript">
-    
+
     $(function(){
-      $(".draggable").draggable({zIndex: 100, helper: 'clone', appendTo: 'body', iframeFix: true,
+      $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true,
         start: function(event,ui){
+          $(ui.helper).prepend('<div class="preDrag"></div>');
+          $(this).data('draggable').offset.click.top += 36;
           setupDropzone();
         }
       });
     });
-    
+
     function setupDropzone(){
 	  var win = window.parent.frames[1].frames[0].window;
       var doc = window.parent.frames[1].frames[0].document;
@@ -22,7 +24,7 @@
       allmagic.droppable({
 	    hoverClass: 'custom-hover',
         drop: function(event, ui){
-          var target = $(event.target);
+          var target = $(event.target).prev();
           var node = doc.getElementById(target.attr("id"));
           target.focus(function() {
             window.setTimeout(function() {
@@ -56,12 +58,11 @@
           range.select();
         }
     }
-    
+
   </script>
 
 <% end %>
-<div id="main">
+
   <%= render :partial => 'pad_left'%>
   <%= render :partial => 'pad_middle'%>
   <%= render :partial => 'pad_right'%>
-</div>
