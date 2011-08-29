@@ -21,9 +21,10 @@ And check it thusly
 
 ### Prepare the database
 
-The follow command will create the application's database, schema and some preloaded data:
+The follow commands will create the application's database, schema and some preloaded data:
 
-    rake db:setup
+    rake db:migrate
+    rake db:seed
     
 ## Run
 
