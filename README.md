@@ -2,6 +2,36 @@
 
 ## Setup
 
+### Install Ruby and Rails
+
+This project is primarily a Ruby on Rails application.  As such, you'll have to install Ruby and Rails.  If you are not
+familiar with either of these, we suggest reading [this Rails guide](http://guides.rubyonrails.org/getting_started.html).
+
+First, make sure you are using Ruby 1.9.2 by running the following command.  You should see some output like the one
+below.
+
+    $ ruby -v
+    ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-darwin11.0.1]
+
+Next, check to make sure RubyGems installed by running the following command, and look for similar output:
+
+    $ gem -v
+    1.8.6
+
+If the commands above were not succesful, then [read through this guide](http://rubyonrails.org/download) on downloading
+and installing Ruby and RubyGems.
+
+Next, install Bundler.  This is a tool that will manage your RubyGems for this application.  Run the following command:
+
+    gem install bundler
+
+With bundler installed, you can now use it to get all of the application's dependencies. Change directories to the
+location you have this project checked out, and run the following command:
+
+    bundle install
+
+This will install Rails as well as a host of other Gems.
+
 ### Install etherpad-lite
 
 Run the following command to install Node.js, NPM and etherpad-lite
