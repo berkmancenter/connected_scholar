@@ -1,23 +1,17 @@
-<!-- TODO https://github.com/rails/jquery-ujs -->
-<!--<script type="text/javascript" src="https://raw.github.com/rails/jquery-ujs/master/src/rails.js"></script>-->
+<script type="text/javascript" src="/js/jquery_ujs.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
         $("#choices").accordion({
             collapsible: true
         });
-    });
 
-    $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
-        alert('ding')
-        //$('#search_results').html(eval(xhr.responseText));
-    });
+        $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
+            $('#search_results').html(xhr.responseText)
+        });
 
-        $('#search_form').bind('ajax:loading', function(evt, data, status, xhr) {
-        alert('loading')
-    });
-
-        $('#search_form').bind('ajax:complete', function(evt, data, status, xhr) {
-        alert('complete')
+        $('#search_form').bind('ajax:error', function(evt, xhr, status, error) {
+            // todo
+        });
     });
 </script>
 
@@ -55,7 +49,7 @@
     <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
 
     <div>
-      <%= form_tag('/search/search', :remote => true, :id => 'search_form') do %>
+      <%= form_tag('/search/search', :remote => true, :id => 'search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
           <%= text_field_tag :query, params[:query] %>
           <%= submit_tag "Go" %>
       <% end %>
