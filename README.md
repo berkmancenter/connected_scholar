@@ -34,6 +34,8 @@ This will install Rails as well as a host of other Gems.
 
 ### Install etherpad-lite
 
+(Note: these steps are only designed to work on *nix systems.  And they have only been tested on Mac OS X).
+
 Run the following command to install Node.js, NPM and etherpad-lite
 
     rake etherpad:install
