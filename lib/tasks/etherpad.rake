@@ -2,6 +2,8 @@ require 'json'
 
 namespace :etherpad do
 
+  DEFAULT_PREFIX = 'vendor/node'
+
   task :uninstall, [] => [:uninstall_prereqs] do
     system "rm -rf vendor/etherpad-lite"
     puts "Successfully uninstalled etherpad"
@@ -9,7 +11,7 @@ namespace :etherpad do
 
   task :uninstall_prereqs do
     prefix = ENV['PREFIX']
-    prefix ||= "~/opt"
+    prefix ||= DEFAULT_PREFIX
     prefix = File.expand_path(prefix)
 
     if File.exists?(File.join(prefix, "bin/node"))
@@ -33,7 +35,7 @@ namespace :etherpad do
 
   task :install_prereqs, [] do
     prefix = ENV['PREFIX']
-    prefix ||= "~/opt"
+    prefix ||= DEFAULT_PREFIX
     prefix = File.expand_path(prefix)
 
     if File.exists?(File.join(File.expand_path(prefix), "bin/node"))
@@ -74,7 +76,7 @@ namespace :etherpad do
     include EtherpadUtil
 
     prefix = ENV['PREFIX']
-    prefix ||= "~/opt"
+    prefix ||= DEFAULT_PREFIX
     prefix = File.expand_path(prefix)
 
     with_etherpad_git do |git|
@@ -90,7 +92,7 @@ namespace :etherpad do
   
   task :run, [:no_check] do |t, args|
     prefix = ENV['PREFIX']
-    prefix ||= "~/opt"
+    prefix ||= DEFAULT_PREFIX
     prefix = File.expand_path(prefix)
     
     unless args.no_check == 'true'
