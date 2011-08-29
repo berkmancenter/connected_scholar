@@ -27,7 +27,6 @@ module EtherpadUtil
          get_json "#{url}/api/1/createAuthorIfNotExistsFor?apikey=#{apikey}&authorMapper=#{user.id}&name=#{user.name}" do |data|
            authorID = data["data"]["authorID"]
            user.author_id = authorID
-           user.save!
          end
        end
      end

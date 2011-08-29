@@ -11,9 +11,12 @@ class User < ActiveRecord::Base
   #validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
 
-  after_create :create_etherpad_author
-
-  def create_etherpad_author
-    create_author_if_not_exists_for(self)
+  def author_id
+    @author_id ||= create_author_if_not_exists_for(self)
   end
+
+  def author_id=(value)
+    @author_id = value
+  end
+
 end
