@@ -22,12 +22,9 @@ module EtherpadUtil
   end
 
   def create_author_if_not_exists_for(user)
-     with_etherpad_url do |url|
-       with_apikey do |apikey|
-         get_json "#{url}/api/1/createAuthorIfNotExistsFor?apikey=#{apikey}&authorMapper=#{user.id}&name=#{user.name}" do |data|
-           authorID = data["data"]["authorID"]
-           user.author_id = authorID
-         end
+     with_apikey do |url, apikey|
+       get_json "#{url}/api/1/createAuthorIfNotExistsFor?apikey=#{apikey}&authorMapper=#{user.id}&name=#{CGI::escape(user.name)}" do |data|
+         return data["data"]["authorID"]
        end
      end
   end
@@ -47,17 +44,19 @@ module EtherpadUtil
   end
 
   def with_apikey
-    unless File.exists?('vendor/etherpad-lite/APIKEY.txt')
-      puts "Cannot find vendor/etherpad-lite/APIKEY.txt.  Did you run 'rake etherpad:run'"
-      exit(1)
+    with_etherpad do |protocol, host, port, path, git, ref|
+      unless File.exists?("#{path}/APIKEY.txt")
+        puts "Cannot find #{path}/APIKEY.txt.  Did you run 'rake etherpad:run'"
+        exit(1)
+      end
+      apikey = ""
+      File.open("#{path}/APIKEY.txt") do |f|
+        apikey = f.readline.strip
+      end
+      yield "#{protocol}://#{host}:#{port}", apikey
     end
-
-    apikey = ""
-    File.open("#{Rails.root}/vendor/etherpad-lite/APIKEY.txt") do |f|
-      apikey = f.readline.strip
-    end
-    yield apikey
   end
+
   #need to move this to a common util lib once library cloud is committed
   def get_json(url)
     RestClient.get url, {
