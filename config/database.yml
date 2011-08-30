@@ -18,6 +18,14 @@ test: &test
   pool: 5
   timeout: 5000
 
+staging:
+  adapter: postgresql
+  encoding: unicode
+  database: connected_scholar
+  pool: 5
+  username: deploy
+  password:
+
 production:
   adapter: sqlite3
   database: db/production.sqlite3

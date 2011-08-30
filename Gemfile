@@ -2,13 +2,10 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.0.rc5'
 
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 gem 'httpclient'
-gem 'sqlite3'
 gem 'devise', '1.4.2'
 gem 'rest-client', '1.6.7'
+gem 'jquery-rails', '1.0.13'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -18,19 +15,17 @@ group :assets do
   gem 'uglifier'
 end
 
-gem 'jquery-rails', '1.0.13'
+group :development do
+  gem 'sqlite3', '1.3.4'
+end
 
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+group :staging do
+  gem 'pg', '0.11.0'
+  gem 'therubyracer'
+end
 
 group :test do
-  # Pretty printed test output
+  gem 'sqlite3', '1.3.4'
   gem 'turn', :require => false
   gem 'rspec-rails'
   gem 'cucumber-rails'
