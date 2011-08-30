@@ -17,3 +17,22 @@
     </script>
     <script type="text/javascript" src="/js/handshake.js"></script>
 <% end %>
+<script type="text/javascript">
+  $(function(){
+      // rebuild the export links
+      $("#exporthtmla").click(function(event){
+          $("#exporthtmla").attr("href", document.location.pathname + "/export/html" + document.location.search);
+      });
+      $("#exportplaina").click(function(event){
+        $("#exportplaina").attr("href", document.location.pathname + "/export/txt" + document.location.search);
+      });
+      $("#exportwordlea").click(function(event){
+        $("#exportwordlea").attr("href", document.location.pathname + "/export/wordle" + document.location.search);
+      });
+      // rebuild timeslider link
+      $("#timesliderlink").click(function(event){
+          document.location = document.location.pathname +  '/timeslider' + document.location.search;
+      })
+  });
+
+</script>

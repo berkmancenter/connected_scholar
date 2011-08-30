@@ -24,9 +24,44 @@ module EtherpadUtil
   def create_author_if_not_exists_for(user)
      with_apikey do |url, apikey|
        get_json "#{url}/api/1/createAuthorIfNotExistsFor?apikey=#{apikey}&authorMapper=#{user.id}&name=#{CGI::escape(user.name)}" do |data|
+         #error handling
          return data["data"]["authorID"]
        end
      end
+  end
+
+  def create_group_if_not_exists_for(document)
+    with_apikey do |url, apikey|
+      get_json "#{url}/api/1/createGroupIfNotExistsFor?apikey=#{apikey}&groupMapper=#{document.group_id}" do |data|
+        #error handling
+        return data["data"]["groupID"]
+      end
+    end
+  end
+
+  def create_group_pad(document, text="")
+    with_apikey do |url, apikey|
+      get_json "#{url}/api/1/createGroupPad?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&padName=#{CGI::escape(document.name)}&text=#{CGI::escape(text)}" do |data|
+         #error handling
+        return data["code"]
+      end
+    end
+  end
+
+  def create_session(user, document, valid_until)
+    with_apikey do |url, apikey|
+      get_json "#{url}/api/1/createSession?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&authorID=#{user.etherpad_author_id}&validUntil=#{valid_until}" do |data|
+        return data["data"]["sessionID"]
+      end
+    end
+  end
+
+  def get_revisions_count(pad_id)
+    with_apikey do |url, apikey|
+      get_json "#{url}/api/1/getRevisionsCount?apikey=#{apikey}&padID=#{pad_id}" do |data|
+        return data["code"] != 0 ? 0 : data["data"]["revisions"]
+      end
+    end
   end
 
   private

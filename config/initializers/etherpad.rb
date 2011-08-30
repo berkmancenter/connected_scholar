@@ -19,3 +19,4 @@ unless ENV['NO_ETHERPAD']
     end
   end
 end
+VALID_UNTIL_DAYS=1
