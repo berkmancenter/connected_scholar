@@ -19,7 +19,7 @@ group :development do
   gem 'sqlite3', '1.3.4'
 end
 
-group :staging do
+group :production do
   gem 'pg', '0.11.0'
   gem 'therubyracer'
 end

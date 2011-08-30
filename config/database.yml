@@ -18,19 +18,13 @@ test: &test
   pool: 5
   timeout: 5000
 
-staging:
+production:
   adapter: postgresql
   encoding: unicode
   database: connected_scholar
   pool: 5
   username: deploy
   password:
-
-production:
-  adapter: sqlite3
-  database: db/production.sqlite3
-  pool: 5
-  timeout: 5000
 
 cucumber:
   <<: *test
