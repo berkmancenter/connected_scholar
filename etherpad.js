@@ -1,14 +1,12 @@
-var Fs = require('fs');
+var express = require('express');
 
-var serverjs = "vendor/etherpad-lite/node/server.js";
+var app = express.createServer(express.logger());
 
-try
-{
-    var stats = Fs.lstatSync(serverjs);
-    console.log(serverjs + " exists ");
-    require(serverjs);
-}
-catch (e)
-{
-    console.log(serverjs + ": " + e);
-}
+app.get('/', function(request, response) {
+  response.send('Hello World!');
+});
+
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
