@@ -81,10 +81,16 @@ namespace :etherpad do
 
     with_etherpad_git do |git|
       git.checkout
-      #install sqlite3
+      #install sqlite3 and pg
       system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd #{git.install_path}; npm install sqlite3"
+      system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd #{git.install_path}; npm install pg"
       
       system "export PATH=#{prefix}/bin:${PATH}; export PREFIX=#{prefix}; cd #{git.install_path}; ./bin/installDeps.sh"
+
+      # temporary until our ueberDB patch makes it into etherpad-lite
+      system "cp etc/package.json vendor/etherpad-lite/node_modules/ueberDB"
+      system "cp etc/postgres_db.js vendor/etherpad-lite/node_modules/ueberDB"
+      system "cp etc/run.sh vendor/etherpad-lite/bin"
 
       # TODO adjust settings.json correctly
     end
