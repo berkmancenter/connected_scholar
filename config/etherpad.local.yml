@@ -11,7 +11,7 @@ test:
   path: vendor/etherpad-lite
 
 production:
-  host: "connectedscholar.no.de"
+  host: "connectedscholar-stage.no.de"
   port: 80
   protocol: http
-
+  apikey: k6GPOaMxzOY41mTuzEmpR1g4h7dc0jWZ
