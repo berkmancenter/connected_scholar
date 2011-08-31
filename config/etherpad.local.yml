@@ -14,5 +14,4 @@ production:
   host: "connectedscholar.no.de"
   port: 80
   protocol: http
-  path: vendor/etherpad-lite
 

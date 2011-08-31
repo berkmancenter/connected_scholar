@@ -14,7 +14,7 @@ module EtherpadUtil
   
   def with_etherpad_git
     with_etherpad do |protocol, host, port, path, git, ref|
-      yield GitResource.new(git, path, ref)
+      yield GitResource.new(git, path, ref) unless path.nil?
     end
   end
 
