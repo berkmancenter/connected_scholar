@@ -55,6 +55,15 @@
           <%= text_field_tag :query, params[:query] %>
           <%= submit_tag "Go" %>
       <% end %>
+      <br/>
+       <script>
+        function recommend_resource(item_id) {
+            $.post('/resources/', {"document_id" : "<%= @document.id %>", "item_id":item_id}, function(data) {
+              alert("posted json: " + data)
+            });
+            return false;
+        }
+      </script>
       <div id="search_results"></div>
     </div>
 
