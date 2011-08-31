@@ -9,8 +9,32 @@ class PadController < ApplicationController
     render :text => html
   end
 
+  def view_pad
+    @document = Document.find(params[:document_id]) if params[:document_id]
+    if @document && @document.can_be_viewed_by(current_user)
+      new_pad_id = "#{@document.etherpad_group_id}?#{@document.name}"
+      @session_id = create_session(current_user, @document, VALID_UNTIL_DAYS.days.from_now.to_time.to_i)
+      cookies.permanent[:sessionID] = @session_id
+      create_group_pad(@document)
+      redirect_to "/p/#{CGI::escape(new_pad_id)}?document_id=#{@document.id}"
+    else
+      redirect_to documents_path
+    end
+    rescue ActiveRecord::RecordNotFound => e
+      Rails.logger.warn e
+      redirect_to documents_path
+  end
+
   def pad
-    @document = Document.where(:name => params[:pad_id], :owner_id => current_user.id).first
+    @document = Document.find(params[:document_id]) if params[:document_id]
+    if @document && @document.can_be_viewed_by(current_user)
+      render :action => 'pad'
+    else
+      redirect_to documents_path
+    end
+    rescue ActiveRecord::RecordNotFound => e
+      Rails.logger.warn e
+      redirect_to documents_path
   end
   
   def export
@@ -20,7 +44,8 @@ class PadController < ApplicationController
       output = nil
       with_etherpad_url do |url|
         http = HTTPClient.new
-        output = http.get_content("#{url}/p/#{pad_id}/export/#{type}")
+        output = http.get_content("#{url}/p/#{CGI::escape(pad_id)}/export/#{type}")
+        Rails.logger.warn(output)
       end
       render :text => output
     else
@@ -29,6 +54,11 @@ class PadController < ApplicationController
   end
   
   def timeslider
-    render :action => 'timeslider', :layout => false
+    @document = Document.find(params[:document_id]) if params[:document_id]
+    if @document && @document.can_be_viewed_by(current_user)
+      render :action => 'timeslider', :layout => false
+    else
+      redirect_to documents_path
+    end
   end
 end
