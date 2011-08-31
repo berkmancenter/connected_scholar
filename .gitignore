@@ -6,5 +6,4 @@ tmp/
 vendor/etherpad-lite
 vendor/node
 .idea
-config/etherpad.local.yml
 .DS_Store

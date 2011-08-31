@@ -26,7 +26,9 @@ module EtherpadUtil
       exit(1)
     end
 
-    local_yaml = YAML.load_file("#{Rails.root}/config/etherpad.local.yml")
+    all_local_yaml = YAML.load_file("#{Rails.root}/config/etherpad.local.yml")
+    local_yaml = all_local_yaml[Rails.env]
+
     global_yaml = YAML.load_file("#{Rails.root}/config/etherpad.global.yml")
     yield local_yaml['protocol'], local_yaml['host'], local_yaml['port'], local_yaml['path'], global_yaml['git'], global_yaml['ref']
     true
