@@ -76,19 +76,21 @@ module EtherpadUtil
     local_yaml = all_local_yaml[Rails.env]
 
     global_yaml = YAML.load_file("#{Rails.root}/config/etherpad.global.yml")
-    yield local_yaml['protocol'], local_yaml['host'], local_yaml['port'], local_yaml['path'], global_yaml['git'], global_yaml['ref']
+    yield local_yaml['protocol'], local_yaml['host'], local_yaml['port'], local_yaml['path'], global_yaml['git'], global_yaml['ref'], local_yaml['apikey']
     true
   end
 
   def with_apikey
-    with_etherpad do |protocol, host, port, path, git, ref|
-      unless File.exists?("#{path}/APIKEY.txt")
-        puts "Cannot find #{path}/APIKEY.txt.  Did you run 'rake etherpad:run'"
-        exit(1)
-      end
-      apikey = ""
-      File.open("#{path}/APIKEY.txt") do |f|
-        apikey = f.readline.strip
+    with_etherpad do |protocol, host, port, path, git, ref, apikey|
+      if apikey.nil? and !path.nil?
+        unless File.exists?("#{path}/APIKEY.txt")
+          puts "Cannot find #{path}/APIKEY.txt.  Did you run 'rake etherpad:run'"
+          exit(1)
+        end
+        apikey = ""
+        File.open("#{path}/APIKEY.txt") do |f|
+          apikey = f.readline.strip
+        end
       end
       yield "#{protocol}://#{host}:#{port}", apikey
     end
