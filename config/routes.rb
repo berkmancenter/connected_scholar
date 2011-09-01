@@ -8,14 +8,12 @@ ConnectedScholar::Application.routes.draw do
     resources :resources
   end
 
-  devise_for :users
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
   
   root :to => "dashboard#index"
 
-  devise_for :users
+  devise_for :users, :path_names => { :sign_in => 'sign_in', :sign_out => 'sign_out', :sign_up => "sign_in" }
   #resources :users, :only => :show
 
   # Sample of regular route:
