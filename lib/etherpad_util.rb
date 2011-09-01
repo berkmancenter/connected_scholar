@@ -1,6 +1,3 @@
-require 'rest_client'
-require 'json'
-
 module EtherpadUtil
 
   def with_etherpad_server
@@ -23,7 +20,7 @@ module EtherpadUtil
 
   def create_author_if_not_exists_for(user)
      with_apikey do |url, apikey|
-       get_json "#{url}/api/1/createAuthorIfNotExistsFor?apikey=#{apikey}&authorMapper=#{user.id}&name=#{CGI::escape(user.name)}" do |data|
+       JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createAuthorIfNotExistsFor?apikey=#{apikey}&authorMapper=#{user.id}&name=#{CGI::escape(user.name)}" do |data|
          #error handling
          return data["data"]["authorID"]
        end
@@ -32,7 +29,7 @@ module EtherpadUtil
 
   def create_group_if_not_exists_for(document)
     with_apikey do |url, apikey|
-      get_json "#{url}/api/1/createGroupIfNotExistsFor?apikey=#{apikey}&groupMapper=#{document.group_id}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createGroupIfNotExistsFor?apikey=#{apikey}&groupMapper=#{document.group_id}" do |data|
         #error handling
         return data["data"]["groupID"]
       end
@@ -41,7 +38,7 @@ module EtherpadUtil
 
   def create_group_pad(document, text="")
     with_apikey do |url, apikey|
-      get_json "#{url}/api/1/createGroupPad?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&padName=#{CGI::escape(document.name)}&text=#{CGI::escape(text)}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createGroupPad?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&padName=#{CGI::escape(document.name)}&text=#{CGI::escape(text)}" do |data|
          #error handling
         return data["code"]
       end
@@ -50,7 +47,7 @@ module EtherpadUtil
 
   def create_session(user, document, valid_until)
     with_apikey do |url, apikey|
-      get_json "#{url}/api/1/createSession?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&authorID=#{user.etherpad_author_id}&validUntil=#{valid_until}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createSession?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&authorID=#{user.etherpad_author_id}&validUntil=#{valid_until}" do |data|
         return data["data"]["sessionID"]
       end
     end
@@ -58,7 +55,7 @@ module EtherpadUtil
 
   def get_revisions_count(pad_id)
     with_apikey do |url, apikey|
-      get_json "#{url}/api/1/getRevisionsCount?apikey=#{apikey}&padID=#{pad_id}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/getRevisionsCount?apikey=#{apikey}&padID=#{pad_id}" do |data|
         return data["code"] != 0 ? 0 : data["data"]["revisions"]
       end
     end
@@ -93,25 +90,6 @@ module EtherpadUtil
         end
       end
       yield "#{protocol}://#{host}:#{port}", apikey
-    end
-  end
-
-  #need to move this to a common util lib once library cloud is committed
-  def get_json(url)
-    RestClient.get url, {
-        :content_type => :json,
-        :accept => :json,
-        :cache_control => "no-cache"
-    } do |response|
-      if response and !response.blank? and response != 'null'
-        if block_given?
-          yield JSON.parse(response)
-        else
-          return JSON.parse(response)
-        end
-      else
-        return nil
-      end
     end
   end
 end
