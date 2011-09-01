@@ -51,20 +51,7 @@
     <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
 
     <div>
-      <%= form_tag('/search/search', :remote => true, :id => 'search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
-          <%= text_field_tag :query, params[:query] %>
-          <%= submit_tag "Go" %>
-      <% end %>
-      <br/>
-       <script>
-        function recommend_resource(item_id) {
-            $.post('/documents/<%= @document.id %>/resources', { "item_id":item_id}, function(data) {
-              alert("posted json: " + data)
-            });
-            return false;
-        }
-      </script>
-      <div id="search_results"></div>
+      <%= render :partial => "search/form" %>
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
