@@ -7,11 +7,27 @@
     <p>You must enter a search term.</p>
 
 <% else %>
+    <% for r in searchresults %>
+        <p>
+          <b>Title:</b>
+          <%= r['title'] %>
+        </p>
+        <p>
+          <b>Creator:</b>
+          <%= r['creator'].first if r['creator'] %>
+        </p>
+        <p>
+          <a href="#" id="recommend_<%= r['id'] %>">Recommend</a>
 
-    <ul>
-      <% for r in searchresults %>
-          <li><%= r['title'] %></li>
-      <% end %>
-    </ul>
-
+          <script>
+            $("#recommend_<%= r['id'] %>").click(function() {
+                recommend_resource("<%= r['id'] %>");
+                return false;
+            })
+          </script>
+        </p>
+        <br/>
+        <hr/>
+        <br/>
+    <% end %>
 <% end %>

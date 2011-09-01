@@ -9,12 +9,6 @@ module LibraryCloudUtil
     end
   end
 
-  def get_item(item_id)
-    with_librarycloud do |key, url|
-      get_json "#{url}/api/item/#{item_id}?key=#{key}"
-    end
-  end
-
   private
 
   def with_librarycloud
