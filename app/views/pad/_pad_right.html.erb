@@ -58,7 +58,7 @@
       <br/>
        <script>
         function recommend_resource(item_id) {
-            $.post('/resources/', {"document_id" : "<%= @document.id %>", "item_id":item_id}, function(data) {
+            $.post('/documents/<%= @document.id %>/resources', { "item_id":item_id}, function(data) {
               alert("posted json: " + data)
             });
             return false;

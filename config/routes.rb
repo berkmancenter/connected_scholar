@@ -1,8 +1,6 @@
 ConnectedScholar::Application.routes.draw do
   get "search/search"
 
-  resources :resources
-
   resources :documents do
     resources :comments
     resources :resources

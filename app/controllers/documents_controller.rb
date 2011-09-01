@@ -1,13 +1,7 @@
 class DocumentsController < ApplicationController
-  # GET /documents
-  # GET /documents.json
-  def index
-    @documents = Document.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @documents }
-    end
+  def index
+    redirect_to root_url
   end
 
   # GET /documents/1
@@ -97,7 +91,7 @@ class DocumentsController < ApplicationController
     @document.destroy
 
     respond_to do |format|
-      format.html { redirect_to documents_url }
+      format.html { redirect_to root_url }
       format.json { head :ok }
     end
   end
