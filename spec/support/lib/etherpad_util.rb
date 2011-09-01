@@ -1,0 +1,5 @@
+module EtherpadUtil
+  ETHERPAD_AUTHOR_ID  = 'a.1234'
+  ETHERPAD_GROUP_ID   = 'g.1234'
+  ETHERPAD_SESSION_ID = 's.1234'
+end
