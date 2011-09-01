@@ -13,8 +13,9 @@ class PadController < ApplicationController
     @document = Document.find(params[:document_id]) if params[:document_id]
     if @document && @document.can_be_viewed_by(current_user)
       new_pad_id = "#{@document.etherpad_group_id}?#{@document.name}"
-      @session_id = create_session(current_user, @document, VALID_UNTIL_DAYS.days.from_now.to_time.to_i)
-      cookies.permanent[:sessionID] = @session_id
+      valid_until = VALID_UNTIL_DAYS.days.from_now
+      @session_id = create_session(current_user, @document, valid_until.to_time.to_i)
+      cookies[:sessionID] = {:value => @session_id, :expires => valid_until }
       create_group_pad(@document)
       redirect_to "/p/#{CGI::escape(new_pad_id)}?document_id=#{@document.id}"
     else
@@ -60,5 +61,8 @@ class PadController < ApplicationController
     else
       redirect_to documents_path
     end
+    rescue ActiveRecord::RecordNotFound => e
+      Rails.logger.warn e
+      redirect_to documents_path
   end
 end
