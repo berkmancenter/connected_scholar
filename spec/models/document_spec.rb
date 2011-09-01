@@ -37,7 +37,7 @@ describe Document do
         docs = Document.find_shared_documents(contributor)
         docs.should include(subject)
       end
-      
+
       it "should have a contributor" do
         subject.contributors.size.should == 1
         subject.contributors.should include(contributor)
