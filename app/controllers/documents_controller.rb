@@ -69,6 +69,27 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def add_contributor
+    email = params[:contributor_email]
+    @document = Document.find(params[:id])
+    @document.add_contributor_by_email(email) do |error|
+      case error
+        when :cannot_add_owner
+          flash[:alert] = "Cannot add yourself as a contributor"
+        when :unrecognized_email
+          flash[:alert] = "Could not find user for: #{email}"
+      end
+    end
+    redirect_to @document
+  end
+
+  def remove_contributor
+    @document = Document.find(params[:id])
+    @contributor = User.find(params[:contributor_id])
+    @document.remove_contributor(@contributor)
+    redirect_to @document
+  end
+
   # DELETE /documents/1
   # DELETE /documents/1.json
   def destroy

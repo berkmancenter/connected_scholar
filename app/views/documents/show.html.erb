@@ -18,7 +18,33 @@
   <%= @document.updated_at %>
 </p>
 
-<%= link_to 'View Pad', "/view_pad/#{@document.id}" %>
+<p>
+  <b>Contributors:</b>
+</p>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th></th>
+  </tr>
+  <% @document.contributors.each do |contributor| %>
+      <tr>
+        <td><%= contributor.name %></td>
+        <td><%= contributor.email %></td>
+        <td><%= link_to 'Remove', remove_contributor_document_path(@document.id, contributor.id),
+                        :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+  <% end %>
+</table>
+
+<%= form_tag(add_contributor_document_path(@document.id)) do %>
+    <%= text_field_tag :contributor_email, params[:contributor_email] %>
+    <%= submit_tag "Add" %>
+<% end %>
+
+<hr/>
+
+<%= link_to 'Edit Details', edit_document_path(@document) %> | <%= link_to 'View Document', "/view_pad/#{@document.id}" %>
 
 <hr/>
 

@@ -6,6 +6,10 @@ ConnectedScholar::Application.routes.draw do
   resources :documents do
     resources :comments
     resources :resources
+    member do
+      post "contributors", :action => "add_contributor", :as => :add_contributor
+      delete "contributors/:contributor_id", :action => "remove_contributor", :as => :remove_contributor
+    end
   end
 
   # The priority is based upon order of creation:
