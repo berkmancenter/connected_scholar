@@ -54,6 +54,22 @@ describe ResourcesController do
         response.should render_template("documents/show")
       end
     end
+
+    describe "with item id" do
+      it "creates a new Resource" do
+        JsonUtil.should_receive(:get_json).and_return({'docs' => [{'id' => 'e402b831-935c-4060-9b4c-9079e96c54d6', 'title' => 'Sample Title'}]})
+        expect {
+          post :create, :item_id => "e402b831-935c-4060-9b4c-9079e96c54d6", :document_id => document.id
+        }.to change(Resource, :count).by(1)
+      end
+
+      it "assigns a newly created resource as @resource" do
+        JsonUtil.should_receive(:get_json).and_return({'docs' => [{'id' => 'e402b831-935c-4060-9b4c-9079e96c54d6', 'title' => 'Sample Title'}]})
+        post :create, :item_id => "e402b831-935c-4060-9b4c-9079e96c54d6", :document_id => document.id
+        assigns(:resource).should be_a(Resource)
+        assigns(:resource).should be_persisted
+      end
+    end
   end
 
   describe "DELETE destroy" do
