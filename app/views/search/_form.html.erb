@@ -47,7 +47,7 @@
     function recommend_resource(item_id) {
         $.post('/documents/<%= @document.id %>/resources', { "item_id":item_id}, function(data) {
             // TODO change "Recommend" link to a "Recommended" text
-            // TODO refresh the RecommendedResources partial
+            // TODO refresh the RecommendedResources partial (if it exists on this page)
         });
         return false;
     }
