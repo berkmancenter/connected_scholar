@@ -1,14 +1,75 @@
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
+            $('#search_results').html(xhr.responseText)
+        });
+
+        $('#search_form').bind('ajax:error', function(evt, xhr, status, error) {
+            // todo
+        });
+
+        $('#advanced_search_form').bind('ajax:success', function(evt, data, status, xhr) {
+            $('#advanced_search_results').html(xhr.responseText)
+        });
+
+        $('#advanced_search_form').bind('ajax:error', function(evt, xhr, status, error) {
+            // todo
+        });
+    });
+</script>
+
 <%= form_tag('/search/search', :remote => true, :id => 'search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
     <%= text_field_tag :query, params[:query] %>
+    <%= hidden_field_tag :search_type, 'keyword' %>
     <%= submit_tag "Go" %>
 <% end %>
+<a href="#" id="advanced_search_link">Advanced Search</a>
 <br/>
+<div id="advanced_search_dialog" style="display: none;">
+  <%= form_tag('/search/search', :remote => true, :id => 'advanced_search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
+      <%= text_field_tag :query, params[:query] %>
+      <%= select_tag :search_type, "<option value='title_exact'>Exact Title</option>
+                                   <option value='creator_exact'>Exact Creator</option>
+                                   <option value='desc_subject_exact'>Exact Description</option>
+                                   <option value='title_keyword'>Title Keyword</option>
+                                   <option value='creator_keyword'>Creator Keyword</option>
+                                   <option value='desc_subject_keyword'>Description Keyword</option>
+                                   <option value='id_isbn'>Exact ISBN</option>
+                                   <option value='id_lccn'>Exact LCCN</option>
+                                   <option value='id_oclc'>Exact OCLN</option>".html_safe %>
+      <%= submit_tag "Search" %>
+  <% end %>
+  <br/>
+
+  <div id="advanced_search_results"></div>
+</div>
 <script>
     function recommend_resource(item_id) {
         $.post('/documents/<%= @document.id %>/resources', { "item_id":item_id}, function(data) {
-            alert("posted json: " + data)
+            // TODO change "Recommend" link to a "Recommended" text
         });
         return false;
     }
+
+    $(function() {
+        $("#advanced_search_link").click(function() {
+            $("#advanced_search_dialog").dialog("open");
+            return false;
+        });
+
+        $("#advanced_search_dialog").dialog({
+            title: "Advanced Search",
+            autoOpen: false,
+            height: 400,
+            width: 500,
+            modal: true,
+            buttons: {
+                "Close": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
 </script>
+<br/>
 <div id="search_results"></div>

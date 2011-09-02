@@ -2,7 +2,7 @@ class SearchController < ApplicationController
   include LibraryCloudUtil
 
   def search
-    @items = item_search(:keyword, params[:query])
+    @items = item_search(params[:search_type], params[:query])
 
     respond_to do |format|
       format.html {render :partial=>'search/results', :content_type => "text/html", :layout => false, :locals => {:searchresults => @items['docs']}}

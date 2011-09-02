@@ -4,14 +4,6 @@
         $("#choices").accordion({
             collapsible: true
         });
-
-        $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
-            $('#search_results').html(xhr.responseText)
-        });
-
-        $('#search_form').bind('ajax:error', function(evt, xhr, status, error) {
-            // todo
-        });
     });
 </script>
 
