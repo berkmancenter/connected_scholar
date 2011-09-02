@@ -213,3 +213,6 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+When /^I preconfirm$/ do
+  page.evaluate_script('window.confirm = function() { return true; }')
+end

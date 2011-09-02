@@ -13,11 +13,36 @@ Feature: Add Comment
       And I fill in "Author" with "Jones"
       And I press "Create Resource"
       And I follow "View Document"
-
-    @javascript
-    Scenario: User adds a comment the document
       And I follow "Comments"
       And I wait 1 seconds
-      Then I follow "Add Comment"
+      And I follow "Add Comment"
       And I should see "Add Comment"
-      Then I fill in "comment_comment_text" with "This is a great document"
+      And I fill in "comment_comment_text" with "This is a great document"
+      And I press "Create"
+      And I wait 1 seconds
+      And I follow "Comments"
+      And I wait 1 seconds
+
+    @javascript
+    Scenario: User adds a comment to the document
+      Then I should see "This is a great document"
+
+    @javascript
+    Scenario: User adds a second comment to the document
+      When I follow "Add Comment"
+      And I should see "Add Comment"
+      And I fill in "comment_comment_text" with "This is STILL a great document"
+      And I press "Create"
+      And I wait 1 seconds
+      And I follow "Comments"
+      And I wait 1 seconds
+      Then I should see "This is a great document"
+      And I should see "This is STILL a great document"
+
+    @javascript
+    Scenario: User destroys a comment from the document
+      When I preconfirm
+      And I follow "Destroy Comment"
+      And I follow "Comments"
+      And I wait 1 seconds
+      Then I should not see "This is a great document"

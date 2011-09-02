@@ -22,7 +22,7 @@ ConnectedScholar::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
   match 'pad/'                      => 'pad#index'
-  match 'view_pad/:document_id'     => 'pad#view_pad',  :document_id => /[^\/]+/
+  match 'view_pad/:document_id'     => 'pad#view_pad',  :document_id => /[^\/]+/, :as => :view_pad
   match 'pad/pad'                   => 'pad#pad'
   match 'p/:pad_id'                 => 'pad#pad',       :pad_id => /[^\/]+/
   match 'ro/:pad_id'                => 'pad#read_only', :pad_id => /[^\/]+/
