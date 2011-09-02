@@ -1,0 +1,31 @@
+<a href="#" id="add-comment-link">Add Comment</a>
+<div id="add-comment-dialog" style="display:none;">
+  <%= form_for([@document, @document.comments.build]) do |f| %>
+      <%= f.text_area :comment_text %>
+  <% end %>
+</div>
+<script>
+    $(function() {
+        $("#add-comment-link").click(function() {
+            $("#add-comment-dialog").dialog("open");
+            return false;
+        });
+
+        $("#add-comment-dialog").dialog({
+            title: "Add Comment",
+            autoOpen: false,
+            height: 450,
+            width: 330,
+            modal: true,
+            buttons: {
+                "Create Comment": function() {
+                    $(":button:contains('Create Comment')").attr("disabled", "disabled").addClass('ui-state-disabled');
+                    $("#new_comment").submit();
+                },
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+</script>

@@ -49,15 +49,15 @@
     <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
 
     <div>
-      <%= render :partial => "resources/resource",
-                 :collection => @document.recommended_resources %>
+      <%= render :partial => "resources/resource", :collection => @document.recommended_resources %>
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
 
     <div>
-      <%= render :partial => "comments/comment",
-                 :collection => @document.comments %>
+      <%= render :partial => "comments/comment", :collection => @document.comments %>
+      <br/>
+      <%= render :partial => "comments/form_dialog" %>
     </div>
 
   </div>

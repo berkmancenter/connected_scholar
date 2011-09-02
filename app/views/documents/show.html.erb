@@ -44,7 +44,7 @@
 
 <hr/>
 
-<%= link_to 'Edit Details', edit_document_path(@document) %> | <%= link_to 'View Document', "/view_pad/#{@document.id}" %>
+<%= link_to 'Edit Details', edit_document_path(@document) %> | <%= link_to 'View Document', "/view_pad/#{@document.id}" %> | <%= link_to 'Back to Dashboard', documents_path %>
 
 <hr/>
 
@@ -54,15 +54,3 @@
 
 <h2>Recommend a Resouce:</h2>
 <%= render "resources/form" %>
-
-<hr/>
-
-<h2>Comments</h2>
-<%= render :partial => "comments/comment",
-           :collection => @document.comments %>
-
-<h2>Add a comment:</h2>
-<%= render "comments/form" %>
-
-<%= link_to 'Edit Document', edit_document_path(@document) %> |
-<%= link_to 'Back to Documents', documents_path %> |
