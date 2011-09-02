@@ -13,13 +13,11 @@ class Document < ActiveRecord::Base
 
   before_create :init_group
 
+  scope :my_documents, lambda {|user| {:conditions => {:owner_id => user.id}}}
+
   def self.find_shared_documents(user)
     groups = Group.joins(:users).where(:users => {:id => user.id})
     groups.map(&:document)
-  end
-
-  def self.find_my_documents(user)
-    Document.where(:owner_id => user.id)
   end
 
   def add_contributor_by_email(email)
