@@ -1,17 +1,21 @@
-When /^I drag "([^"]*)" to "([^"]*)"$/ do |arg1, arg2|
-  pending
-  # draggable = page.find(".draggable")
-  #   container = page.find("#editorcontainer iframe")
-  #   draggable.drag_to container
-  page.execute_script %Q{
-    $.getScript("/js/jquery.simulate.js", function(data, textStatus){ 
-      var editorcontainer = $('#editorcontainer');      
-      var draggable = $(".draggable");
-      var dx =  0 - draggable.offset().left + editorcontainer.offset().left;
-      var dy =  0 - draggable.offset().top;
-      draggable.simulate("drag", {dx: dx, dy: dy});
-    });
-  }
+include EtherpadUtil
+When /^I drag a resource to the document$/ do 
+  page.execute_script(%Q{
+    var editorcontainer = $('#editorcontainer');      
+    var draggable = $(".draggable");
+    var draggable_clone = draggable.clone();
+    draggable_clone.appendTo($("#dragzone"));
+    draggable_clone.draggable({zIndex: 100, iframeFix: true, start: startDrag });      
+  })
+  draggable = nil;
+  within("#dragzone") do
+    draggable = page.find(".draggable")
+  end
+  container = page.find("#editorcontainer  iframe")
+  draggable.drag_to container
+  page.execute_script(%Q{
+    $(".draggable", "#dragzone").remove();
+  })
 end
 
 Then /^I should see "([^"]*)" in the document$/ do |arg1|
@@ -20,4 +24,9 @@ Then /^I should see "([^"]*)" in the document$/ do |arg1|
   within("#innerdocbody") do 
     page.should have_content(arg1)
   end
+end
+
+When /^I ensure "([^"]*)" pad is new$/ do |arg1|
+  document = Document.find_by_name(arg1)
+  delete_pad(document)
 end

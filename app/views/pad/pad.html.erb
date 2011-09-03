@@ -7,14 +7,14 @@
   <script type="text/javascript">
 
     $(function(){
-      $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true,
-        start: function(event,ui){
-          $(ui.helper).prepend('<div class="preDrag"></div>');
-          $(this).data('draggable').offset.click.top += 36;
-          setupDropzone();
-        }
-      });
+      $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
     });
+
+	function startDrag(event,ui){
+      $(ui.helper).prepend('<div class="preDrag"></div>');
+      $(this).data('draggable').offset.click.top += 36;
+      setupDropzone();
+    }
 
     function setupDropzone(){
 	  var win = window.parent.frames[1].frames[0].window;

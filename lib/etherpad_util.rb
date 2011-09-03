@@ -60,6 +60,14 @@ module EtherpadUtil
       end
     end
   end
+  
+  def delete_pad(document)
+    with_apikey do |url, apikey|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/deletePad?apikey=#{apikey}&padID=#{document.etherpad_group_id}$#{CGI::escape(document.name)}" do |data|
+        return data["code"]
+      end
+    end
+  end
 
   private
 
