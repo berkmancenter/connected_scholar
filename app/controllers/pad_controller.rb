@@ -61,8 +61,8 @@ class PadController < ApplicationController
     else
       redirect_to documents_path
     end
-    rescue ActiveRecord::RecordNotFound => e
-      Rails.logger.warn e
-      redirect_to documents_path
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.warn e
+    redirect_to documents_path
   end
 end
