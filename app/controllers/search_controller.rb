@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  include LibraryCloudUtil
+  include SearchUtil
 
   def search
     @items = item_search(params[:search_type], params[:query])

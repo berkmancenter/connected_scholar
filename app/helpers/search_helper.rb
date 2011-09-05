@@ -1,3 +1,3 @@
 module SearchHelper
-  include LibraryCloudUtil
+  include SearchUtil
 end
