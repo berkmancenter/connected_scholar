@@ -35,7 +35,7 @@ describe ResourcesController do
 
       it "redirects to the created resource" do
         post :create, :resource => valid_attributes, :document_id => document.id
-        response.should redirect_to(document)
+        response.should redirect_to(view_pad_path(document))
       end
     end
 
@@ -83,7 +83,7 @@ describe ResourcesController do
     it "redirects to the resources list" do
       resource = Resource.create! valid_attributes.merge(:document_id => document.id)
       delete :destroy, :id => resource.id.to_s, :document_id => document.id
-      response.should redirect_to(document)
+      response.should redirect_to(view_pad_path(document))
     end
   end
 
