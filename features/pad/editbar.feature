@@ -14,27 +14,14 @@ Feature: View editbar functionality
       And I click "#readonlylink"  
       Then I should see "Use this link to share a read-only version of your pad:"
 
-    Scenario: User selects Import/Export and views Plain text export
+    Scenario: User selects Import/Export and views different types of exports
   	  And I click "#exportlink" 
       Then I should see "Export current pad as:"
-	  And I should see the export "Plain text" link for the "Test Document" document
-	  When I click "#exportplain"
-	  Then I should not see "Error"
-	  Then I should see the export "txt" page for the "Test Document" document
-	
-	Scenario: User selects Import/Export and views Plain text export
-  	  And I click "#exportlink" 
-      Then I should see "Export current pad as:"
-	  And I should see the export "HTML" link for the "Test Document" document
-	  When I click "#exporthtml"
-	  Then I should not see "Error"
-	  And I should see the export "html" page for the "Test Document" document
 
     Scenario: User selects embed and views the embed link
 	  And I click "#embedlink"
 	  Then I should see "Embed code:"
-	
+
     Scenario: User selects timeslider and views the timeslider
       And I click "#timesliderlink"
-      Then I should not see "Error"
-  	  And I should see "Return to pad"
+  	  Then I should see "Return to pad"

@@ -30,8 +30,3 @@ When /^I ensure "([^"]*)" pad is new$/ do |arg1|
   document = Document.find_by_name(arg1)
   delete_pad(document)
 end
-
-Then /^I should see the export "([^"]*)" link for the "([^"]*)" document$/ do |type, doc_name|
-  document = Document.find_by_name(doc_name)
-  page.should have_content(type)
-end
