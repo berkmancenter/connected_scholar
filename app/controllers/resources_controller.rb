@@ -1,5 +1,5 @@
 class ResourcesController < ApplicationController
-  include LibraryCloudUtil
+  include SearchUtil
 
   def create
     @document = Document.find(params[:document_id])
