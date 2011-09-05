@@ -220,3 +220,16 @@ end
 When /^I preconfirm$/ do
   page.evaluate_script('window.confirm = function() { return true; }')
 end
+
+Then /^I should see the export "([^"]*)" page for the "([^"]*)" document$/ do |type, doc_name|
+  within_window(page.driver.browser.window_handles.last) do
+    document = Document.find_by_name(doc_name)
+    path = "/p/#{document.etherpad_group_id}#{CGI::escape("?" + document.name)}/export/#{type}"
+    current_path = URI.parse(current_url).path
+    if current_path.respond_to? :should
+      current_path.should == path
+    else
+      assert_equal path, current_path
+    end
+  end
+end
