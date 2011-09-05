@@ -1,0 +1,68 @@
+<a href="#" id="add-resource-link">Create a Resource</a>
+<div id="add-resource-dialog" style="display:none;">
+  <%= form_for([@document, @document.recommended_resources.build]) do |f| %>
+      <div class="field">
+        <%= f.label :title %>
+        <br/>
+        <%= f.text_field :title %>
+      </div>
+      <div class="field">
+        <%= f.label :authors %>
+        <br/>
+        <%= f.text_field :authors %>
+      </div>
+      <div class="field">
+        <%= f.label :publication_date %>
+        <br/>
+        <%= f.date_select :publication_date %>
+      </div>
+      <div class="field">
+        <%= f.label :source %>
+        <br/>
+        <%= f.text_field :source %>
+      </div>
+      <div class="field">
+        <%= f.label :isbn %>
+        <br/>
+        <%= f.text_field :isbn %>
+      </div>
+      <div class="field">
+        <%= f.label :url %>
+        <br/>
+        <%= f.text_field :url %>
+      </div>
+      <div class="field">
+        <%= f.label :abstract %>
+        <br/>
+        <%= f.text_area :abstract %>
+      </div>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+  <% end %>
+</div>
+<script>
+    $(function() {
+        $("#add-resource-link").click(function() {
+            $("#add-resource-dialog").dialog("open");
+            return false;
+        });
+
+        $("#add-resource-dialog").dialog({
+            title: "Create a Resource",
+            autoOpen: false,
+            height: 450,
+            width: 330,
+            modal: true,
+            buttons: {
+                "Create Resource": function() {
+                    $(":button:contains('Create Resource')").attr("disabled", "disabled").addClass('ui-state-disabled');
+                    $("#new_resource").submit();
+                },
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+</script>

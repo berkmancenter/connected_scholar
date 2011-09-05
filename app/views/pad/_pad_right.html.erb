@@ -37,7 +37,8 @@
         <%= @document.updated_at %>
       </p>
 
-      <p><%= link_to 'Manage', @document %></p>
+      <p><%= link_to 'Manage this Document', @document %></p>
+      <p><%= link_to 'Back to Dashboard', documents_path %></p>
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
@@ -50,6 +51,8 @@
 
     <div>
       <%= render :partial => "resources/resource", :collection => @document.recommended_resources %>
+      <br/>
+      <%= render :partial => "resources/form_dialog" %>
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>

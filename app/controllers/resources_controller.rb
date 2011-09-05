@@ -6,7 +6,7 @@ class ResourcesController < ApplicationController
     item_id = params["item_id"]
     if item_id.nil?
       @resource = @document.recommended_resources.create(params[:resource])
-      redirect_to @document
+      redirect_to view_pad_path(@document)
     else
 
       items = item_search(:id, item_id)
@@ -31,6 +31,6 @@ class ResourcesController < ApplicationController
     @document = Document.find(params[:document_id])
     @resource = @document.recommended_resources.find(params[:id])
     @resource.destroy
-    redirect_to @document
+    redirect_to view_pad_path(@document)
   end
 end
