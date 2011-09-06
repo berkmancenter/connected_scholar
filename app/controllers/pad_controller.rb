@@ -10,6 +10,11 @@ class PadController < ApplicationController
   end
 
   def view_pad
+    @document = Document.find(params[:document_id])
+    redirect_to "/p/#{@document.pad_id}?document_id=#{@document.id}"
+  end
+
+  def pad
     @document = Document.find(params[:document_id]) if params[:document_id]
     if @document && @document.can_be_viewed_by(current_user)
       valid_until = VALID_UNTIL_DAYS.days.from_now
@@ -21,19 +26,7 @@ class PadController < ApplicationController
         # TODO use a unique password for each pad, and store in the DB
         #set_pad_password(@document, 'pass0wrd')
       end
-
-      redirect_to "/p/#{@document.pad_id}?document_id=#{@document.id}"
-    else
-      redirect_to documents_path
-    end
-    rescue ActiveRecord::RecordNotFound => e
-      Rails.logger.warn e
-      redirect_to documents_path
-  end
-
-  def pad
-    @document = Document.find(params[:document_id]) if params[:document_id]
-    if @document && @document.can_be_viewed_by(current_user)
+      
       render :action => 'pad'
     else
       redirect_to documents_path
