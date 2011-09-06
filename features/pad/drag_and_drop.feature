@@ -10,11 +10,13 @@ Feature: Drag and Drop
   	  And I fill in "Name" with "Test Document"
       And I press "Create Document"
 	  And I ensure "Test Document" pad is new
-      And I follow "Manage"
+      And I follow "Recommendations"
+      And I wait 1 seconds
+      And I follow "Create a Resource"
       And I fill in "Title" with "A Test Resource"
       And I fill in "Author" with "Jones"
       And I press "Create Resource"
-      And I follow "View Document"
+      When I reload the page
       And I follow "Recommendations"
       And I drag a resource to the document      
       Then I should see "Resource Dropped" in the document

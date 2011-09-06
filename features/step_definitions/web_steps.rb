@@ -233,3 +233,7 @@ Then /^I should see the export "([^"]*)" page for the "([^"]*)" document$/ do |t
     end
   end
 end
+
+When /^I reload the page$/ do
+  visit page.driver.browser.current_url
+end

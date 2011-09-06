@@ -27,7 +27,7 @@
 <br/>
 <div id="advanced_search_dialog" style="display: none;">
   <%= form_tag('/search/search', :remote => true, :id => 'advanced_search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
-      <%= text_field_tag :query, params[:query] %>
+      <%= text_field_tag :query, params[:query], :id => 'advanced_query' %>
       <%= select_tag :search_type, "<option value='title_exact'>Exact Title</option>
                                    <option value='creator_exact'>Exact Creator</option>
                                    <option value='desc_subject_exact'>Exact Description</option>
