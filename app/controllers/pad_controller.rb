@@ -17,6 +17,12 @@ class PadController < ApplicationController
       @session_id = create_session(current_user, @document, valid_until.to_time.to_i)
       cookies[:sessionID] = {:value => @session_id, :expires => valid_until }
       create_group_pad(@document)
+
+      unless is_pad_password_protected(@document)
+        # TODO use a unique password for each pad, and store in the DB
+        set_pad_password(@document, 'pass0wrd')
+      end
+
       redirect_to "/p/#{CGI::escape(new_pad_id)}?document_id=#{@document.id}"
     else
       redirect_to documents_path
