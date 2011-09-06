@@ -12,7 +12,7 @@ describe PadController do
   end
 
   let :pad_id do
-        CGI::escape("#{document.etherpad_group_id}?#{document.name}")
+    document.pad_id
   end
 
   let :document_no_owner do

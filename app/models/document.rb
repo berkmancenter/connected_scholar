@@ -53,6 +53,10 @@ class Document < ActiveRecord::Base
     self.owner == user || (self.group && self.group.users && self.group.users.include?(user))
   end
 
+  def pad_id
+    "#{etherpad_group_id}$#{CGI::escape(name)}"
+  end
+
   private
 
   def init_group

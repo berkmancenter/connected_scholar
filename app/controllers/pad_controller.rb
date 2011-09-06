@@ -12,18 +12,17 @@ class PadController < ApplicationController
   def view_pad
     @document = Document.find(params[:document_id]) if params[:document_id]
     if @document && @document.can_be_viewed_by(current_user)
-      new_pad_id = "#{@document.etherpad_group_id}?#{@document.name}"
       valid_until = VALID_UNTIL_DAYS.days.from_now
-      @session_id = create_session(current_user, @document, valid_until.to_time.to_i)
+      @session_id = create_etherpad_session(current_user, @document, valid_until.to_time.to_i)
       cookies[:sessionID] = {:value => @session_id, :expires => valid_until }
       create_group_pad(@document)
 
       unless is_pad_password_protected(@document)
         # TODO use a unique password for each pad, and store in the DB
-        set_pad_password(@document, 'pass0wrd')
+        #set_pad_password(@document, 'pass0wrd')
       end
 
-      redirect_to "/p/#{CGI::escape(new_pad_id)}?document_id=#{@document.id}"
+      redirect_to "/p/#{@document.pad_id}?document_id=#{@document.id}"
     else
       redirect_to documents_path
     end
@@ -51,8 +50,9 @@ class PadController < ApplicationController
       output = nil
       with_etherpad_url do |url|
         http = HTTPClient.new
-        output = http.get_content("#{url}/p/#{CGI::escape(pad_id)}/export/#{type}")
-        Rails.logger.warn(output)
+        export_url = "#{url}/p/#{pad_id}/export/#{type}"
+        http.cookie_manager.parse("sessionID=#{cookies[:sessionID]}", URI.parse(export_url))
+        output = http.get_content(export_url)
       end
       render :text => output
     else

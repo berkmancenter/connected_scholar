@@ -45,11 +45,17 @@ module EtherpadUtil
     end
   end
 
-  def create_session(user, document, valid_until)
+  def create_etherpad_session(user, document, valid_until)
     with_apikey do |url, apikey|
-      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createSession?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&authorID=#{user.etherpad_author_id}&validUntil=#{valid_until}" do |data|
+      JsonUtil::get_json __create_etherpad_session_url__ user, document, valid_until, url, apikey do |data|
         return data["data"]["sessionID"]
       end
+    end
+  end
+
+  def create_etherpad_session_url(user, document, valid_until)
+    with_apikey do |url, apikey|
+      return __create_etherpad_session_url__(user, document, valid_until, url, apikey)
     end
   end
 
@@ -93,6 +99,14 @@ module EtherpadUtil
     end
   end
 
+  def get_pad_text(document)
+    with_apikey do |url, apikey|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/getText?apikey=#{apikey}&padID=#{document.pad_id}" do |data|
+        return data #['code'] #== 0 && data['data'] && data['data']['isPasswordProtected']
+      end
+    end
+  end
+
   private
 
   def with_etherpad
@@ -107,6 +121,10 @@ module EtherpadUtil
     global_yaml = YAML.load_file("#{Rails.root}/config/etherpad.global.yml")
     yield local_yaml['protocol'], local_yaml['host'], local_yaml['port'], local_yaml['path'], global_yaml['git'], global_yaml['ref'], local_yaml['apikey']
     true
+  end
+
+  def __create_etherpad_session_url__(user, document, valid_until, url, apikey)
+    "#{url}/api/#{ETHERPAD_API_VERSION}/createSession?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&authorID=#{user.etherpad_author_id}&validUntil=#{valid_until}"
   end
 
   def with_apikey
