@@ -28,6 +28,7 @@ ConnectedScholar::Application.routes.draw do
   match 'ro/:pad_id'                => 'pad#read_only', :pad_id => /[^\/]+/
   match 'p/:pad_id/export/:type'    => 'pad#export',    :pad_id => /[^\/]+/
   match 'p/:pad_id/timeslider'      => 'pad#timeslider',:pad_id => /[^\/]+/
+  match 'ep/pad/connection-diagnostic-info' => 'pad#diagnostic'
   
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase

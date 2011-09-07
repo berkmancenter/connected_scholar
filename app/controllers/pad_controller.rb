@@ -67,4 +67,11 @@ class PadController < ApplicationController
     Rails.logger.warn e
     redirect_to documents_path
   end
+
+  def diagnostic
+    with_etherpad_url do |url|
+      HTTPClient.new.post_async "#{url}/ep/pad/connection-diagnostic-info", params
+    end
+    render :text => "OK"
+  end
 end
