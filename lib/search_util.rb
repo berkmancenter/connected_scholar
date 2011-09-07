@@ -1,8 +1,12 @@
 module SearchUtil
 
-  def item_search(search_type, query)
+  def item_search(search_type, query, filter_type=nil, filter=nil)
     with_librarycloud do |key, url|
-      JsonUtil::get_json "#{url}/api/item/?key=#{key}&search_type=#{search_type}&query=#{CGI::escape(query)}"
+      search_url = "#{url}/api/item/?key=#{key}&search_type=#{search_type}&query=#{CGI::escape(query)}"
+      if filter_type
+        search_url += "&filter=#{filter_type}:#{CGI::escape(filter)}"
+      end
+      JsonUtil::get_json search_url
     end
   end
 

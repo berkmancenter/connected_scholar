@@ -27,16 +27,34 @@
 <br/>
 <div id="advanced_search_dialog" style="display: none;">
   <%= form_tag('/search/search', :remote => true, :id => 'advanced_search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
-      <%= text_field_tag :query, params[:query], :id => 'advanced_query' %>
-      <%= select_tag :search_type, "<option value='title_exact'>Exact Title</option>
-                                   <option value='creator_exact'>Exact Creator</option>
-                                   <option value='desc_subject_exact'>Exact Description</option>
-                                   <option value='title_keyword'>Title Keyword</option>
-                                   <option value='creator_keyword'>Creator Keyword</option>
-                                   <option value='desc_subject_keyword'>Description Keyword</option>
-                                   <option value='id_isbn'>Exact ISBN</option>
-                                   <option value='id_lccn'>Exact LCCN</option>
-                                   <option value='id_oclc'>Exact OCLN</option>".html_safe %>
+      <%= label_tag "Query:" %>
+      <br/>
+      <%= text_field_tag :query, params[:query], :id => 'advanced_query', :size => 50 %>
+      <%= select_tag :search_type, "<option value='keyword'>Keyword</option>
+                                    <option value='title_exact'>Exact Title</option>
+                                    <option value='creator_exact'>Exact Creator</option>
+                                    <option value='desc_subject_exact'>Exact Subject</option>
+                                    <option value='title_keyword'>Title Keyword</option>
+                                    <option value='creator_keyword'>Creator Keyword</option>
+                                    <option value='desc_subject_keyword'>Subject Keyword</option>
+                                    <option value='id_isbn'>Exact ISBN</option>
+                                    <option value='id_lccn'>Exact LCCN</option>
+                                    <option value='id_oclc'>Exact OCLN</option>".html_safe %>
+      <br/>
+      <%= label_tag "Filter:" %>
+      <br/>
+      <%= text_field_tag :filter, params[:filter], :id => 'advanced_filter', :size => 50 %>
+      <%= select_tag :filter_type, "<option value='keyword'>Keyword</option>
+                                    <option value='title_exact'>Exact Title</option>
+                                    <option value='creator_exact'>Exact Creator</option>
+                                    <option value='desc_subject_exact'>Exact Subject</option>
+                                    <option value='title_keyword'>Title Keyword</option>
+                                    <option value='creator_keyword'>Creator Keyword</option>
+                                    <option value='desc_subject_keyword'>Subject Keyword</option>
+                                    <option value='id_isbn'>Exact ISBN</option>
+                                    <option value='id_lccn'>Exact LCCN</option>
+                                    <option value='id_oclc'>Exact OCLN</option>".html_safe %>
+      <br/>
       <%= submit_tag "Search" %>
   <% end %>
   <br/>
@@ -58,11 +76,17 @@
             return false;
         });
 
+        $("#add_filter").click(function() {
+            $("#add_filter").hide();
+            $("#filter_div").show();
+            return false;
+        });
+
         $("#advanced_search_dialog").dialog({
             title: "Advanced Search",
             autoOpen: false,
-            height: 400,
-            width: 500,
+            height: 500,
+            width: 600,
             modal: true,
             buttons: {
                 "Close": function() {
