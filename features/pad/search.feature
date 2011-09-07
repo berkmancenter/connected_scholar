@@ -12,7 +12,7 @@ Feature: Search for Resources
       And I wait 1 seconds
       And I follow "Create a Resource"
       And I fill in "Title" with "A Test Resource"
-      And I fill in "Author" with "Jones"
+      And I fill in "Creators" with "Jones"
       And I press "Create Resource"
       And I follow "Search"
       And I wait 1 seconds
@@ -23,7 +23,7 @@ Feature: Search for Resources
       And I press "Go"
       And I wait 3 seconds
       Then I should see "Title:"
-      And I should see "Creator:"
+      And I should see "Creators:"
       And I should see "Recommend"
       And I should see "Links:"
       Then I follow "Recommend"
@@ -39,7 +39,7 @@ Feature: Search for Resources
       And I press "Search"
       And I wait 3 seconds
       Then I should see "Title:"
-      And I should see "Creator:"
+      And I should see "Creators:"
       And I should see "Recommend"
       And I should see "Links:"
       And I press "Close"

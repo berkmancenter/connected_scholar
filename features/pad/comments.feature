@@ -12,7 +12,7 @@ Feature: Add Comment
       And I wait 1 seconds
       And I follow "Create a Resource"
       And I fill in "Title" with "A Test Resource"
-      And I fill in "Author" with "Jones"
+      And I fill in "Creators" with "Jones"
       And I press "Create Resource"
       And I follow "Comments"
       And I wait 1 seconds

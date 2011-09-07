@@ -14,7 +14,7 @@ Feature: Drag and Drop
       And I wait 1 seconds
       And I follow "Create a Resource"
       And I fill in "Title" with "A Test Resource"
-      And I fill in "Author" with "Jones"
+      And I fill in "Creators" with "Jones"
       And I press "Create Resource"
       When I reload the page
       And I follow "Recommendations"

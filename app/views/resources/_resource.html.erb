@@ -5,8 +5,12 @@
 </p>
 
 <p>
-  <b>Authors:</b>
-  <%= resource.authors %>
+  <b>Creators:</b>
+<ul>
+  <% for c in resource.creators %>
+      <li><%= c %></li>
+  <% end %>
+</ul>
 </p>
 
 <p>
@@ -15,27 +19,21 @@
 </p>
 
 <p>
-  <b>Source:</b>
-  <%= resource.source %>
+  <b>Publisher:</b>
+  <%= resource.publisher %>
 </p>
 
 <p>
-  <b>Isbn:</b>
-  <%= resource.isbn %>
-</p>
-
-<p>
-  <b>Url:</b>
-  <%= resource.url %>
-</p>
-
-<p>
-  <b>Abstract:</b>
-  <%= resource.abstract %>
+  <b>ISBN:</b>
+<ul>
+  <% for c in resource.id_isbn %>
+      <li><%= c %></li>
+  <% end %>
+</ul>
 </p>
 
 <p>
   <%= link_to 'Destroy Resource', [resource.document, resource],
-               :confirm => 'Are you sure?',
-               :method => :delete %>
+              :confirm => 'Are you sure?',
+              :method => :delete %>
 </p>
