@@ -65,9 +65,9 @@ describe EtherpadUtil do
       end
     end
 
-    describe "create_session" do
+    describe "create_etherpad_session" do
       it "should return session_id" do
-        self.create_session(@user, @document, 1.days.from_now.to_time.to_i).should == ETHERPAD_SESSION_ID
+        self.create_etherpad_session(@user, @document, 1.days.from_now.to_time.to_i).should == ETHERPAD_SESSION_ID
       end
     end
 

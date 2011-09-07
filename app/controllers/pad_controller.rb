@@ -12,6 +12,9 @@ class PadController < ApplicationController
   def view_pad
     @document = Document.find(params[:document_id])
     redirect_to "/p/#{@document.pad_id}?document_id=#{@document.id}"
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.warn e
+    redirect_to documents_path
   end
 
   def pad
