@@ -29,12 +29,6 @@ describe PadController do
         get :view_pad, :document_id => document.id
         response.should redirect_to "/p/#{pad_id}?document_id=#{document.id}"
       end
-      describe "and no owner" do
-        it "should redirect to documents path" do
-          get :view_pad, :document_id => document_no_owner.id
-          response.should redirect_to documents_path
-        end
-      end
     end
     describe "with an invalid document id" do
       it "should redirect_to documents path" do

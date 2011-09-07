@@ -3,7 +3,9 @@ ConnectedScholar::Application.routes.draw do
 
   resources :documents do
     resources :comments
-    resources :resources
+    resources :resources do
+      get 'citation', :on => :member
+    end
     member do
       post "contributors", :action => "add_contributor", :as => :add_contributor
       delete "contributors/:contributor_id", :action => "remove_contributor", :as => :remove_contributor
