@@ -41,7 +41,7 @@ class ResourcesController < ApplicationController
     resource[:creators] = misc_to_array(item['creator'])
     resource[:desc_subject] = misc_to_array(item['desc_subject'])
     resource[:id_isbn] = misc_to_array(item['id_isbn'])
-    resource[:publication_date] = Date.new(item['pub_date'], 1, 1)
+    resource[:publication_date] = item['pub_date'] ? Date.new(item['pub_date'], 1, 1) : nil
 
     resource[:title] = item['title']
     resource[:publisher] = item['publisher']
