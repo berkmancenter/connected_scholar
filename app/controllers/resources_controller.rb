@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
   include SearchUtil
-
+  
   def create
     @document = Document.find(params[:document_id])
     item_id = params["item_id"]
@@ -32,7 +32,13 @@ class ResourcesController < ApplicationController
     @resource.destroy
     redirect_to view_pad_path(@document)
   end
-
+  
+  def citation
+    @document = Document.find(params[:document_id])
+    @resource = @document.recommended_resources.find(params[:id])
+    render :json => {'citation' => @resource.default_citation}
+  end
+  
   private
 
   def item_to_resource(item)

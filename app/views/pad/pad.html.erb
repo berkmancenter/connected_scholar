@@ -33,8 +33,11 @@
           });
           //create the new line after drop target
 		  resource_id = ui.draggable.attr("id").replace("resource_", "");
-          target.after("Resource Dropped:" + resource_id);
-          target.attr('tabindex', -1).focus()
+		  document_id = "<%= @document.id %>";
+		  citation_div = '<div id="' + document_id + '_' + resource_id + '"></div>';
+          target.after(citation_div);
+          setCitation(document_id, resource_id);
+          target.attr('tabindex', -1).focus();
 		  target.removeAttr('tabindex');
           return true;
         }
@@ -58,7 +61,27 @@
           range.select();
         }
     }
-
+	
+	function setCitation(document_id, resource_id){
+		$.get("/documents/" + document_id + "/resources/" + resource_id + "/citation", function(data){
+			var citation = data["citation"];
+	  		var win = window.parent.frames[1].frames[0].window;
+	      	var doc = window.parent.frames[1].frames[0].document;
+	      	var citationDiv = $(doc).find("#"+document_id+"_"+resource_id);
+			citationDiv.html(citation);	
+			var innerdocbody = $(doc).find("#innerdocbody");
+			var span = $('span:contains("'+citation+'")', innerdocbody);
+			span.die('contextmenu');
+			span.live('contextmenu', {citation: citation, resource_id: resource_id, document_id: document_id}, 
+			  function(event){
+				event.preventDefault();
+				citation = event.data.citation;
+				resource_id = event.data.resource_id;
+				document_id = event.data.document_id;
+				alert("Citation: "+citation+"\nDocument: "+document_id+" \nResource: "+resource_id+" \nClicked!");
+			  })
+		}, 'json');
+	}
   </script>
 
 <% end %>
