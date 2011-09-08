@@ -65,7 +65,6 @@
 	function setCitation(document_id, resource_id){
 		$.get("/documents/" + document_id + "/resources/" + resource_id + "/citation", function(data){
 			var citation = data["citation"];
-	  		var win = window.parent.frames[1].frames[0].window;
 	      	var doc = window.parent.frames[1].frames[0].document;
 	      	var citationDiv = $(doc).find("#"+document_id+"_"+resource_id);
 			citationDiv.html(citation);	
@@ -81,6 +80,10 @@
 				alert("Citation: "+citation+"\nDocument: "+document_id+" \nResource: "+resource_id+" \nClicked!");
 			  })
 		}, 'json');
+		$.post("/documents/"+document_id+"/resources/"+resource_id+"/activate", function(data){
+			$("#resource_"+resource_id).remove();
+			$("#active_sources").append(data);
+		})
 	}
   </script>
 

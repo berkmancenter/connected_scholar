@@ -5,6 +5,7 @@ ConnectedScholar::Application.routes.draw do
     resources :comments
     resources :resources do
       get 'citation', :on => :member
+      post 'activate', :on => :member
     end
     member do
       post "contributors", :action => "add_contributor", :as => :add_contributor

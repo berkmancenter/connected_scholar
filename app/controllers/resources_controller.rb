@@ -9,7 +9,7 @@ class ResourcesController < ApplicationController
       params[:resource][:id_isbn] = params[:resource][:id_isbn].split("\n")
       params[:resource][:desc_subject] = params[:resource][:desc_subject].split("\n")
 
-      @resource = @document.recommended_resources.create(params[:resource])
+      @resource = @document.resources.create(params[:resource])
       redirect_to view_pad_path(@document)
     else
 
@@ -18,7 +18,7 @@ class ResourcesController < ApplicationController
 
       raise "No Item: #{item_id.inspect}" if item.nil? or item['id'] != item_id
 
-      @resource = @document.recommended_resources.create(item_to_resource(item))
+      @resource = @document.resources.create(item_to_resource(item))
 
       respond_to do |format|
         format.js {render :json => @resource}
@@ -28,15 +28,22 @@ class ResourcesController < ApplicationController
 
   def destroy
     @document = Document.find(params[:document_id])
-    @resource = @document.recommended_resources.find(params[:id])
+    @resource = @document.resources.find(params[:id])
     @resource.destroy
     redirect_to view_pad_path(@document)
   end
   
   def citation
     @document = Document.find(params[:document_id])
-    @resource = @document.recommended_resources.find(params[:id])
+    @resource = @document.resources.find(params[:id])
     render :json => {'citation' => @resource.default_citation}
+  end
+  
+  def activate
+    @document = Document.find(params[:document_id])
+    @resource = @document.resources.find(params[:id])
+    @resource.activate!
+    render :partial => 'resource', :locals => {:resource => @resource}
   end
   
   private

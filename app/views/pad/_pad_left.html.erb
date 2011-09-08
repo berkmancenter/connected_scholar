@@ -1,4 +1,7 @@
 <div id="padLeft">
   <h1>Active Sources</h1>
   <br/>
+  <div id="active_sources">
+    <%= render :partial => "resources/resource", :collection => @document.active_sources %>
+  </div>
 </div>

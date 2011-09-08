@@ -2,8 +2,7 @@ class Document < ActiveRecord::Base
   include EtherpadUtil
 
   has_many :comments, :dependent => :destroy
-  has_many :recommended_resources, :class_name => 'Resource', :dependent => :destroy
-  has_many :active_sources, :class_name => 'Resource', :dependent => :destroy
+  has_many :resources, :dependent => :destroy
 
   belongs_to :owner, :class_name => 'User'
   belongs_to :group
@@ -15,6 +14,13 @@ class Document < ActiveRecord::Base
 
   scope :my_documents, lambda {|user| {:conditions => {:owner_id => user.id}}}
 
+  def active_sources
+    self.resources.active_sources
+  end
+  def recommended_resources
+    self.resources.recommended_resources
+  end
+  
   def self.find_shared_documents(user)
     groups = Group.joins(:users).where(:users => {:id => user.id})
     groups.map(&:document)
