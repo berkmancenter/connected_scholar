@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110908102531) do
+ActiveRecord::Schema.define(:version => 20110908211914) do
+
+  create_table "citations", :force => true do |t|
+    t.string   "citation_text"
+    t.boolean  "default",       :default => false
+    t.integer  "resource_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "citations", ["resource_id"], :name => "index_citations_on_resource_id"
 
   create_table "comments", :force => true do |t|
     t.text     "comment_text"

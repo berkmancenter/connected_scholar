@@ -36,7 +36,7 @@ class ResourcesController < ApplicationController
   def citation
     @document = Document.find(params[:document_id])
     @resource = @document.resources.find(params[:id])
-    render :json => {'citation' => @resource.default_citation}
+    render :json => {'citation' => @resource.default_citation!}
   end
   
   def activate
