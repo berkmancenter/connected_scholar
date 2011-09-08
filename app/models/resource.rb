@@ -15,10 +15,11 @@ class Resource < ActiveRecord::Base
   def pub_year
     publication_date ? publication_date.year : ""
   end
+
   def author_for_citation
     if !creators.blank? && creators.size > 0
       creator = creators.first
-      creator[0, creator.index(",")]
+      creator.index(",").nil? ? creator.split(" ").last : creator[0, creator.index(",")]
     else
       ""
     end
