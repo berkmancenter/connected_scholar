@@ -50,7 +50,9 @@
     <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
 
     <div>
-      <%= render :partial => "resources/resource", :collection => @document.recommended_resources %>
+	  <div id="recommended_resources">
+        <%= render :partial => "resources/resource", :collection => @document.recommended_resources, :locals => {:make_draggable => true} %>
+	  </div>
       <br/>
       <%= render :partial => "resources/form_dialog" %>
     </div>

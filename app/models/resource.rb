@@ -4,6 +4,18 @@ class Resource < ActiveRecord::Base
   serialize :desc_subject, Array
   serialize :id_isbn, Array
   
+  scope :active_sources, lambda {
+    where(:active => true)
+  }
+  scope :recommended_resources, lambda {
+    where(:active => false)
+  }
+  
+  def activate!
+    self.active = true
+    self.save!
+  end
+  
   def default_citation
     # TODO expand this to different formats
     # format (Smith 2011)
