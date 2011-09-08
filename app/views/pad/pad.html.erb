@@ -7,9 +7,12 @@
   <script type="text/javascript">
 
     $(function(){
-      $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
+	  setupDraggables();
     });
 
+	function setupDraggables(){
+		$(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
+	}
 	function startDrag(event,ui){
       $(ui.helper).prepend('<div class="preDrag"></div>');
       $(this).data('draggable').offset.click.top += 36;
@@ -32,7 +35,7 @@
             }, 0);
           });
           //create the new line after drop target
-		  resource_id = ui.draggable.attr("id").replace("resource_", "");
+		  resource_id = ui.draggable.attr("id").replace("drag_resource_", "");
 		  document_id = "<%= @document.id %>";
 		  citation_div = '<div id="' + document_id + '_' + resource_id + '"></div>';
           target.after(citation_div);
@@ -81,8 +84,11 @@
 			  })
 		}, 'json');
 		$.post("/documents/"+document_id+"/resources/"+resource_id+"/activate", function(data){
-			$("#resource_"+resource_id).remove();
-			$("#active_sources").append(data);
+			if(data.length > 0){
+				$("#resource_"+resource_id).remove();
+				$("#active_sources").append(data);
+			}
+			setupDraggables();
 		})
 	}
   </script>

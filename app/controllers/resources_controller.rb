@@ -42,8 +42,12 @@ class ResourcesController < ApplicationController
   def activate
     @document = Document.find(params[:document_id])
     @resource = @document.resources.find(params[:id])
-    @resource.activate!
-    render :partial => 'resource', :locals => {:resource => @resource}
+    if @resource.active?
+      render :text => ''
+    else
+      @resource.activate!
+      render :partial => 'resource', :locals => {:resource => @resource, :make_draggable => true}
+    end
   end
   
   private
