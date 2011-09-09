@@ -2,6 +2,7 @@
   <!-- stylesheets -->
   <link href="/static/css/pad.css" rel="stylesheet" />
   <%= render :partial => 'pad_js'%>
+  <%= javascript_include_tag '/js/jquery.contextmenu.js'%>
   <style type="text/css" title="dynamicsyntax"></style>
 
   <script type="text/javascript">
@@ -74,14 +75,12 @@
 			var innerdocbody = $(doc).find("#innerdocbody");
 			var span = $('span:contains("'+citation+'")', innerdocbody);
 			span.die('contextmenu');
-			span.live('contextmenu', {citation: citation, resource_id: resource_id, document_id: document_id}, 
-			  function(event){
-				event.preventDefault();
-				citation = event.data.citation;
-				resource_id = event.data.resource_id;
-				document_id = event.data.document_id;
-				alert("Citation: "+citation+"\nDocument: "+document_id+" \nResource: "+resource_id+" \nClicked!");
-			  })
+			span.contextPopup({
+			  title: 'Citation:  ' + citation,
+			  items: [
+					{ label: 'View Resource', action: function(){ alert("Citation: "+citation+"\nDocument: "+document_id+" \nResource: "+resource_id+" \nClicked!"); }}
+				]
+			});
 		}, 'json');
 		$.post("/documents/"+document_id+"/resources/"+resource_id+"/activate", function(data){
 			if(data.length > 0){
