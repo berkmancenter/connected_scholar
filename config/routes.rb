@@ -19,7 +19,6 @@ ConnectedScholar::Application.routes.draw do
   root :to => "dashboard#index"
 
   devise_for :users, :path_names => { :sign_in => 'sign_in', :sign_out => 'sign_out', :sign_up => "sign_in" }
-  #resources :users, :only => :show
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
