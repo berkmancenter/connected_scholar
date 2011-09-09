@@ -26,6 +26,7 @@
           <script>
             $("#recommend_<%= r['id'] %>").click(function() {
                 recommend_resource("<%= r['id'] %>");
+                window.location.reload();
                 return false;
             })
           </script>
