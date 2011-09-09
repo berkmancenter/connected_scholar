@@ -58,7 +58,7 @@ class ResourcesController < ApplicationController
     resource[:creators] = misc_to_array(item['creator'])
     resource[:desc_subject] = misc_to_array(item['desc_subject'])
     resource[:id_isbn] = misc_to_array(item['id_isbn'])
-    resource[:publication_date] = item['pub_date'] ? Date.new(item['pub_date'], 1, 1) : nil
+    resource[:publication_date] = item['pub_date'] ? Date.new(item['pub_date'].to_i, 1, 1) : nil
 
     resource[:title] = item['title']
     resource[:publisher] = item['publisher']
@@ -71,7 +71,7 @@ class ResourcesController < ApplicationController
     resource[:material_format] = item['material_format']
     resource[:id_oclc] = item['id_oclc']
     resource[:id_lc_call_num] = item['id_lc_call_num']
-    resource[:id_hollis] = item['id_hollis']
+    resource[:id_hollis] = item['id_inst']
     resource[:language] = item['language']
 
     resource
