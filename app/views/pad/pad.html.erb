@@ -28,7 +28,10 @@
       allmagic.droppable({
 	    hoverClass: 'custom-hover',
         drop: function(event, ui){
-          var target = $(event.target).prev();
+          var target = $(event.target);
+          if(target.prev() != undefined && target.prev().attr("id") != undefined && target.prev().attr("id").match(/^magicdomid/)){
+            target = target.prev();
+          }
           var node = doc.getElementById(target.attr("id"));
           target.focus(function() {
             window.setTimeout(function() {
@@ -38,12 +41,8 @@
           //create the new line after drop target
 		  resource_id = ui.draggable.attr("id").replace("drag_resource_", "");
 		  document_id = "<%= @document.id %>";
-		  citation_div = '<div id="' + document_id + '_' + resource_id + '"></div>';
-          target.after(citation_div);
-          setCitation(document_id, resource_id);
-          target.attr('tabindex', -1).focus();
-		  target.removeAttr('tabindex');
-          return true;
+      setCitation(document_id, resource_id, target);
+      return true;
         }
       });
     }
@@ -66,12 +65,13 @@
         }
     }
 	
-	function setCitation(document_id, resource_id){
+	function setCitation(document_id, resource_id, target){
 		$.get("/documents/" + document_id + "/resources/" + resource_id + "/citation", function(data){
 			var citation = data["citation"];
-	      	var doc = window.parent.frames[1].frames[0].document;
-	      	var citationDiv = $(doc).find("#"+document_id+"_"+resource_id);
-			citationDiv.html(citation);	
+			target.after('<div>'+citation+'</div>');
+      target.attr('tabindex', -1).focus();
+      target.removeAttr('tabindex');
+      var doc = window.parent.frames[1].frames[0].document;
 			var innerdocbody = $(doc).find("#innerdocbody");
 			var span = $('span:contains("'+citation+'")', innerdocbody);
 			span.die('contextmenu');
