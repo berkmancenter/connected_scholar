@@ -1,6 +1,12 @@
 class ResourcesController < ApplicationController
   include SearchUtil
   
+  def show
+    @document = Document.find(params[:document_id])
+    @resource = @document.resources.find(params[:id])
+    render :partial => 'resources/resource', :locals => {:resource => @resource, :make_draggable => false}
+  end
+  
   def create
     @document = Document.find(params[:document_id])
     item_id = params["item_id"]

@@ -78,7 +78,25 @@
 			span.contextPopup({
 			  title: 'Citation:  ' + citation,
 			  items: [
-					{ label: 'View Resource', action: function(){ alert("Citation: "+citation+"\nDocument: "+document_id+" \nResource: "+resource_id+" \nClicked!"); }}
+					{ label: 'View Resource', action: function(){  
+					    $.get("/documents/" + document_id + "/resources/" + resource_id, function(data){
+					      $("#resource_citation_div").html(data);
+					      $("#resource_citation_div").dialog({
+                    autoOpen: false,
+                    title: citation,
+                    height: 330,
+                    width: 330,
+                    modal: true,
+                    buttons: {
+                        "Cancel": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                $("#resource_citation_div").dialog("open");
+					    });
+					  }
+					}
 				]
 			});
 		}, 'json');
@@ -97,3 +115,4 @@
   <%= render :partial => 'pad_left'%>
   <%= render :partial => 'pad_middle'%>
   <%= render :partial => 'pad_right'%>
+  <div id="resource_citation_div" style="display:none;"></div>
