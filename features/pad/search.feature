@@ -8,7 +8,7 @@ Feature: Search for Resources
       And I follow "New Document"
       And I fill in "Name" with "Comment Test Document"
       And I press "Create Document"
-      And I follow "Recommendations"
+      And I follow "Sources"
       And I wait 1 seconds
       And I follow "Create a Resource"
       And I fill in "Title" with "A Test Resource"
@@ -23,11 +23,11 @@ Feature: Search for Resources
       And I press "Go"
       And I wait 3 seconds
       Then I should see "Title:"
-      And I should see "Creators:"
+      And I should see "Creator"
       And I should see "Recommend"
       And I should see "Links:"
       Then I follow "Recommend"
-      #And I follow "Recommendations"
+      #And I follow "Sources"
       #And I wait 1 seconds
       #Then I should see "Drag Resource"
 
@@ -39,10 +39,10 @@ Feature: Search for Resources
       And I press "Search"
       And I wait 3 seconds
       Then I should see "Title:"
-      And I should see "Creators:"
+      And I should see "Creator"
       And I should see "Recommend"
       And I should see "Links:"
       And I press "Close"
-      #And I follow "Recommendations"
+      #And I follow "Sources"
       #And I wait 1 seconds
       #Then I should see "Drag Resource"
