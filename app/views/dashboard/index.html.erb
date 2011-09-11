@@ -1,11 +1,19 @@
 <h2>My Documents</h2>
-<table class="dashboard_table" style="width: 100%">
-
+<table class="dashboard_table">
+  <tr class="dashboard_divider">
+    <td colspan="3"></td>
+  </tr>
 <% @my_documents.each do |doc| %>
   <tr>
     <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
     <td class="document_created"><%= doc.created_at %></td>
     <td><%= link_to 'Destroy', doc, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+  </tr>
+  <tr class="dashboard_divider">
+    <td colspan="3"></td>
   </tr>
 <% end %>
 </table>

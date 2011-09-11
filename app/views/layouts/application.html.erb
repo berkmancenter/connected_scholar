@@ -25,26 +25,33 @@
       #top {
           background-color: #798080;
           float: left;
+          line-height: 36px;
       }
 
       #top .location {
           float: inherit;
           text-align: left;
           width: 25%;
-          margin: 5px;
+          margin: 0 0 0 10px;
       }
 
       #top .logo {
           float: inherit;
           text-align: center;
-          width: auto
+          width: 50%;
+          vertical-align: middle;
+      }
+
+      #top .logo img {
+          vertical-align: middle;
       }
 
       #top .user_actions {
-          float: inherit;
+          float: right;
           text-align: right;
-          width: 25%;
-          margin: 5px;
+          vertical-align: middle;
+          width: auto;
+          margin: 0 10px 0 0;
       }
 
       #top .divider {
@@ -75,11 +82,24 @@
       }
 
       .dashboard_table {
-          width: 100%
+          width: 100%;
+          border-spacing: 0;
       }
 
+      .dashboard_table .dashboard_divider {
+          width: 100%;
+          border-spacing: 0;
+      }
+      .dashboard_table .dashboard_divider td {
+          width: 100%;
+          border-spacing: 0;
+          border-top: thin solid black;
+      }
       .dashboard_table .document_name:hover {
           background: #eeeeee;
+      }
+      .dashboard_table tr td {
+          margin: 20px;
       }
       .dashboard_table .document_name a {
           font: Helvetica;
@@ -107,7 +127,7 @@
     Dashboard
   </div>
   <div class="logo">
-    <img src="/static/img/logo_white.png" width="269">
+    <img src="/static/img/logo_white.png">
   </div>
   <div class="user_actions">
     <% if user_signed_in? %>
