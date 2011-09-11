@@ -52,7 +52,7 @@ class ResourcesController < ApplicationController
       render :text => ''
     else
       @resource.activate!
-      render :partial => 'resource', :locals => {:resource => @resource, :make_draggable => true}
+      render :partial => 'item', :locals => {:item => @resource, :make_draggable => true, :class_name => 'active_source'}
     end
   end
   

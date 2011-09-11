@@ -8,7 +8,8 @@
   <script type="text/javascript">
 
     $(function(){
-	  setupDraggables();
+	    setupDraggables();
+      setupViewSources();
     });
 
 	function setupDraggables(){
@@ -78,25 +79,9 @@
 			span.contextPopup({
 			  title: 'Citation:  ' + citation,
 			  items: [
-					{ label: 'View Resource', action: function(){  
-					    $.get("/documents/" + document_id + "/resources/" + resource_id, function(data){
-					      $("#resource_citation_div").html(data);
-					      $("#resource_citation_div").dialog({
-                    autoOpen: false,
-                    title: citation,
-                    height: 330,
-                    width: 330,
-                    modal: true,
-                    buttons: {
-                        "Cancel": function() {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
-                $("#resource_citation_div").dialog("open");
-					    });
-					  }
-					}
+					{ label: 'View Resource', action: function(){
+            viewResource(document_id, resource_id, citation);     
+          }}
 				]
 			});
 		}, 'json');
@@ -108,6 +93,34 @@
 			setupDraggables();
 		})
 	}
+  function viewResource(document_id, resource_id, title){
+    $.get("/documents/" + document_id + "/resources/" + resource_id, function(data){
+        $("#resource_citation_div").html(data);
+        $("#resource_citation_div").dialog({
+            autoOpen: false,
+            title: title,
+            height: 330,
+            width: 330,
+            modal: true,
+            buttons: {
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $("#resource_citation_div").dialog("open");
+      });
+  }
+  function setupViewSources(){
+    $(".active_source, .recommended_resource").live('click', function(e){
+      target = $(e.target);
+      item_id = target.attr("id").replace("item_", "");
+      document_id = "<%= @document.id %>";
+      title = target.text();
+      viewResource(document_id, item_id, title);
+    });
+    
+  }
   </script>
 
 <% end %>

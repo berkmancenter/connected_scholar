@@ -1,8 +1,3 @@
-<div id="resource_<%= resource.id %>">
-<% make_draggable ||= false %>
-<% if make_draggable%>
-  <div class="draggable" id="drag_resource_<%= resource.id %>"><p>Drag Resource</p></div>
-<% end %>
 <p>
   <b>Title:</b>
   <%= resource.title %>
@@ -41,4 +36,3 @@
               :confirm => 'Are you sure?',
               :method => :delete %>
 </p>
-</div>

@@ -47,14 +47,17 @@
       <%= render :partial => "search/form" %>
     </div>
 
-    <h3 style="font-weight: bold;"><a href="#">Recommendations</a></h3>
+    <h3 style="font-weight: bold;"><a href="#">Sources</a></h3>
 
     <div>
-	  <div id="recommended_resources">
-        <%= render :partial => "resources/resource", :collection => @document.recommended_resources, :locals => {:make_draggable => true} %>
-	  </div>
-      <br/>
-      <%= render :partial => "resources/form_dialog" %>
+      <div id="active_sources">
+        <%= render :partial => "resources/item", :collection => @document.active_sources, :locals => {:make_draggable => true, :class_name => 'active_source'} %>
+      </div>
+	    <div id="recommended_resources">
+        <%= render :partial => "resources/item", :collection => @document.recommended_resources, :locals => {:make_draggable => true, :class_name => 'recommended_resource'} %>
+	    </div>
+        <br/>
+        <%= render :partial => "resources/form_dialog" %>
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
