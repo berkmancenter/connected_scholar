@@ -15,7 +15,7 @@
   <div id="dragzone"></div>
 
   <div id="searchAccordian">
- 
+
     <h3 style="font-weight: bold;"><a href="#">Search Resources</a></h3>
 
     <div>
@@ -25,16 +25,18 @@
   </div>
   <div id="sourcesAccordian">
     <h3 style="font-weight: bold;"><a href="#">Sources</a></h3>
-    <div class="accordianBody">
-      <span><span id="activeLegend"></span> Used <span id="inactiveLegend"></span> Not Used</span>
+
+    <div>
+      <div class="resource-legend">
+        <span><span id="activeLegend"></span> Used <span id="inactiveLegend"></span> Not Used</span> | <%= render :partial => "resources/form_dialog" %>
+      </div>
       <div id="active_sources">
         <%= render :partial => "resources/item", :collection => @document.active_sources, :locals => {:make_draggable => true, :class_name => 'active_source'} %>
       </div>
-	    <div id="recommended_resources">
+      <div id="recommended_resources">
         <%= render :partial => "resources/item", :collection => @document.recommended_resources, :locals => {:make_draggable => true, :class_name => 'recommended_resource'} %>
-	    </div>
-        <br/>
-        <%= render :partial => "resources/form_dialog" %>
+      </div>
+      <br/>
     </div>
   </div>
 </div>
