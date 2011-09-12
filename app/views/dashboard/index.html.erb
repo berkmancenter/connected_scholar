@@ -1,42 +1,47 @@
 <h2>My Documents</h2>
 <table class="dashboard_table">
-  <tr class="dashboard_divider">
-    <td colspan="3"></td>
-  </tr>
-<% @my_documents.each do |doc| %>
-  <tr>
-    <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
-    <td class="document_created"><%= doc.created_at %></td>
-    <td><%= link_to 'Destroy', doc, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-  <tr>
-    <td colspan="3"></td>
-  </tr>
-  <tr class="dashboard_divider">
-    <td colspan="3"></td>
-  </tr>
-<% end %>
+  <% if @my_documents.any? %>
+      <tr class="dashboard_divider">
+        <td colspan="3"></td>
+      </tr>
+      <% @my_documents.each do |doc| %>
+          <tr>
+            <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
+            <td class="document_created"><%= doc.created_at %></td>
+            <td><%= link_to 'Delete', doc, :confirm => 'Are you sure?', :method => :delete %></td>
+          </tr>
+          <tr class="dashboard_divider">
+            <td colspan="3"></td>
+          </tr>
+      <% end %>
+  <% else %>
+      <tr>
+        <td>You have no Documents</td>
+      </tr>
+  <% end %>
 </table>
 
-<%= link_to 'New Document', new_document_path %>
+<!--<%= link_to 'New Document', new_document_path %>-->
 
 <h2>Shared Documents</h2>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Owner</th>
-    <th>Created At</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @shared_documents.each do |doc| %>
-  <tr>
-    <td><%= doc.name %></td>
-    <td><%= doc.owner.name %></td>
-    <td><%= doc.created_at %></td>
-    <td><%= link_to 'Open', "/view_pad/#{doc.id}" %></td>
-  </tr>
-<% end %>
+<table class="dashboard_table">
+  <% if @shared_documents.any? %>
+      <tr class="dashboard_divider">
+        <td colspan="3"></td>
+      </tr>
+      <% @shared_documents.each do |doc| %>
+          <tr>
+            <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
+            <td><%= doc.owner.name %></td>
+            <td><%= doc.created_at %></td>
+          </tr>
+          <tr class="dashboard_divider">
+            <td colspan="3"></td>
+          </tr>
+      <% end %>
+  <% else %>
+      <tr>
+        <td><span style="font-style: italic;">You have no Shared Documents</span></td>
+      </tr>
+  <% end %>
 </table>
