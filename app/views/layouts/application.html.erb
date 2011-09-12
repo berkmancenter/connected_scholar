@@ -181,26 +181,7 @@
   </script>
 </head>
 <body>
-<div id="top">
-  <div class="location">
-    Dashboard
-  </div>
-  <div class="logo">
-    <img src="/static/img/logo_white.png">
-  </div>
-  <div class="user_actions">
-    <% if user_signed_in? %>
-        Hi, Username
-        |
-        <%= link_to('Logout', destroy_user_session_path) %>
-    <% else %>
-        <%= link_to('Sign Up', new_user_registration_path) %>
-        |
-        <%= link_to('Login', new_user_session_path) %>
-    <% end %>
-  </div>
-  <div class="divider"></div>
-</div>
+<%= render :partial => 'layouts/top' %>
 <div id="mainContent">
   <div class="nav">
     <div id="nav_accordian">
