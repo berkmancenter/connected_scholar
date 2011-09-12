@@ -23,8 +23,8 @@
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Sources</a></h3>
-
     <div>
+      <span><span id="activeLegend"></span> Used <spnan id="inactiveLegend"></span> Not Used</span>
       <div id="active_sources">
         <%= render :partial => "resources/item", :collection => @document.active_sources, :locals => {:make_draggable => true, :class_name => 'active_source'} %>
       </div>
