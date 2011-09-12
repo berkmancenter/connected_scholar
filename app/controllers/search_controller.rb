@@ -5,7 +5,7 @@ class SearchController < ApplicationController
     filters = []
 
     (1..3).each do |i|
-      if params["filter#{i}"] != ""
+      if params["filter#{i}"] != "" && !params["filter#{i}"].nil?
         filters << {:filter_type => params["filter#{i}_type"], :filter => params["filter#{i}"]}
       end
     end

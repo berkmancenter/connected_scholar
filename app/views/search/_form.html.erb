@@ -1,7 +1,8 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
-            $('#search_results').html(xhr.responseText)
+            $('#advanced_search_results').html(xhr.responseText);
+            $("#advanced_search_dialog").dialog("open");
         });
 
         $('#search_form').bind('ajax:error', function(evt, xhr, status, error) {
@@ -19,7 +20,7 @@
 </script>
 
 <%= form_tag('/search/search', :remote => true, :id => 'search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
-    <%= text_field_tag :query, params[:query] %>
+    <%= text_field_tag :query, params[:query], :size => 15 %>
     <%= hidden_field_tag :search_type, 'keyword' %>
     <%= submit_tag "Go" %>
 <% end %>
@@ -103,5 +104,3 @@
         });
     });
 </script>
-<br/>
-<div id="search_results"></div>
