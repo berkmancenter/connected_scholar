@@ -1,3 +1,11 @@
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        $("#choicesLeft").accordion({
+            collapsible: true
+        });
+    });
+</script>
+
 <div id="padLeft">
    <div id="choicesLeft">
 
@@ -25,7 +33,6 @@
       </p>
 
       <p><%= link_to 'Manage this Document', @document %></p>
-      <p><%= link_to 'Back to Dashboard', documents_path %></p>
     </div>
 
     <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>

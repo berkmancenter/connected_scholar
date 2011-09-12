@@ -3,89 +3,59 @@
 <head>
   <title>ConnectedScholar</title>
   <%= yield :head %>
-  <%= stylesheet_link_tag    "application" %>
-  <%= stylesheet_link_tag    "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" %>
+  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
   <%= csrf_meta_tags %>
   <style>
+      a.recommended_resource {
 
-
-       #top {
-          background-color: #798080;
-          float: left;
-          line-height: 36px;
       }
 
-      #top .location {
-          float: inherit;
-          text-align: left;
-          width: 25%;
-          margin: 0 0 0 10px;
-          color: white;
+      a.active_source {
+          color: #993300;
       }
 
-      #top .logo {
-          float: inherit;
-          text-align: center;
-          width: 50%;
-          vertical-align: middle;
+      #activeLegend {
+          display: inline-block;
+          height: 10px;
+          width: 10px;
+          min-height: 10px;
+          min-width: 10px;
+          border: #000000;
+          background-color: #993300;
       }
 
-      #top .logo img {
-          vertical-align: middle;
+      #inactiveLegend {
+          display: inline-block;
+          height: 10px;
+          width: 10px;
+          min-height: 10px;
+          min-width: 10px;
+          border: #000000;
+          background-color: #000000;
       }
 
-      #top .user_actions {
-          float: right;
-          text-align: right;
-          vertical-align: middle;
+      #padLeft, #padRight {
+          /*float: left;*/
+          /*clear: both;*/
+          height: 100%;
+          width: 20%;
+          background-color: #E1E8E8;
+      }
+
+      #padMiddle {
+          width: 60%;
+      }
+
+      #choicesLeft, #searchAccordian, #sourcesAccordian {
+          margin: 10px;
           width: auto;
-          margin: 0 10px 0 0;
-          color: white;
       }
 
-      #top .user_actions a {
-          color: white;
+      #sourcesAccordian .ui-accordion-content {
+          height: auto;
+          min-height: 300px;
       }
-
-      #top .user_actions a:hover {
-          color: white;
-          background-color: transparent;
-      }
-
-      #top .divider {
-          clear: both;
-          background-color: #464646;
-          width: 100%;
-          height: 6px;
-      }
-    
-	a.recommended_resource {
-	  
-	}
-
-	a.active_source { 
-	  color: #993300;
-  }
-
-  #activeLegend {
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    min-height: 10px;
-    min-width: 10px;
-    border: #000000;
-    background-color: #993300;
-  }
-
-  #inactiveLegend {
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    min-height: 10px;
-    min-width: 10px;
-    border: #000000;
-    background-color: #000000;
-  }
   </style>
 </head>
 <body>
