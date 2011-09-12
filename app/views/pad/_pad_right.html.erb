@@ -1,8 +1,11 @@
 <script type="text/javascript" src="/js/jquery_ujs.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        $("#choicesRight").accordion({
-            collapsible: true
+        $("#sourcesAccordian").accordion({
+            collapsible: false
+        });
+        $("#searchAccordian").accordion({
+            collapsible: false
         });
     });
 </script>
@@ -11,7 +14,7 @@
 <div id="padRight">
   <div id="dragzone"></div>
 
-  <div id="choicesRight">
+  <div id="searchAccordian">
  
     <h3 style="font-weight: bold;"><a href="#">Search Resources</a></h3>
 
@@ -19,8 +22,10 @@
       <%= render :partial => "search/form" %>
     </div>
 
+  </div>
+  <div id="sourcesAccordian">
     <h3 style="font-weight: bold;"><a href="#">Sources</a></h3>
-    <div>
+    <div class="accordianBody">
       <span><span id="activeLegend"></span> Used <span id="inactiveLegend"></span> Not Used</span>
       <div id="active_sources">
         <%= render :partial => "resources/item", :collection => @document.active_sources, :locals => {:make_draggable => true, :class_name => 'active_source'} %>
