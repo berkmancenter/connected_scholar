@@ -14,7 +14,6 @@ Feature: Search for Resources
       And I fill in "Title" with "A Test Resource"
       And I fill in "Creators" with "Jones"
       And I press "Create Resource"
-      And I follow "Search"
       And I wait 1 seconds
 
     @javascript
