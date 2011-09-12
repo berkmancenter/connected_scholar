@@ -32,28 +32,28 @@
           height: 100%;
       }
 
-      #mainContent .nav {
+      #mainContent .leftcol {
           float: inherit;
           height: 100%;
           width: 200px;
           background-color: #E1E8E8;
       }
 
-      #mainContent .nav #nav_accordian {
+      #mainContent .leftcol #leftcol_accordian {
           margin: 10px;
           width: 180px;
       }
 
-      #mainContent .nav #nav_accordian a {
+      #mainContent .leftcol #leftcol_accordian a {
           font-size: 11pt;
       }
 
-      #mainContent .nav #nav_accordian div {
+      #mainContent .leftcol #leftcol_accordian div {
           margin: 0;
           height: 250px;
       }
 
-      #mainContent .nav #nav_accordian div a {
+      #mainContent .leftcol #leftcol_accordian div a {
           font-size: 10pt;
       }
 
@@ -148,7 +148,7 @@
 
   <script type="text/javascript">
       jQuery(document).ready(function() {
-          $("#nav_accordian").accordion({
+          $("#leftcol_accordian").accordion({
               collapsible: false
           });
       });
@@ -157,8 +157,8 @@
 <body>
 <%= render :partial => 'layouts/top' %>
 <div id="mainContent">
-  <div class="nav">
-    <div id="nav_accordian">
+  <div class="leftcol">
+    <div id="leftcol_accordian">
       <h3><a href="#">Settings</a></h3>
 
       <div>
