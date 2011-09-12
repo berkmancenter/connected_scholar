@@ -1,7 +1,10 @@
 <script type="text/javascript" src="/js/jquery_ujs.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        $("#choices").accordion({
+        $("#choicesRight").accordion({
+            collapsible: true
+        });
+        $("#choicesLeft").accordion({
             collapsible: true
         });
     });
@@ -9,39 +12,11 @@
 
 
 <div id="padRight">
-  <h1>Resources</h1>
-  <br/>
   <div id="dragzone"></div>
-  <div id="choices">
 
-    <h3 style="font-weight: bold;"><a href="#">Document Details</a></h3>
-
-    <div>
-      <p>
-        <b>Name:</b>
-        <%= @document.name %>
-      </p>
-
-      <p>
-        <b>Owner:</b>
-        <%= @document.owner.name %>
-      </p>
-
-      <p>
-        <b>Created At:</b>
-        <%= @document.created_at %>
-      </p>
-
-      <p>
-        <b>Updated At:</b>
-        <%= @document.updated_at %>
-      </p>
-
-      <p><%= link_to 'Manage this Document', @document %></p>
-      <p><%= link_to 'Back to Dashboard', documents_path %></p>
-    </div>
-
-    <h3 style="font-weight: bold;"><a href="#">Search</a></h3>
+  <div id="choicesRight">
+ 
+    <h3 style="font-weight: bold;"><a href="#">Search Resources</a></h3>
 
     <div>
       <%= render :partial => "search/form" %>
@@ -59,14 +34,5 @@
         <br/>
         <%= render :partial => "resources/form_dialog" %>
     </div>
-
-    <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
-
-    <div>
-      <%= render :partial => "comments/comment", :collection => @document.comments %>
-      <br/>
-      <%= render :partial => "comments/form_dialog" %>
-    </div>
-
   </div>
 </div>
