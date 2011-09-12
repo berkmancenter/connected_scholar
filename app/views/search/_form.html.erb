@@ -1,8 +1,13 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
+
+        $('#search_form').bind('ajax:before', function() {
+            $("#advanced_search_dialog").dialog("open");
+            // TODO add spining wheel
+        });
+
         $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
             $('#advanced_search_results').html(xhr.responseText);
-            $("#advanced_search_dialog").dialog("open");
         });
 
         $('#search_form').bind('ajax:error', function(evt, xhr, status, error) {
