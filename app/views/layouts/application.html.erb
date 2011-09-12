@@ -5,7 +5,7 @@
   <%= yield :head %>
   <%= javascript_include_tag "application" %>
   <%= stylesheet_link_tag "application" %>
-  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" %>
+  <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
   <%= csrf_meta_tags %>
 
   <style>
@@ -13,6 +13,7 @@
       body {
           font: Helvetica;
           margin: 0;
+          /*height: 92%;*/
       }
 
       h2 {
@@ -33,6 +34,7 @@
           text-align: left;
           width: 25%;
           margin: 0 0 0 10px;
+          color: white;
       }
 
       #top .logo {
@@ -52,51 +54,73 @@
           vertical-align: middle;
           width: auto;
           margin: 0 10px 0 0;
+          color: white;
+      }
+
+      #top .user_actions a {
+          color: white;
+      }
+
+      #top .user_actions a:hover {
+          color: white;
+          background-color: transparent;
       }
 
       #top .divider {
           clear: both;
           background-color: #464646;
           width: 100%;
-          height: 7px;
+          height: 6px;
       }
 
       #mainContent {
           clear: both;
           float: left;
-          width: 100%
+          width: 100%;
+          height: 100%;
       }
 
       #mainContent .nav {
           float: inherit;
           height: 100%;
-          width: 180px;
+          width: 200px;
           background-color: #E1E8E8;
       }
 
+      #mainContent .nav #nav_accordian {
+          margin: 10px;
+          width: 180px;
+      }
+
+      #mainContent .nav #nav_accordian div {
+          height: 250px;
+          font-size: 10pt;
+          line-height: 15pt;
+      }
+
       #mainContent .primary {
-          float: inherit;
+          float: none;
+          clear: right;
           height: 100%;
-          width: 75%;
-          margin: 15px;
+          width: 70%;
+          margin: 15px 15px 15px 215px;
       }
 
       .dashboard_table {
           width: 100%;
           border-spacing: 0;
-          margin: 0 0 25px 0;
+          margin: 0 0 10px 0;
       }
 
       .dashboard_table .dashboard_divider {
           border-spacing: 0;
       }
+
       .dashboard_table .dashboard_divider td {
           border-spacing: 0;
           border-top: thin solid black;
       }
-      /*.dashboard_table .document_name:hover {*/
-          /*color: #eeeeee;*/
-      /*}*/
+
       .dashboard_table .document_name a {
           font: Helvetica;
           font-size: 18px;
@@ -106,6 +130,7 @@
           margin: 10px;
           line-height: 30px;
       }
+
       .dashboard_table .document_name a:hover {
           font: Helvetica;
           font-size: 18px;
@@ -114,6 +139,7 @@
           text-decoration: none;
           background: transparent;
       }
+
       .dashboard_table .document_created {
           text-align: center;
           font-size: 12px;
@@ -122,10 +148,37 @@
           text-decoration: none;
           margin: 10px;
           line-height: 30px;
+          width: 200px;
       }
 
+      .dashboard_table .document_actions {
+          width: 50px;
+          text-align: center;
+      }
 
+      .dashboard_table .document_actions a:hover {
+          color: #388EB4;
+          background: transparent;
+      }
+
+      #new_document_link {
+          width: 100%;
+          text-align: center;
+          margin: 0 0 30px 0;
+      }
+
+      .ui-state-hover a, .ui-state-hover a:hover {
+          background: transparent
+      }
   </style>
+
+  <script type="text/javascript">
+      jQuery(document).ready(function() {
+          $("#nav_accordian").accordion({
+              collapsible: false
+          });
+      });
+  </script>
 </head>
 <body>
 <div id="top">
@@ -150,8 +203,23 @@
 </div>
 <div id="mainContent">
   <div class="nav">
-    <div>
-      ¡holla!
+    <div id="nav_accordian">
+      <h3><a href="#">Settings</a></h3>
+
+      <div>
+        Edit Account<br/>
+        Edit Preferences<br/>
+        Change Password<br/>
+      </div>
+      <h3><a href="#">Help</a></h3>
+
+      <div>
+        <ul>
+          <li>How does the editor work?</li>
+          <li>How can I search for resources?</li>
+          <li>How can I cite resources?</li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="primary">
@@ -161,6 +229,5 @@
     <%= yield %>
   </div>
 </div>
-
 </body>
 </html>

@@ -8,7 +8,7 @@
           <tr>
             <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
             <td class="document_created"><%= doc.created_at %></td>
-            <td><%= link_to 'Delete', doc, :confirm => 'Are you sure?', :method => :delete %></td>
+            <td class="document_actions"><%= link_to 'Delete', doc, :confirm => 'Are you sure?', :method => :delete %></td>
           </tr>
           <tr class="dashboard_divider">
             <td colspan="3"></td>
@@ -21,7 +21,9 @@
   <% end %>
 </table>
 
-<!--<%= link_to 'New Document', new_document_path %>-->
+<p id="new_document_link">
+<%= link_to 'New Document', new_document_path %>
+</p>
 
 <h2>Shared Documents</h2>
 <table class="dashboard_table">
