@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ConnectedScholar</title>
+  <%= yield :head %>
+  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
+  <%= csrf_meta_tags %>
+
+  <style>
+
+      * {
+          font-family: Helvetica;
+      }
+
+      body {
+          margin: 0;
+          /*height: 92%;*/
+      }
+
+      h2 {
+          font-size: 14px;
+          font-weight: lighter;
+          color: gray;
+      }
+
+      #mainContent {
+        background-color: #798080;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #login {
+        margin-left: auto;
+        margin-right: auto;
+        width: 650px;
+        vertical-align: middle;
+      }
+      #intro {
+        float: left;
+        margin-left: auto;
+        margin-right: auto;
+        width:  300px;
+        height: 300px;
+        border-right-width: 1px;
+        border-right-style:solid;
+        padding-right: 25px;
+      }
+      #sign_in {
+        float: left;
+        margin-left: auto;
+        margin-right: auto;
+        width: 300px;
+        height: 300px;
+        
+      }
+
+  </style>
+</head>
+<body>
+<div id="mainContent">
+    <%= yield %>
+  </div>
+</div>
+</body>
+</html>
