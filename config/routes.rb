@@ -14,7 +14,9 @@ ConnectedScholar::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :users
+    resources :users, :only => [:index, :destroy] do
+      post 'approve', :as => :approve
+    end
   end
 
   root :to => "dashboard#index"

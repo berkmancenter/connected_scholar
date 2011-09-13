@@ -8,14 +8,14 @@
     <th></th>
   </tr>
 
-  <% @users.each do |u| %>
+  <% @users.sort_by {|u| u.approved? ? 1 : 0}.each do |u| %>
       <tr>
         <td><%= u.name %></td>
         <td><%= u.email %></td>
         <td><%= u.created_at %></td>
         <td>
           <% unless u.approved? %>
-              Approve
+              <%= link_to 'Approve', admin_user_approve_path(u), :method => :post %>
           <% end %>
         </td>
       </tr>

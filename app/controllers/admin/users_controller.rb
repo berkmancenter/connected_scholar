@@ -14,6 +14,19 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def approve
+    @user = User.find(params[:user_id])
+    authorize! :manage, @user
+    @user.approve!
+    @user.save!
+    puts "its now ===========> #{@user.approved?.inspect}"
+    respond_to do |format|
+      format.json { render :json => @user }
+      format.xml  { render :xml => @user }
+      format.html { redirect_to admin_users_path }
+    end
+  end
+
   # GET /users/1
   # GET /users/1.xml
   # GET /users/1.json                                     HTML AND AJAX
@@ -54,7 +67,7 @@ class Admin::UsersController < ApplicationController
     respond_to do |format|
       format.json { respond_to_destroy(:ajax) }
       format.xml  { head :ok }
-      format.html { redirect_to users_path }
+      format.html { redirect_to admin_users_path }
     end
 
   rescue ActiveRecord::RecordNotFound
