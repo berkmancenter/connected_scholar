@@ -16,3 +16,8 @@ unless User.exists?(:email => 'two@test.com')
   user = User.create! :name => "Second User", :email => 'two@test.com', :password => 'password', :password_confirmation => 'password'
   puts 'New user created: ' << user.name
 end
+
+User.where(:email => ['admin@test.com', 'two@test.com']).each do |u|
+  u.approve!
+  u.save!
+end

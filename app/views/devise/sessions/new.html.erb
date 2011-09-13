@@ -7,6 +7,8 @@
   </div>
 </div>
 <div id="sign_in">
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 	  <p><%= f.label :email %><br />
 	  <%= f.email_field :email %></p>
