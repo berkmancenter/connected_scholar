@@ -98,7 +98,8 @@
       title: 'Citation:  ' + citation,
       items: [
         { label: 'View Resource', action: function(){
-          viewResource(document_id, resource_id, citation);     
+            viewResource(document_id, resource_id, citation);
+            return false;
         }}
       ]
     });
