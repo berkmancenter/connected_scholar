@@ -30,9 +30,29 @@
   <% end %>
 </ul>
 </p>
+<hr/>
+<p>
+  <b>Links:</b>
+<ul>
+  <% if resource.id_hollis %>
+      <li><%= link_to "Hollis", item_link(resource.id_hollis), :target => "_blank" %></li>
+  <% end %>
+</ul>
+</p>
+<hr/>
 
 <p>
-  <%= link_to 'Destroy Resource', [resource.document, resource],
+  <b>Citation Formats:</b>
+<ul>
+  <% for c in resource.citations %>
+      <li><%= c.citation_text %></li>
+  <% end %>
+</ul>
+</p>
+
+<hr/>
+<p>
+  <%= link_to 'Delete this Resource', [resource.document, resource],
               :confirm => 'Are you sure?',
               :method => :delete %>
 </p>
