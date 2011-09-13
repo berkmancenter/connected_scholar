@@ -29,7 +29,11 @@ class User < ActiveRecord::Base
     self.approved = true
   end
 
-  def admin?
-    true
+  def promote!
+    self.admin = true
+  end
+
+  def demote!
+    self.admin = false
   end
 end

@@ -19,5 +19,6 @@ end
 
 User.where(:email => ['admin@test.com', 'two@test.com']).each do |u|
   u.approve!
+  u.promote!
   u.save!
 end

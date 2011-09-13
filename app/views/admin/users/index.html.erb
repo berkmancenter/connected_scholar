@@ -1,23 +1,72 @@
-<h2>All Users</h2>
+<style>
+    .dashboard_table th {
+        text-align: center;
+    }
 
-<table>
+    .dashboard_table .action, .date {
+        text-align: center;
+    }
+</style>
+<p>
+<h2>Pending Users</h2>
+
+<% if @users.any? { |u| !u.approved? } %>
+    <table class="dashboard_table">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Created At</th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <% @users.select { |u| !u.approved? }.each do |u| %>
+          <tr>
+            <td><%= u.name %></td>
+            <td><%= u.email %></td>
+            <td><%= u.created_at %></td>
+            <td>
+              <% unless u.approved? %>
+                  <%= link_to 'Approve', admin_user_approve_path(u), :method => :post %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'Delete', admin_user_path(u), :confirm => 'Are you sure?', :method => :delete %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+<% else %>
+    <span style="font-style: italic">There are no unapproved Users</span>
+<% end %>
+</p>
+<p>
+<h2>Active Users</h2>
+<table class="dashboard_table">
   <tr>
     <th>Name</th>
     <th>Email</th>
     <th>Created At</th>
-    <th></th>
+    <th>Admin</th>
+    <!--<th></th>-->
   </tr>
 
-  <% @users.sort_by {|u| u.approved? ? 1 : 0}.each do |u| %>
+  <% @users.select { |u| u.approved? }.each do |u| %>
       <tr>
         <td><%= u.name %></td>
         <td><%= u.email %></td>
-        <td><%= u.created_at %></td>
-        <td>
-          <% unless u.approved? %>
-              <%= link_to 'Approve', admin_user_approve_path(u), :method => :post %>
+        <td class="date"><%= u.created_at %></td>
+        <td class="action">
+          <% if u.admin? %>
+              <%= link_to 'Remove', admin_user_demote_path(u), :method => :post %>
+          <% else %>
+              <%= link_to 'Add', admin_user_promote_path(u), :method => :post %>
           <% end %>
         </td>
+        <!--<td class="action">-->
+          <!--<%= link_to 'Delete', admin_user_path(u), :confirm => 'Are you sure?', :method => :delete %>-->
+        <!--</td>-->
       </tr>
   <% end %>
 </table>
+</p>

@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource #:only => [:index,:destroy,:approve,:promote]
 
   # GET /users
   # GET /users.xml
@@ -19,7 +19,30 @@ class Admin::UsersController < ApplicationController
     authorize! :manage, @user
     @user.approve!
     @user.save!
-    puts "its now ===========> #{@user.approved?.inspect}"
+    respond_to do |format|
+      format.json { render :json => @user }
+      format.xml  { render :xml => @user }
+      format.html { redirect_to admin_users_path }
+    end
+  end
+
+  def promote
+    @user = User.find(params[:user_id])
+    authorize! :manage, @user
+    @user.promote!
+    @user.save!
+    respond_to do |format|
+      format.json { render :json => @user }
+      format.xml  { render :xml => @user }
+      format.html { redirect_to admin_users_path }
+    end
+  end
+
+  def demote
+    @user = User.find(params[:user_id])
+    authorize! :manage, @user
+    @user.demote!
+    @user.save!
     respond_to do |format|
       format.json { render :json => @user }
       format.xml  { render :xml => @user }
@@ -61,17 +84,17 @@ class Admin::UsersController < ApplicationController
   # DELETE /users/1.xml
   # DELETE /users/1.json                                  HTML AND AJAX
   #-------------------------------------------------------------------
-  def destroy
-    @user.destroy!
-
-    respond_to do |format|
-      format.json { respond_to_destroy(:ajax) }
-      format.xml  { head :ok }
-      format.html { redirect_to admin_users_path }
-    end
-
-  rescue ActiveRecord::RecordNotFound
-    respond_to_not_found(:json, :xml, :html)
-  end
+  #def destroy
+  #  @user.destroy!
+  #
+  #  respond_to do |format|
+  #    format.json { respond_to_destroy(:ajax) }
+  #    format.xml  { head :ok }
+  #    format.html { redirect_to admin_users_path }
+  #  end
+  #
+  #rescue ActiveRecord::RecordNotFound
+  #  respond_to_not_found(:json, :xml, :html)
+  #end
   
 end
