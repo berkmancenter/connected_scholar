@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(:version => 20110913183551) do
 
   create_table "citations", :force => true do |t|
     t.string   "citation_text"
-    t.boolean  "default"
+    t.boolean  "default",       :default => false
     t.integer  "resource_id"
     t.datetime "created_at"
     t.datetime "updated_at"

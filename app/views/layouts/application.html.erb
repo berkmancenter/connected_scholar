@@ -171,12 +171,14 @@
 <div id="mainContent">
   <div class="leftcol">
     <div id="leftcol_accordian">
+    <% if user_signed_in? %>
       <h3><a href="#">Settings</a></h3>
 
       <div>
         <%= link_to 'Edit Account', edit_registration_path(current_user) %></a><br/>
         <a href="#">Edit Preferences</a><br/>
       </div>
+    <% end %>
       <h3><a href="#">Help</a></h3>
 
       <div>
