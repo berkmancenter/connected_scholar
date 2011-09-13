@@ -2,6 +2,8 @@
     jQuery(document).ready(function() {
 
         $('#search_form').bind('ajax:before', function() {
+            resetAdvancedSearch();
+            $("#advanced_query").val($("#query").val());
             $("#advanced_search_dialog").dialog("open");
             // TODO add spining wheel
         });
@@ -66,6 +68,7 @@
         <% end %>
         </div>
         <br/>
+        <%= button_tag "Reset", :id => "advanced_search_reset" %>
         <%= submit_tag "Search" %>
   <% end %>
   <br/>
@@ -81,6 +84,18 @@
         return false;
     }
 
+    function resetAdvancedSearch() {
+        $("#filter1_div").hide();
+        $("#filter2_div").hide();
+        $("#filter3_div").hide();
+        $("#add_filter1").show();
+        $("#add_filter2").show();
+        $("#add_filter3").show();
+        $("#advanced_filter1").val(" ");
+        $("#advanced_filter2").val(" ");
+        $("#advanced_filter3").val(" ");
+    }
+
     $(function() {
         $("#advanced_search_link").click(function() {
             $("#advanced_search_dialog").dialog("open");
@@ -94,6 +109,10 @@
             return false;
         });
         <% end %>
+
+        $("#advanced_search_reset").click(function() {
+           resetAdvancedSearch();
+        });
 
         $("#advanced_search_dialog").dialog({
             title: "Advanced Search",
