@@ -89,6 +89,9 @@ ActiveRecord::Schema.define(:version => 20110913183551) do
     t.datetime "updated_at"
     t.string   "name"
     t.boolean  "approved",                              :default => false
+    t.time     "confirmed_at"
+    t.string   "confirmation_token"
+    t.time     "confirmation_sent_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
