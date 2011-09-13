@@ -152,6 +152,7 @@
       document_id = "<%= @document.id %>";
       title = target.text();
       viewResource(document_id, item_id, title);
+      return false;
     });
     
   }
