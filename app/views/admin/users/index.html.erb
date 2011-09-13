@@ -1,0 +1,23 @@
+<h2>All Users</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Created At</th>
+    <th></th>
+  </tr>
+
+  <% @users.each do |u| %>
+      <tr>
+        <td><%= u.name %></td>
+        <td><%= u.email %></td>
+        <td><%= u.created_at %></td>
+        <td>
+          <% unless u.approved? %>
+              Approve
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>

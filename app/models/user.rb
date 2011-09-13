@@ -28,4 +28,8 @@ class User < ActiveRecord::Base
   def approve!
     self.approved = true
   end
+
+  def admin?
+    true
+  end
 end
