@@ -10,7 +10,12 @@
     $(function(){
 	    setupDraggables();
       setupViewSources();
+      setupActiveSourcesContextMenus();
     });
+
+  function htmlDecode(value){
+    return $('<div/>').html(value).text();
+  }
 
 	function setupDraggables(){
 		$(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
@@ -72,18 +77,7 @@
 			target.after('<div>'+citation+'</div>');
       target.attr('tabindex', -1).focus();
       target.removeAttr('tabindex');
-      var doc = window.parent.frames[1].frames[0].document;
-			var innerdocbody = $(doc).find("#innerdocbody");
-			var span = $('span:contains("'+citation+'")', innerdocbody);
-			span.die('contextmenu');
-			span.contextPopup({
-			  title: 'Citation:  ' + citation,
-			  items: [
-					{ label: 'View Resource', action: function(){
-            viewResource(document_id, resource_id, citation);     
-          }}
-				]
-			});
+      setupContextMenus(document_id, resource_id, citation);
 		}, 'json');
 		$.post("/documents/"+document_id+"/resources/"+resource_id+"/activate", function(data){
 			if(data.length > 0){
@@ -93,6 +87,46 @@
 			setupDraggables();
 		})
 	}
+
+  function setupContextMenus(document_id, resource_id, citation){
+    citation = htmlDecode(citation);
+    var doc = window.parent.frames[1].frames[0].document;
+    var innerdocbody = $(doc).find("#innerdocbody");
+    var span = $('span:contains("'+citation+'")', innerdocbody);
+    span.die('contextmenu');
+    span.contextPopup({
+      title: 'Citation:  ' + citation,
+      items: [
+        { label: 'View Resource', action: function(){
+          viewResource(document_id, resource_id, citation);     
+        }}
+      ]
+    });
+  }
+
+  function setupActiveSourcesContextMenus(){
+    if(window.parent.frames[1] == undefined){
+      window.setTimeout(function(){
+        setupActiveSourcesContextMenus();
+      }, 1);
+    }else if(window.parent.frames[1].frames[0] == undefined){
+      window.setTimeout(function(){
+        setupActiveSourcesContextMenus();
+      }, 1);
+    }else if(window.parent.frames[1].frames[0].document == undefined){
+      window.setTimeout(function(){
+        setupActiveSourcesContextMenus();
+      }, 1);
+    }else{
+      var document_id = "<%= @document.id %>";
+      <% @document.active_sources.each do |active| %>
+        <% active.citations.each do |cit| %>
+          setupContextMenus(document_id, "<%= active.id %>", "<%= cit.citation_text %>");
+        <% end %>
+      <% end %>
+    }
+  }
+
   function viewResource(document_id, resource_id, title){
     $.get("/documents/" + document_id + "/resources/" + resource_id, function(data){
         $("#resource_citation_div").html(data);
