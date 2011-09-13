@@ -34,8 +34,8 @@
       <% @shared_documents.each do |doc| %>
           <tr>
             <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
-            <td><%= doc.owner.name %></td>
-            <td><%= doc.created_at %></td>
+            <td class="document_owner"><%= doc.owner.name %></td>
+            <td class="document_created"><%= doc.created_at %></td>
           </tr>
           <tr class="dashboard_divider">
             <td colspan="3"></td>
