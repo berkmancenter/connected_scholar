@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :groups
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
@@ -17,4 +17,15 @@ class User < ActiveRecord::Base
     @etherpad_author_id ||= create_author_if_not_exists_for(self)
   end
 
+  def active_for_authentication?
+    approved?
+  end
+
+  def inactive_message
+    !approved? ? :unapproved : super
+  end
+
+  def approve!
+    self.approved = true
+  end
 end
