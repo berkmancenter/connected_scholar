@@ -2,8 +2,8 @@ ConnectedScholar::Application.routes.draw do
   get "search/search"
 
   resources :documents do
-    resources :comments
-    resources :resources do
+    resources :comments, :only => [:create, :destroy]
+    resources :resources, :only => [:show, :create, :destroy] do
       get 'citation', :on => :member
       post 'activate', :on => :member
     end
