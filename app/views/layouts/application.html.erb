@@ -156,6 +156,28 @@
       .ui-state-hover a, .ui-state-hover a:hover {
           background: transparent
       }
+
+      div.flash {
+          width: 100%;
+          margin: 10px auto;
+          padding: 5px 20px;
+          text-align: center;
+          font-size: 10pt;
+      }
+
+      div.notice {
+          border-top: 2px solid green;
+          border-bottom: 2px solid green;
+          background: #e0eeee
+      }
+
+      div.alert {
+          border-top: 2px solid black;
+          border-bottom: 2px solid black;
+          background: #993300;
+          color: white;
+      }
+
   </style>
 
   <script type="text/javascript">
@@ -171,14 +193,15 @@
 <div id="mainContent">
   <div class="leftcol">
     <div id="leftcol_accordian">
-    <% if user_signed_in? %>
-      <h3><a href="#">Settings</a></h3>
+      <% if user_signed_in? %>
+          <h3><a href="#">Settings</a></h3>
 
-      <div>
-        <%= link_to 'Edit Account', edit_registration_path(current_user) %><br/>
-        <a href="#">Edit Preferences</a><br/>
-      </div>
-    <% end %>
+          <div>
+            <%= link_to 'Edit Account', edit_registration_path(current_user) %>
+            <br/>
+            <a href="#">Edit Preferences</a><br/>
+          </div>
+      <% end %>
       <h3><a href="#">Help</a></h3>
 
       <div>
@@ -189,9 +212,7 @@
     </div>
   </div>
   <div class="primary">
-    <p class="notice"><%= notice %></p>
-
-    <p class="alert"><%= alert %></p>
+    <%= render :inline => flash_helper %>
     <%= yield %>
   </div>
 </div>
