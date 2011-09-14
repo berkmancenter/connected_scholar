@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0.rc5'
+gem 'rails', '3.1.0'
 
 gem 'httpclient'
-gem 'devise', '1.4.2'
+gem 'devise', '1.4.5'
 gem 'rest-client', '1.6.7'
 gem 'jquery-rails', '1.0.13'
 gem "cancan", "1.6.5"
@@ -11,8 +11,8 @@ gem "cancan", "1.6.5"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "~> 3.1.0.rc"
-  gem 'coffee-rails', "~> 3.1.0.rc"
+  gem 'sass-rails', "~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
 end
 
