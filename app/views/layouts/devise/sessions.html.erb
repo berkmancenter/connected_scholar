@@ -27,50 +27,67 @@
       }
 
       #mainContent {
-        background-color: #E1E8E8;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      #login {
-        padding-top: 15%;
-        margin-left: auto;
-        margin-right: auto;
-        width: 875px;
-        vertical-align: middle;
-      }
-      #intro {
-        float: left;
-        margin-left: auto;
-        margin-right: auto;
-        width:  500px;
-        height: 300px;
-        border-right-width: 1px;
-        border-right-style:solid;
-        padding-right: 25px;
-      }
-      #sign_in {
-        padding-left:  25px;
-        float: left;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 15px;
-        width: 300px;
-        height: 300px;
-        
-      }
-      #intro_description {
-        margin-left: 60px;
-        font-size: 11pt;
-        line-height: 16pt;
-        color: #7D7E7E;
+          background-color: #E1E8E8;
+          margin-left: auto;
+          margin-right: auto;
       }
 
+      #login {
+          padding-top: 15%;
+          margin-left: auto;
+          margin-right: auto;
+          width: 875px;
+          vertical-align: middle;
+      }
+
+      #intro {
+          float: left;
+          margin-left: auto;
+          margin-right: auto;
+          width: 500px;
+          height: 300px;
+          border-right-width: 1px;
+          border-right-style: solid;
+          padding-right: 25px;
+      }
+
+      #sign_in {
+          padding-left: 25px;
+          float: left;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: 15px;
+          width: 300px;
+          height: 300px;
+
+      }
+
+      #intro_description {
+          margin-left: 60px;
+          font-size: 11pt;
+          line-height: 16pt;
+          color: #7D7E7E;
+      }
+
+      div.flash {
+          width: 100%;
+          text-align: left;
+          font-size: 10pt;
+          background: transparent;
+      }
+
+      div.notice {
+          color: green;
+      }
+
+      div.alert {
+          color: #993300;
+      }
   </style>
 </head>
 <body>
 <div id="mainContent">
-    <%= yield %>
-  </div>
+  <%= yield %>
 </div>
 </body>
 </html>
