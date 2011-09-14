@@ -122,12 +122,24 @@
     var span = $('span:contains("'+citation+'")', innerdocbody);
     span.die('contextmenu');
     span.contextPopup({
+      checkMenuAlreadyOpen: true,
       title: 'Citation:  ' + citation,
       items: [
-        { label: 'View Resource', action: function(){
+        { label: 'Change', action: function(){
+            viewChangeCitation(document_id, resource_id, citation);
+            return false;
+          }          
+        },
+        { label: 'Remove', action: function(){
+            viewRemoveCitation(document_id, resource_id, citation);
+            return false;
+          }          
+        },
+        { label: 'View', action: function(){
             viewResource(document_id, resource_id, citation);
             return false;
-        }}
+          }
+        }
       ]
     });
   }
@@ -153,6 +165,40 @@
         <% end %>
       <% end %>
     }
+  }
+
+  function viewChangeCitation(document_id, resource_id, citation){
+    $("#resource_citation_div").html('Change Citation');
+    $("#resource_citation_div").dialog({
+        autoOpen: false,
+        title: citation,
+        height: 330,
+        width: 330,
+        modal: true,
+        buttons: {
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+    $("#resource_citation_div").dialog("open");
+  }
+
+  function viewRemoveCitation(document_id, resource_id, citation){
+    $("#resource_citation_div").html('Remove Citation');
+    $("#resource_citation_div").dialog({
+        autoOpen: false,
+        title: citation,
+        height: 330,
+        width: 330,
+        modal: true,
+        buttons: {
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
+    $("#resource_citation_div").dialog("open");
   }
 
   function viewResource(document_id, resource_id, title){

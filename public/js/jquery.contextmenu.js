@@ -22,9 +22,11 @@
  *
  * MIT License: https://github.com/joewalnes/jquery-simple-context-menu/blob/master/LICENSE.txt
  */
+ var menuAlreadyOpen = false;
 jQuery.fn.contextPopup = function(menuData) {
 	// Define default settings
 	var settings = {
+    checkMenuAlreadyOpen: false,
 		contextMenuClass: 'contextMenuPlugin',
 		gutterLineClass: 'gutterLine',
 		headerClass: 'header',
@@ -61,7 +63,11 @@ jQuery.fn.contextPopup = function(menuData) {
 
   // On contextmenu event (right click)
   this.live('contextmenu', function(e) {
+    if(settings.checkMenuAlreadyOpen && menuAlreadyOpen){
+      return false;
+    }
 
+    menuAlreadyOpen = true;
     // Create and show menu
     var menu = createMenu()
       .show()
@@ -76,6 +82,7 @@ jQuery.fn.contextPopup = function(menuData) {
         // If click or right click anywhere else on page: remove clean up.
         bg.remove();
         menu.remove();
+        menuAlreadyOpen = false;
         return false;
       });
 
@@ -83,6 +90,7 @@ jQuery.fn.contextPopup = function(menuData) {
     menu.find('a').click(function() {
       bg.remove();
       menu.remove();
+      menuAlreadyOpen = false;
     });
 
     // Cancel event, so real browser popup doesn't appear.
