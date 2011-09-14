@@ -1,26 +1,32 @@
 <div id="login">
-<div id="intro">
-  <img src="/static/img/logo_black.png">
-  <div id="intro_description">
-    The Connected Scholar is an online workspace for students and scholars to draft writing projects while tracking the
-    progression of one’s ideas through exploratory, intellectual engagement with established works.
+  <div id="intro">
+    <img src="/static/img/logo_black.png">
+
+    <div id="intro_description">
+      The Connected Scholar is an online workspace for students and scholars to draft writing projects while tracking
+      the
+      progression of one’s ideas through exploratory, intellectual engagement with established works.
+    </div>
   </div>
-</div>
-<div id="sign_in">
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-	  <p><%= f.label :email %><br />
-	  <%= f.email_field :email %></p>
+  <div id="sign_in">
+    <p class="notice"><%= notice %></p>
 
-	  <p><%= f.label :password %><br />
-	  <%= f.password_field :password %></p>
+    <p class="alert"><%= alert %></p>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+        <p><%= f.label :email %><br/>
+          <%= f.email_field :email %></p>
 
-	  <% if devise_mapping.rememberable? -%>
-	    <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
-	  <% end -%>
+        <p><%= f.label :password %><br/>
+          <%= f.password_field :password %></p>
 
-	  <p><%= f.submit "Sign in" %></p>
-	<% end %>
-</div>
+        <% if devise_mapping.rememberable? -%>
+            <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+        <% end -%>
+
+        <p><%= f.submit "Sign in", :id => "sign_in_btn" %></p>
+    <% end %>
+    <p>
+      New User? <%= link_to "SIGN UP", new_user_registration_path %>
+    </p>
+  </div>
 </div>

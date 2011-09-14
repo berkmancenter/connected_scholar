@@ -14,7 +14,7 @@ ConnectedScholar::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :users, :only => [:index] do
+    resources :users, :only => [:index, :destroy] do
       post 'approve', :as => :approve
       post 'promote', :as => :promote
       post 'demote', :as => :demote

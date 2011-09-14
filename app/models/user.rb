@@ -36,4 +36,16 @@ class User < ActiveRecord::Base
   def demote!
     self.admin = false
   end
+
+  def destroy!
+    self.groups.each do |g|
+      g.destroy
+    end
+    Document.destroy_all(:owner_id => self.id)
+    self.destroy
+  end
+
+  def send_confirmation_instructions
+    # nope
+  end
 end

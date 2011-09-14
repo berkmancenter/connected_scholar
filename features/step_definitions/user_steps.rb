@@ -3,10 +3,22 @@ Given /^no user exists with an email of "(.*)"$/ do |email|
 end
 
 Given /^I am a user named "([^"]*)" with an email "([^"]*)" and password "([^"]*)"$/ do |name, email, password|
-  User.new(:name => name,
+  user = User.create!(:name => name,
             :email => email,
             :password => password,
-            :password_confirmation => password).save!
+            :password_confirmation => password)
+  user.approve!
+  user.save!
+end
+
+Given /^I am an admin named "([^"]*)" with an email "([^"]*)" and password "([^"]*)"$/ do |name, email, password|
+  user = User.create!(:name => name,
+            :email => email,
+            :password => password,
+            :password_confirmation => password)
+  user.approve!
+  user.promote!
+  user.save!
 end
 
 Then /^I should be already signed in$/ do
@@ -53,8 +65,8 @@ When /^I return next time$/ do
 end
 
 Then /^I should be signed out$/ do
-  And %{I should see "Sign Up"}
-  And %{I should see "Login"}
+  And %{I should see "SIGN UP"}
+  find_button("sign_in_btn").should_not be_nil
   And %{I should not see "Logout"}
 end
 

@@ -1,10 +1,6 @@
 class Admin::UsersController < ApplicationController
-  load_and_authorize_resource #:only => [:index,:destroy,:approve,:promote]
+  load_and_authorize_resource
 
-  # GET /users
-  # GET /users.xml
-  # GET /users.json                                       HTML and AJAX
-  #-----------------------------------------------------------------------
   def index
     @users = User.all
     respond_to do |format|
@@ -39,14 +35,19 @@ class Admin::UsersController < ApplicationController
   end
 
   def demote
-    @user = User.find(params[:user_id])
-    authorize! :manage, @user
-    @user.demote!
-    @user.save!
-    respond_to do |format|
-      format.json { render :json => @user }
-      format.xml  { render :xml => @user }
-      format.html { redirect_to admin_users_path }
+    if params[:user_id] != current_user.id
+      @user = User.find(params[:user_id])
+      authorize! :manage, @user
+      @user.demote!
+      @user.save!
+      respond_to do |format|
+        format.json { render :json => @user }
+        format.xml  { render :xml => @user }
+        format.html { redirect_to admin_users_path }
+      end
+    else
+      flash[:alert] = "You cannot remove the Admin role from yourself"
+      redirect_to admin_users_path
     end
   end
 
@@ -84,17 +85,22 @@ class Admin::UsersController < ApplicationController
   # DELETE /users/1.xml
   # DELETE /users/1.json                                  HTML AND AJAX
   #-------------------------------------------------------------------
-  #def destroy
-  #  @user.destroy!
-  #
-  #  respond_to do |format|
-  #    format.json { respond_to_destroy(:ajax) }
-  #    format.xml  { head :ok }
-  #    format.html { redirect_to admin_users_path }
-  #  end
-  #
-  #rescue ActiveRecord::RecordNotFound
-  #  respond_to_not_found(:json, :xml, :html)
-  #end
+  def destroy
+    if @user != current_user
+      @user.destroy!
+
+      respond_to do |format|
+        format.json { respond_to_destroy(:ajax) }
+        format.xml  { head :ok }
+        format.html { redirect_to admin_users_path }
+      end
+    else
+      flash[:alert] = "You cannot delete yourself"
+      redirect_to admin_users_path
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    respond_to_not_found(:json, :xml, :html)
+  end
   
 end
