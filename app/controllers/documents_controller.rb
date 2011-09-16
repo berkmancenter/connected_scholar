@@ -98,6 +98,6 @@ class DocumentsController < ApplicationController
 
   def active_citations
     @document = Document.find(params[:id])
-    render :json => @document.active_citations
+    render :json => @document.active_citations_with_resource_id
   end
 end

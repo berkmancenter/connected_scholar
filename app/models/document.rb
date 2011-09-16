@@ -22,6 +22,10 @@ class Document < ActiveRecord::Base
     active_sources.map{|as| as.citations }.flatten.map{|c| c.citation_text}
   end
 
+  def active_citations_with_resource_id
+    active_sources.map{|as| as.citations }.flatten.map{|c| {"resource_id" => c.resource_id, "citation_text" => c.citation_text}}
+  end
+
   def recommended_resources
     self.resources.recommended_resources
   end
