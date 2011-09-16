@@ -1,5 +1,6 @@
 ConnectedScholar::Application.routes.draw do
-  get "search/search"
+  get "search/keyword"
+  get "search/advanced"
 
   resources :documents do
     resources :comments, :only => [:create, :destroy]

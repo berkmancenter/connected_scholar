@@ -1,17 +1,29 @@
 class SearchController < ApplicationController
   include SearchUtil
 
-  def search
+  def keyword
+    @items = item_search(params[:search_type], params[:query])
+
+    render_items
+  end
+
+  def advanced
     filters = []
 
     (1..3).each do |i|
-      if params["filter#{i}"] != "" && !params["filter#{i}"].nil?
+      if !params["filter#{i}"].nil? && params["filter#{i}"].strip != ""
         filters << {:filter_type => params["filter#{i}_type"], :filter => params["filter#{i}"]}
       end
     end
 
     @items = item_search(params[:search_type], params[:query], filters)
 
+    render_items
+  end
+
+  private
+
+  def render_items
     if @items
       if @items['docs']
         respond_to do |format|
