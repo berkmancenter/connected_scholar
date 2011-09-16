@@ -14,6 +14,12 @@ Feature: Approve new user
         | Password confirmation | please          |
       And I press "Sign up"
 
+    Scenario: User cannot log in until approved
+      Given I am not logged in
+      When I go to the sign in page
+      And I sign in as "user@test.com/please"
+      Then I should see "Your account has not been approved yet."
+
     Scenario: User is approved
       Given I am not logged in
       And I am an admin named "foo" with an email "admin@test.com" and password "please"

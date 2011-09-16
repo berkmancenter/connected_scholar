@@ -21,15 +21,14 @@ Feature: Search for Resources
       When I fill in "query" with "Cars"
       And I press "Go"
       And I wait 3 seconds
-#LibraryCloud is not reliable
-#      Then I should see "Title:"
-#      And I should see "Creator"
-#      And I should see "Recommend"
-#      And I should see "Links:"
-#      Then I follow "Recommend"
-      #And I follow "Sources"
-      #And I wait 1 seconds
-      #Then I should see "Drag Resource"
+      Then I should see "Title:"
+      And I should see "Creator"
+      And I should see "Recommend"
+      And I should see "Links:"
+      Then I follow "Recommend"
+#      And I follow "Sources"
+#      And I wait 1 seconds
+#      Then I should see "Drag Resource"
 
     @javascript
     Scenario: User executes an Advanced Search for a resource and recommends it
@@ -38,12 +37,31 @@ Feature: Search for Resources
       And I select "Title Keyword" from "search_type"
       And I press "Search"
       And I wait 3 seconds
-#LibraryCloud is not reliable
-#      Then I should see "Title:"
-#      And I should see "Creator"
-#      And I should see "Recommend"
-#      And I should see "Links:"
-#      And I press "Close"
-      #And I follow "Sources"
-      #And I wait 1 seconds
-      #Then I should see "Drag Resource"
+      Then I should see "Title:"
+      And I should see "Creator"
+      And I should see "Recommend"
+      And I should see "Links:"
+      And I press "Close"
+#      And I follow "Sources"
+#      And I wait 1 seconds
+#      Then I should see "Drag Resource"
+
+    @javascript
+    Scenario: User resets the search dialog
+      When I follow "Advanced Search"
+      And I fill in "advanced_query" with "Cars"
+      And I select "Title Keyword" from "advanced_search_type"
+      And I press "Search"
+      Then I wait 3 seconds
+      And I should see "Title:"
+      And I should see "Creator"
+      And I should see "Recommend"
+      And I should see "Links:"
+#      Then I press "advanced_search_reset"
+#      And I should not see "Title:"
+#      And I should not see "Creator"
+#      And I should not see "Recommend"
+#      And I should not see "Links:"
+#      And the "Query" field should be empty
+#      And I follow "Sources"
+#      And I wait 1 seconds

@@ -237,3 +237,7 @@ end
 When /^I reload the page$/ do
   visit page.driver.browser.current_url
 end
+
+Then /^the "([^"]*)" field should contain "([^"]*)"$/ do |field, value|
+  find_field(field).value.should =~ /#{value}/
+end
