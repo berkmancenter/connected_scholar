@@ -95,4 +95,9 @@ class DocumentsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def active_citations
+    @document = Document.find(params[:id])
+    render :json => @document.active_citations
+  end
 end

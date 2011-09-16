@@ -104,7 +104,6 @@
       target.after('<div>'+citation+'</div>');
       target.attr('tabindex', -1).focus();
       target.removeAttr('tabindex');
-      setupContextMenus(document_id, resource_id, citation);
     }, 'json');
     $.post("/documents/"+document_id+"/resources/"+resource_id+"/activate", function(data){
       if(data.length > 0){
@@ -115,33 +114,90 @@
     })
   }
 
-  function setupContextMenus(document_id, resource_id, citation){
-    citation = htmlDecode(citation);
+  function setupDynamicContextMenu(){
+    document_id = "<%= @document.id %>";
     var doc = window.parent.frames[1].frames[0].document;
     var innerdocbody = $(doc).find("#innerdocbody");
-    var span = $('span:contains("'+citation+'")', innerdocbody);
-    span.die('contextmenu');
-    span.contextPopup({
-      checkMenuAlreadyOpen: true,
-      title: 'Citation:  ' + citation,
-      items: [
-        { label: 'Change', action: function(){
-            viewChangeCitation(document_id, resource_id, citation);
-            return false;
-          }          
-        },
-        { label: 'Remove', action: function(){
-            viewRemoveCitation(document_id, resource_id, citation);
-            return false;
-          }          
-        },
-        { label: 'View', action: function(){
-            viewResource(document_id, resource_id, citation);
-            return false;
+    var allmagic = innerdocbody.find('div[id^="magicdomid"]');
+    allmagic.live('contextmenu', function(e){
+      $.get("/documents/" + document_id + "/active_citations", function(data){
+        citationsInParagraph = [];
+        text = $(e.currentTarget).text();
+        $.each(data, function(index, citation){
+          if(text.indexOf(citation) != -1){
+            citationsInParagraph.push(citation);
           }
-        }
-      ]
+        });
+
+        var menuAlreadyOpen = false;
+        var settings = {
+          checkMenuAlreadyOpen: false,
+          contextMenuClass: 'contextMenuPlugin',
+          gutterLineClass: 'gutterLine',
+          headerClass: 'header',
+          seperatorClass: 'divider',
+          title: '',
+          items: []
+        };
+        var menuData = {
+          title: 'Citations', 
+          items: [
+            { label: 'View', 
+              action: function(){
+                viewCitations(document_id, citationsInParagraph);
+              }
+            }
+          ]
+        };
+        $.extend(settings, menuData);
+        var menu = createMenu(settings)
+          .show()
+          .css({zIndex:1000001, left:e.pageX + 25 + ($(window).width() * .2) /* nudge to the right, so the pointer is covering the title */, top:e.pageY + 36})
+          .bind('contextmenu', function() { return false; });
+
+        // Cover rest of page with invisible div that when clicked will cancel the popup.
+        var bg = $('<div></div>')
+          .css({left:0, top:0, width:'100%', height:'100%', position:'absolute', zIndex:1000000})
+          .appendTo(document.body)
+          .bind('contextmenu click', function() {
+            // If click or right click anywhere else on page: remove clean up.
+            bg.remove();
+            menu.remove();
+            menuAlreadyOpen = false;
+            return false;
+          });
+
+        // When clicking on a link in menu: clean up (in addition to handlers on link already)
+        menu.find('a').click(function() {
+          bg.remove();
+          menu.remove();
+          menuAlreadyOpen = false;
+        });
+
+      }, 'json');
+      return false;
     });
+  }
+
+  function viewCitations(document_id, citations){
+    cits = "";
+    for(i in citations){
+      cits += citations[i] + " ";
+    }
+    $("#resource_citation_div").html(cits);
+    $("#resource_citation_div").dialog({
+      autoOpen: false,
+      title: 'Citations',
+      height: 330,
+      width: 330,
+      modal: true,
+      buttons: {
+          "Cancel": function() {
+              $(this).dialog("close");
+          }
+      }
+    });
+    $("#resource_citation_div").dialog("open");  
   }
 
   function setupActiveSourcesContextMenus(){
@@ -159,46 +215,8 @@
       }, 1);
     }else{
       var document_id = "<%= @document.id %>";
-      <% @document.active_sources.each do |active| %>
-        <% active.citations.each do |cit| %>
-          setupContextMenus(document_id, "<%= active.id %>", "<%= cit.citation_text %>");
-        <% end %>
-      <% end %>
+      setupDynamicContextMenu();
     }
-  }
-
-  function viewChangeCitation(document_id, resource_id, citation){
-    $("#resource_citation_div").html('Change Citation');
-    $("#resource_citation_div").dialog({
-        autoOpen: false,
-        title: citation,
-        height: 330,
-        width: 330,
-        modal: true,
-        buttons: {
-            "Cancel": function() {
-                $(this).dialog("close");
-            }
-        }
-    });
-    $("#resource_citation_div").dialog("open");
-  }
-
-  function viewRemoveCitation(document_id, resource_id, citation){
-    $("#resource_citation_div").html('Remove Citation');
-    $("#resource_citation_div").dialog({
-        autoOpen: false,
-        title: citation,
-        height: 330,
-        width: 330,
-        modal: true,
-        buttons: {
-            "Cancel": function() {
-                $(this).dialog("close");
-            }
-        }
-    });
-    $("#resource_citation_div").dialog("open");
   }
 
   function viewResource(document_id, resource_id, title){
@@ -229,5 +247,27 @@
       return false;
     });
     
+  }
+  // Build popup menu HTML
+  function createMenu(settings) {
+    var menu = $('<ul class="' + settings.contextMenuClass + '"><div class="' + settings.gutterLineClass + '"></div></ul>')
+      .appendTo(document.body);
+    if (settings.title) {
+      $('<li class="' + settings.headerClass + '"></li>').text(settings.title).appendTo(menu);
+    }
+    settings.items.forEach(function(item) {
+      if (item) {
+        var row = $('<li><a href="#"><img><span></span></a></li>').appendTo(menu);
+        row.find('img').attr('src', item.icon);
+        row.find('span').text(item.label);
+        if (item.action) {
+          row.find('a').click(item.action);
+        }
+      } else {
+        $('<li class="' + settings.seperatorClass + '"></li>').appendTo(menu);
+      }
+    });
+    menu.find('.' + settings.headerClass ).text(settings.title);
+    return menu;
   }
 </script>

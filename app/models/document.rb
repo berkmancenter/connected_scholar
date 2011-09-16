@@ -17,6 +17,11 @@ class Document < ActiveRecord::Base
   def active_sources
     self.resources.active_sources
   end
+
+  def active_citations
+    active_sources.map{|as| as.citations }.flatten.map{|c| c.citation_text}
+  end
+
   def recommended_resources
     self.resources.recommended_resources
   end
