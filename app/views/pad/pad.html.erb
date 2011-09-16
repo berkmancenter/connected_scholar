@@ -2,7 +2,6 @@
   <!-- stylesheets -->
   <link href="/static/css/pad.css" rel="stylesheet" />
   <%= render :partial => 'pad_js'%>
-  <%= javascript_include_tag '/js/jquery.contextmenu.js'%>
   <style type="text/css" title="dynamicsyntax"></style>
 
   <script type="text/javascript">
@@ -10,7 +9,7 @@
     $(function(){
 	    setupDraggables();
       setupViewSources();
-      setupActiveSourcesContextMenus();
+      setupActiveSourceContextMenus();
     });
 
   </script>

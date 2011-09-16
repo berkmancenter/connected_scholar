@@ -114,66 +114,31 @@
     })
   }
 
-  function setupDynamicContextMenu(){
+  function setupDynamicContextMenus(){
     document_id = "<%= @document.id %>";
     var doc = window.parent.frames[1].frames[0].document;
     var innerdocbody = $(doc).find("#innerdocbody");
     var allmagic = innerdocbody.find('div[id^="magicdomid"]');
-    allmagic.live('contextmenu', function(e){
+    allmagic.live('contextmenu', function(event){
       $.get("/documents/" + document_id + "/active_citations", function(data){
         citationsInParagraph = [];
-        text = $(e.currentTarget).text();
+        text = $(event.currentTarget).text();
         $.each(data, function(index, citation){
           if(text.indexOf(citation) != -1){
             citationsInParagraph.push(citation);
           }
         });
 
-        var menuAlreadyOpen = false;
-        var settings = {
-          checkMenuAlreadyOpen: false,
-          contextMenuClass: 'contextMenuPlugin',
-          gutterLineClass: 'gutterLine',
-          headerClass: 'header',
-          seperatorClass: 'divider',
-          title: '',
-          items: []
-        };
         var menuData = {
           title: 'Citations', 
-          items: [
-            { label: 'View', 
-              action: function(){
-                viewCitations(document_id, citationsInParagraph);
-              }
+          items: [{ 
+            label: 'View', 
+            action: function(){
+              viewCitations(document_id, citationsInParagraph);
             }
-          ]
+          }]
         };
-        $.extend(settings, menuData);
-        var menu = createMenu(settings)
-          .show()
-          .css({zIndex:1000001, left:e.pageX + 25 + ($(window).width() * .2) /* nudge to the right, so the pointer is covering the title */, top:e.pageY + 36})
-          .bind('contextmenu', function() { return false; });
-
-        // Cover rest of page with invisible div that when clicked will cancel the popup.
-        var bg = $('<div></div>')
-          .css({left:0, top:0, width:'100%', height:'100%', position:'absolute', zIndex:1000000})
-          .appendTo(document.body)
-          .bind('contextmenu click', function() {
-            // If click or right click anywhere else on page: remove clean up.
-            bg.remove();
-            menu.remove();
-            menuAlreadyOpen = false;
-            return false;
-          });
-
-        // When clicking on a link in menu: clean up (in addition to handlers on link already)
-        menu.find('a').click(function() {
-          bg.remove();
-          menu.remove();
-          menuAlreadyOpen = false;
-        });
-
+        contextPopup(menuData, event);        
       }, 'json');
       return false;
     });
@@ -200,22 +165,21 @@
     $("#resource_citation_div").dialog("open");  
   }
 
-  function setupActiveSourcesContextMenus(){
+  function setupActiveSourceContextMenus(){
     if(window.parent.frames[1] == undefined){
       window.setTimeout(function(){
-        setupActiveSourcesContextMenus();
+        setupActiveSourceContextMenus();
       }, 1);
     }else if(window.parent.frames[1].frames[0] == undefined){
       window.setTimeout(function(){
-        setupActiveSourcesContextMenus();
+        setupActiveSourceContextMenus();
       }, 1);
     }else if(window.parent.frames[1].frames[0].document == undefined){
       window.setTimeout(function(){
-        setupActiveSourcesContextMenus();
+        setupActiveSourceContextMenus();
       }, 1);
     }else{
-      var document_id = "<%= @document.id %>";
-      setupDynamicContextMenu();
+      setupDynamicContextMenus();
     }
   }
 
@@ -247,6 +211,41 @@
       return false;
     });
     
+  }
+
+  function contextPopup(menuData, event){
+    var settings = {
+      checkMenuAlreadyOpen: false,
+      contextMenuClass: 'contextMenuPlugin',
+      gutterLineClass: 'gutterLine',
+      headerClass: 'header',
+      seperatorClass: 'divider',
+      title: '',
+      items: []
+    };
+    $.extend(settings, menuData);
+    var menu = createMenu(settings)
+      .show()
+      .css({zIndex:1000001, left:event.pageX + 25 + ($(window).width() * .2) /* nudge to the right, so the pointer is covering the title */, top:event.pageY + 36})
+      .bind('contextmenu', function() { return false; });
+
+    // Cover rest of page with invisible div that when clicked will cancel the popup.
+    var bg = $('<div></div>')
+      .css({left:0, top:0, width:'100%', height:'100%', position:'absolute', zIndex:1000000})
+      .appendTo(document.body)
+      .bind('contextmenu click', function() {
+        // If click or right click anywhere else on page: remove clean up.
+        bg.remove();
+        menu.remove();
+        return false;
+      });
+
+    // When clicking on a link in menu: clean up (in addition to handlers on link already)
+    menu.find('a').click(function() {
+      bg.remove();
+      menu.remove();
+    });
+
   }
   // Build popup menu HTML
   function createMenu(settings) {
