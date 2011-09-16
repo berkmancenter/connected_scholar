@@ -54,7 +54,7 @@
     }
 
     function setupDropzone(){
-    var win = window.parent.frames[1].frames[0].window;
+      var win = window.parent.frames[1].frames[0].window;
       var doc = window.parent.frames[1].frames[0].document;
       var innerdocbody = $(doc).find("#innerdocbody");
       var allmagic = innerdocbody.find('div[id^="magicdomid"]');
@@ -136,12 +136,65 @@
             action: function(){
               viewCitations(document_id, citationsInParagraph);
             }
+          },
+          {
+            label: 'Remove',
+            action: function(){
+              initRemoveCitation(document_id, citationsInParagraph, event)
+            }
           }]
         };
         contextPopup(menuData, event);        
       }, 'json');
       return false;
     });
+  }
+
+  function initRemoveCitation(document_id, citations, event){
+    if(citations.length > 1){
+      $("#resource_citation_select").empty();
+      $.each(citations, function(index, citation){
+        $("#resource_citation_select").append($("<option>").val(citation.resource_id).text(citation.citation_text));
+      });
+      $("#view_resource_citation_div").dialog({
+        autoOpen: false,
+        title: 'Citations',
+        height: 115,
+        width: 330,
+        modal: true,
+        buttons: {
+            "Submit": function() {
+              $(this).dialog("close");
+              removeCitation(document_id, $("#resource_citation_select").val(), $("#resource_citation_select option:selected").text(), event);
+            },
+            "Cancel": function() {
+              $(this).dialog("close");
+            }
+        }
+      });
+      $("#view_resource_citation_div").dialog("open"); 
+    }else if(citations.length == 1) {
+      removeCitation(document_id, citations[0].resource_id, citations[0].citation_text, event);
+    }else{ //0 citations
+      return false;
+    }    
+  }
+  
+  function removeCitation(document_id, resource_id, citation, event){
+    target = $(event.currentTarget)
+    text = target.text();
+    text = text.replace(citation, '');
+    target.text(text);
+    var win = window.parent.frames[1].frames[0].window;
+    var doc = window.parent.frames[1].frames[0].document;
+    var node = doc.getElementById(target.attr("id"));
+    target.focus(function() {
+      window.setTimeout(function() {
+        setCursorPosition(0, node, doc, win);
+      }, 0);
+    });
+    target.attr('tabindex', -1).focus();
+    target.removeAttr('tabindex');
   }
 
   function viewCitations(document_id, citations){
