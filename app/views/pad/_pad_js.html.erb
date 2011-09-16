@@ -159,7 +159,7 @@
         buttons: {
             "Submit": function() {
               $(this).dialog("close");
-              viewResource(document_id, $("#resource_citation_select").val(), $("#resource_citation_select").text());
+              viewResource(document_id, $("#resource_citation_select").val(), $("#resource_citation_select option:selected").text());
             },
             "Cancel": function() {
               $(this).dialog("close");
