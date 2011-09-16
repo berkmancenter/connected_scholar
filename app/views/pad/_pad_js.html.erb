@@ -44,6 +44,10 @@
     return $('<div/>').html(value).text();
   }
 
+  function regexEscape(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
   function setupDraggables(){
     $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
   }
@@ -183,7 +187,7 @@
   function removeCitation(document_id, resource_id, citation, event){
     target = $(event.currentTarget)
     text = target.text();
-    text = text.replace(citation, '');
+    text = text.replace(new RegExp( regexEscape(citation), "g" ), '');
     target.text(text);
     var win = window.parent.frames[1].frames[0].window;
     var doc = window.parent.frames[1].frames[0].document;
