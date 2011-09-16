@@ -18,7 +18,9 @@
         </p>
         <p>
           <b>Links:</b>
-          <%= link_to "Hollis", item_link(r['id_inst']), :target => "_blank" %>
+          <% if r['id_inst'] and r['id_inst'].strip != "" %>
+            <%= link_to "Hollis", item_link(r['id_inst']), :target => "_blank" %>
+          <% end %>
         </p>
         <p>
           <a href="#" id="recommend_<%= r['id'] %>">Recommend</a>
