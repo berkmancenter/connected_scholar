@@ -46,61 +46,88 @@
 
   function regexEscape(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
+  }
+
+  function getWin(){
+    return window.parent.frames[1].frames[0].window;
+  }
+
+  function getDoc(){
+    return window.parent.frames[1].frames[0].document;
+  }
+
+  function getDocumentId(){
+    return "<%= @document.id %>";
+  }
 
   function setupDraggables(){
     $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
   }
+
+  function setupViewSources(){
+    $(".active_source, .recommended_resource").live('click', function(e){
+      target = $(e.target);
+      item_id = target.attr("id").replace("item_", "");
+      document_id = getDocumentId();
+      title = target.text();
+      viewResource(document_id, item_id, title);
+      return false;
+    });    
+  }
+
   function startDrag(event,ui){
-      $(ui.helper).prepend('<div class="preDrag"></div>');
-      $(this).data('draggable').offset.click.top += 124;
-      setupDropzone();
-    }
+    $(ui.helper).prepend('<div class="preDrag"></div>');
+    $(this).data('draggable').offset.click.top += 124;
+    setupDropzone();
+  }
+  
+  function setupDropzone(){
+    var doc = getDoc();
+    var innerdocbody = $(doc).find("#innerdocbody");
+    var allmagic = innerdocbody.find('div[id^="magicdomid"]');
+    allmagic.droppable({
+    hoverClass: 'custom-hover',
+      drop: function(event, ui){
+        dropCitation(event, ui);
+      }
+    });
+  }
 
-    function setupDropzone(){
-      var win = window.parent.frames[1].frames[0].window;
-      var doc = window.parent.frames[1].frames[0].document;
-      var innerdocbody = $(doc).find("#innerdocbody");
-      var allmagic = innerdocbody.find('div[id^="magicdomid"]');
-      allmagic.droppable({
-      hoverClass: 'custom-hover',
-        drop: function(event, ui){
-          var target = $(event.target);
-          if(target.prev() != undefined && target.prev().attr("id") != undefined && target.prev().attr("id").match(/^magicdomid/)){
-            target = target.prev();
-          }
-          var node = doc.getElementById(target.attr("id"));
-          target.focus(function() {
-            window.setTimeout(function() {
-              setCursorPosition(0, node, doc, win);
-            }, 0);
-          });
-          //create the new line after drop target
-      resource_id = ui.draggable.attr("id").replace("drag_resource_", "");
-      document_id = "<%= @document.id %>";
-      setCitation(document_id, resource_id, target);
-      return true;
-        }
-      });
+  function dropCitation(event, ui){
+    var target = $(event.target);
+    if(target.prev() != undefined && target.prev().attr("id") != undefined && target.prev().attr("id").match(/^magicdomid/)){
+      target = target.prev();
     }
+    var doc = getDoc();
+    var node = doc.getElementById(target.attr("id"));
+    target.focus(function() {
+      window.setTimeout(function() {
+        setCursorPosition(0, node, doc, getWin());
+      }, 0);
+    });
+    resource_id = ui.draggable.attr("id").replace("drag_resource_", "");
+    document_id = getDocumentId();
+    setCitation(document_id, resource_id, target);
+    return true;
+  }
 
-    function setCursorPosition(pos, node, doc, win){
-        var sel, range;
-        if (win.getSelection && doc.createRange) {
-          range = doc.createRange();
-          range.selectNode(node);
-          range.setStart(node, pos);
-          range.setEnd(node, pos);
-          range.collapse(true);
-          sel = win.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-        } else if (node.createTextRange) {
-          range = node.createTextRange();
-          range.collapse(true);
-          range.select();
-        }
+  function setCursorPosition(pos, node, doc, win){
+    var sel, range;
+    if (win.getSelection && doc.createRange) {
+      range = doc.createRange();
+      range.selectNode(node);
+      range.setStart(node, pos);
+      range.setEnd(node, pos);
+      range.collapse(true);
+      sel = win.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else if (node.createTextRange) {
+      range = node.createTextRange();
+      range.collapse(true);
+      range.select();
     }
+  }
   
   function setCitation(document_id, resource_id, target){
     $.get("/documents/" + document_id + "/resources/" + resource_id + "/citation", function(data){
@@ -119,8 +146,8 @@
   }
 
   function setupDynamicContextMenus(){
-    document_id = "<%= @document.id %>";
-    var doc = window.parent.frames[1].frames[0].document;
+    document_id = getDocumentId();
+    var doc = getDoc();
     var innerdocbody = $(doc).find("#innerdocbody");
     var allmagic = innerdocbody.find('div[id^="magicdomid"]');
     allmagic.live('contextmenu', function(event){
@@ -138,13 +165,13 @@
           items: [{ 
             label: 'View', 
             action: function(){
-              viewCitations(document_id, citationsInParagraph);
+              initViewCitations(document_id, citationsInParagraph);
             }
           },
           {
             label: 'Remove',
             action: function(){
-              initRemoveCitation(document_id, citationsInParagraph, event)
+              initRemoveCitations(document_id, citationsInParagraph, event)
             }
           }]
         };
@@ -154,7 +181,7 @@
     });
   }
 
-  function initRemoveCitation(document_id, citations, event){
+  function initRemoveCitations(document_id, citations, event){
     if(citations.length > 1){
       $("#resource_citation_select").empty();
       $.each(citations, function(index, citation){
@@ -189,19 +216,18 @@
     text = target.text();
     text = text.replace(new RegExp( regexEscape(citation), "g" ), '');
     target.text(text);
-    var win = window.parent.frames[1].frames[0].window;
-    var doc = window.parent.frames[1].frames[0].document;
+    var doc = getDoc();
     var node = doc.getElementById(target.attr("id"));
     target.focus(function() {
       window.setTimeout(function() {
-        setCursorPosition(0, node, doc, win);
+        setCursorPosition(0, node, doc, getWin());
       }, 0);
     });
     target.attr('tabindex', -1).focus();
     target.removeAttr('tabindex');
   }
 
-  function viewCitations(document_id, citations){
+  function initViewCitations(document_id, citations){
     if(citations.length > 1){
       $("#resource_citation_select").empty();
       $.each(citations, function(index, citation){
@@ -251,32 +277,21 @@
 
   function viewResource(document_id, resource_id, title){
     $.get("/documents/" + document_id + "/resources/" + resource_id, function(data){
-        $("#resource_citation_div").html(data);
-        $("#resource_citation_div").dialog({
-            autoOpen: false,
-            title: title,
-            height: 330,
-            width: 330,
-            modal: true,
-            buttons: {
-                "Cancel": function() {
-                    $(this).dialog("close");
-                }
+      $("#resource_citation_div").html(data);
+      $("#resource_citation_div").dialog({
+        autoOpen: false,
+        title: title,
+        height: 330,
+        width: 330,
+        modal: true,
+        buttons: {
+            "Cancel": function() {
+                $(this).dialog("close");
             }
-        });
-        $("#resource_citation_div").dialog("open");
+        }
       });
-  }
-  function setupViewSources(){
-    $(".active_source, .recommended_resource").live('click', function(e){
-      target = $(e.target);
-      item_id = target.attr("id").replace("item_", "");
-      document_id = "<%= @document.id %>";
-      title = target.text();
-      viewResource(document_id, item_id, title);
-      return false;
+      $("#resource_citation_div").dialog("open");
     });
-    
   }
 
   function contextPopup(menuData, event){
