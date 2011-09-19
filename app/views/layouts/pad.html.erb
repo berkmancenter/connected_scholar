@@ -7,6 +7,10 @@
   <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
   <%= csrf_meta_tags %>
   <style>
+      *{
+          overflow: hidden;
+      }
+
       a.recommended_resource {
 
       }
@@ -36,15 +40,26 @@
       }
 
       #padLeft, #padRight {
-          /*float: left;*/
-          /*clear: both;*/
           height: 100%;
           width: 20%;
           background-color: #E1E8E8;
+          overflow: auto;
       }
 
       #padMiddle {
           width: 60%;
+      }
+
+      #borderContainer, #leftRightContainer {
+          height: 100%;
+      }
+
+      #editorcontainerbox {
+          bottom: 45px;
+      }
+
+      #chaticon {
+          bottom: 45px;
       }
 
       #choicesLeft, #searchAccordian, #sourcesAccordian {
@@ -89,9 +104,9 @@
   </style>
 </head>
 <body>
+<%= render :partial => 'layouts/top' %>
 <div id="main">
   <div id="mainContent">
-    <%= render :partial => 'layouts/top' %>
     <%= yield %>
   </div>
 </div>
