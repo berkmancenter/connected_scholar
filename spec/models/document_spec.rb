@@ -76,4 +76,39 @@ describe Document do
       end
     end
   end
+
+  describe "#active_citations" do
+    subject do
+      Document.create! :name => 'foobar'
+    end
+
+    let :resource do
+      Resource.create! :document => subject
+    end
+
+    context "with no active resource" do
+      it "should have no active citation" do
+        resource.active?.should be_false
+        subject.active_sources.size.should == 0
+        subject.active_citations.size.should == 0
+      end
+    end
+
+    context "with one active resource" do
+      before do
+        resource.activate!
+        resource.default_citation!
+      end
+
+      it "should have one active citation" do
+        resource.active?.should be_true
+        subject.active_sources.size.should == 1
+        subject.active_citations.size.should == 1
+
+        subject.active_citations.first["citation_text"].should == resource.default_citation!
+        subject.active_citations.first["resource_id"].should == resource.id
+      end
+    end
+
+  end
 end
