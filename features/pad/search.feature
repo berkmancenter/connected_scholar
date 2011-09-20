@@ -33,18 +33,20 @@ Feature: Search for Resources
     @javascript
     Scenario: User executes an Advanced Search for a resource and recommends it
       When I follow "Advanced Search"
-      And I fill in "advanced_query" with "Cars"
-      And I select "Title Keyword" from "search_type"
+      And I fill in "advanced_query" with "aspect-oriented programming with the e verification language"
+      And I select "Exact Title" from "search_type"
       And I press "Search"
       And I wait 3 seconds
-      Then I should see "Title:"
-      And I should see "Creator"
+      Then I should see "Title: Aspect-oriented programming with the e verification language"
+      And I should see "Creator: Robinson, David."
       And I should see "Recommend"
       And I should see "Links:"
-      And I press "Close"
-#      And I follow "Sources"
-#      And I wait 1 seconds
-#      Then I should see "Drag Resource"
+      And I should see "Hollis"
+      When I follow "Hollis"
+      Then it should open a new window on the hollis page for "012099054"
+      When I follow "Recommend"
+      Then I should see "Aspect-oriented programming with the e verification language"
+      And the resource "Aspect-oriented programming with the e verification language" should be not used
 
     @javascript
     Scenario: User resets the search dialog

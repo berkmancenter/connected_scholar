@@ -35,3 +35,13 @@ Then /^I should see the export "([^"]*)" link for the "([^"]*)" document$/ do |t
   document = Document.find_by_name(doc_name)
   page.should have_content(type)
 end
+
+Then /^the resource "(.+)" should be not used$/ do |resource_name|
+  resource_elem = find_link(resource_name)
+  resource_elem['class'].should == "recommended_resource"
+end
+
+Then /^the resource "(.+)" should be used$/ do |resource_name|
+  resource_elem = find_link(resource_name)
+  resource_elem['class'].should == "active_source"
+end

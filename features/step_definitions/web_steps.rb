@@ -241,3 +241,9 @@ end
 Then /^the "([^"]*)" field should contain "([^"]*)"$/ do |field, value|
   find_field(field).value.should =~ /#{value}/
 end
+Then /^it should open a new window on (.+)$/ do |arg1|
+  current_page = page.driver.browser.window_handles.first
+  page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
+  assert_equal current_url, path_to(arg1)
+  page.driver.browser.switch_to.window(current_page)
+end

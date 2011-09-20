@@ -18,6 +18,9 @@ Feature: Drag and Drop
 #      And I select "2011" from
       And I press "Create Resource"
       When I reload the page
-      And I follow "Sources"
+      Then the resource "A Test Resource" should be not used
+      When I follow "Sources"
       And I drag a resource to the document      
       Then I should see "(Jones 2011)" in the document
+      When I reload the page
+      And the resource "A Test Resource" should be used
