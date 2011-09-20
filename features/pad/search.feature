@@ -25,10 +25,6 @@ Feature: Search for Resources
       And I should see "Creator"
       And I should see "Recommend"
       And I should see "Links:"
-      Then I follow "Recommend"
-#      And I follow "Sources"
-#      And I wait 1 seconds
-#      Then I should see "Drag Resource"
 
     @javascript
     Scenario: User executes an Advanced Search for a resource and recommends it
