@@ -24,3 +24,6 @@ Feature: Drag and Drop
       Then I should see "(Jones 2011)" in the document
       When I reload the page
       And the resource "A Test Resource" should be used
+      When I follow "A Test Resource"
+      Then I should see "Title: A Test Resource"
+      And I should see "(Jones 2011)"
