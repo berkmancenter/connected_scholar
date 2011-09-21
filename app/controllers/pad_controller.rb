@@ -26,8 +26,8 @@ class PadController < ApplicationController
       create_group_pad(@document)
 
       unless is_pad_password_protected(@document)
-        # TODO use a unique password for each pad, and store in the DB
-        #set_pad_password(@document, 'pass0wrd')
+        #its unclear how exactly this protects the document.  Because we don't ever provide the password later.
+        set_pad_password(@document, @document.etherpad_password)
       end
       
       render :action => 'pad'

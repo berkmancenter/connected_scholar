@@ -10,7 +10,7 @@ class Document < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :owner_id
 
-  before_create :init_group
+  before_create :init_group, :set_etherpad_password
 
   scope :my_documents, lambda {|user| {:conditions => {:owner_id => user.id}}}
 
@@ -72,5 +72,9 @@ class Document < ActiveRecord::Base
 
   def init_group
     self.group = Group.create
+  end
+
+  def set_etherpad_password
+    self.etherpad_password = SecureRandom.hex(13)
   end
 end

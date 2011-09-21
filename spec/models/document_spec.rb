@@ -111,4 +111,14 @@ describe Document do
     end
 
   end
+
+  describe "#etherpad_password" do
+    subject do
+      Document.create! :name => 'foobar'
+    end
+
+    it "should have an etherpad_password" do
+      subject.etherpad_password.should_not be_nil
+    end
+  end
 end

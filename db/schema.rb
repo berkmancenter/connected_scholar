@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110913223856) do
+ActiveRecord::Schema.define(:version => 20110921202933) do
 
   create_table "citations", :force => true do |t|
     t.string   "citation_text"
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20110913223856) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
+    t.string   "etherpad_password"
   end
 
   create_table "groups", :force => true do |t|
