@@ -20,24 +20,7 @@
 <%= render :partial => 'layouts/top' %>
 <div id="mainContent">
   <div class="leftcol">
-    <div id="leftcol_accordian">
-      <% if user_signed_in? %>
-          <h3><a href="#">Settings</a></h3>
-
-          <div>
-            <%= link_to 'Edit Account', edit_registration_path(current_user) %>
-            <br/>
-            <a href="#">Edit Preferences</a><br/>
-          </div>
-      <% end %>
-      <h3><a href="#">Help</a></h3>
-
-      <div>
-        <a href="#">How does the editor work?</a><br/>
-        <a href="#">How can I search for resources?</a><br/>
-        <a href="#">How can I cite resources?</a><br/>
-      </div>
-    </div>
+    <%= render :partial => 'layouts/navigation' %>
   </div>
   <div class="primary">
     <%= render :inline => flash_helper %>
