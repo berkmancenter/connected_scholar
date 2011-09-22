@@ -26,9 +26,9 @@ class PadController < ApplicationController
       create_group_pad(@document)
 
       unless is_pad_password_protected(@document)
-        #its unclear how exactly this protects the document.  Because we don't ever provide the password later.
         set_pad_password(@document, @document.etherpad_password)
       end
+      cookies[:password] = @document.etherpad_password
       
       render :action => 'pad'
     else

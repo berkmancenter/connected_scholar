@@ -38,7 +38,7 @@ module EtherpadUtil
 
   def create_group_pad(document, text="")
     with_apikey do |url, apikey|
-      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createGroupPad?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&padName=#{CGI::escape(document.name)}&text=#{CGI::escape(text)}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/createGroupPad?apikey=#{apikey}&groupID=#{document.etherpad_group_id}&padName=#{CGI::escape(document.etherpad_name)}&text=#{CGI::escape(text)}" do |data|
          #error handling
         return data["code"]
       end
@@ -69,7 +69,7 @@ module EtherpadUtil
   
   def delete_pad(document)
     with_apikey do |url, apikey|
-      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/deletePad?apikey=#{apikey}&padID=#{document.etherpad_group_id}$#{CGI::escape(document.name)}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/deletePad?apikey=#{apikey}&padID=#{document.pad_id}" do |data|
         return data["code"]
       end
     end
@@ -77,7 +77,7 @@ module EtherpadUtil
 
   def get_public_status(document)
     with_apikey do |url, apikey|
-      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/getPublicStatus?apikey=#{apikey}&padID=#{document.etherpad_group_id}$#{CGI::escape(document.name)}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/getPublicStatus?apikey=#{apikey}&padID=#{document.pad_id}" do |data|
         return data['code'] == 0 && data['data'] && data['data']['publicStatus']
       end
     end
@@ -85,7 +85,7 @@ module EtherpadUtil
 
   def is_pad_password_protected(document)
     with_apikey do |url, apikey|
-      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/isPasswordProtected?apikey=#{apikey}&padID=#{document.etherpad_group_id}$#{CGI::escape(document.name)}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/isPasswordProtected?apikey=#{apikey}&padID=#{document.pad_id}" do |data|
         return data['code'] == 0 && data['data'] && data['data']['isPasswordProtected']
       end
     end
@@ -93,7 +93,7 @@ module EtherpadUtil
 
   def set_pad_password(document, password)
     with_apikey do |url, apikey|
-      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/setPassword?apikey=#{apikey}&padID=#{document.etherpad_group_id}$#{CGI::escape(document.name)}&password=#{CGI::escape(password)}" do |data|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/setPassword?apikey=#{apikey}&padID=#{document.pad_id}&password=#{CGI::escape(password)}" do |data|
         return data['code'] #== 0 && data['data'] && data['data']['isPasswordProtected']
       end
     end

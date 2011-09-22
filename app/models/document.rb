@@ -7,10 +7,14 @@ class Document < ActiveRecord::Base
   belongs_to :owner, :class_name => 'User'
   belongs_to :group
 
-  validates_presence_of :name
+  validates_presence_of :name, :etherpad_name
+
+  validates_uniqueness_of :etherpad_name, :scope => :owner_id
   validates_uniqueness_of :name, :scope => :owner_id
 
   before_create :init_group, :set_etherpad_password
+
+  before_validation :set_etherpad_name
 
   scope :my_documents, lambda {|user| {:conditions => {:owner_id => user.id}}}
 
@@ -65,7 +69,7 @@ class Document < ActiveRecord::Base
   end
 
   def pad_id
-    "#{etherpad_group_id}$#{CGI::escape(name)}"
+    "#{etherpad_group_id}$#{CGI::escape(etherpad_name)}"
   end
 
   private
@@ -76,5 +80,15 @@ class Document < ActiveRecord::Base
 
   def set_etherpad_password
     self.etherpad_password = SecureRandom.hex(13)
+  end
+
+  def set_etherpad_name
+    if etherpad_name.nil?
+      write_attribute(:etherpad_name, self.name.gsub(' ', '_'))
+    else
+      if etherpad_name_changed?
+        raise "Etherpad name is read-only!"
+      end
+    end
   end
 end
