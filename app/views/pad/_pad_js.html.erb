@@ -169,9 +169,15 @@
             }
           },
           {
+            label: 'Change',
+            action: function(){
+              initChangeCitations(document_id, citationsInParagraph, event);
+            }
+          },
+          {
             label: 'Remove',
             action: function(){
-              initRemoveCitations(document_id, citationsInParagraph, event)
+              initRemoveCitations(document_id, citationsInParagraph, event);
             }
           }]
         };
@@ -181,29 +187,76 @@
     });
   }
 
-  function initRemoveCitations(document_id, citations, event){
+  function initChangeCitations(document_id, citations, event){
     if(citations.length > 1){
       $("#resource_citation_select").empty();
       $.each(citations, function(index, citation){
         $("#resource_citation_select").append($("<option>").val(citation.resource_id).text(citation.citation_text));
       });
-      $("#view_resource_citation_div").dialog({
+      citationSelectDialog(document_id, event, changeCitationDialog);
+    }else if(citations.length == 1) {
+      changeCitationDialog(document_id, citations[0].resource_id, citations[0].citation_text, event);
+    }else{ //0 citations
+      return false;
+    } 
+  }
+
+  function changeCitationDialog(document_id, resource_id, citation, event){
+    $("#citation_text").val(citation);
+    $("#change_citation_dialog").dialog({
         autoOpen: false,
-        title: 'Citations',
-        height: 115,
+        title: citation,
+        height: 200,
         width: 330,
         modal: true,
         buttons: {
             "Submit": function() {
-              $(this).dialog("close");
-              removeCitation(document_id, $("#resource_citation_select").val(), $("#resource_citation_select option:selected").text(), event);
+              new_citation = $("#citation_text").val();
+              if(changeCitation(document_id, resource_id, citation, event, new_citation)){
+                $(this).dialog("close");
+              }else{
+                $("#message").text("Citation already in use.  Cannot change citation.  Please try again.");
+              }
             },
             "Cancel": function() {
               $(this).dialog("close");
             }
         }
       });
-      $("#view_resource_citation_div").dialog("open"); 
+      $("#change_citation_dialog").dialog("open");
+  }
+
+  function changeCitation(document_id, resource_id, citation, event, new_citation){
+    $.post("/documents/"+document_id+"/citation", {citation: new_citation, resource_id: resource_id}, function(data){
+      if(data.length == 0){
+        target = $(event.currentTarget)
+        text = target.text();
+        text = text.replace(new RegExp( regexEscape(citation), "g" ), new_citation);
+        target.text(text);
+        var doc = getDoc();
+        var node = doc.getElementById(target.attr("id"));
+        target.focus(function() {
+          window.setTimeout(function() {
+            setCursorPosition(0, node, doc, getWin());
+          }, 0);
+        });
+        target.attr('tabindex', -1).focus();
+        target.removeAttr('tabindex');
+        $("#change_citation_dialog").dialog("close");
+        return true;
+      }else{
+        return false;
+      }
+    });
+  }
+
+  function initRemoveCitations(document_id, citations, event){
+    if(citations.length > 1){
+      $("#resource_citation_select").empty();
+      $.each(citations, function(index, citation){
+        $("#resource_citation_select").append($("<option>").val(citation.resource_id).text(citation.citation_text));
+      });
+      citationSelectDialog(document_id, event, removeCitation);       
     }else if(citations.length == 1) {
       removeCitation(document_id, citations[0].resource_id, citations[0].citation_text, event);
     }else{ //0 citations
@@ -233,7 +286,20 @@
       $.each(citations, function(index, citation){
         $("#resource_citation_select").append($("<option>").val(citation.resource_id).text(citation.citation_text));
       });
-      $("#view_resource_citation_div").dialog({
+      citationSelectDialog(document_id, event, viewCitation);
+    }else if(citations.length == 1) {
+      viewCitation(document_id, citations[0].resource_id, citations[0].citation_text, event);
+    }else{ //0 citations
+      return false;
+    }
+  }
+
+  function viewCitation(document_id, resource_id, citation, event){
+    viewResource(document_id, resource_id, citation);
+  }
+
+  function citationSelectDialog(document_id, event, callback){
+    $("#view_resource_citation_div").dialog({
         autoOpen: false,
         title: 'Citations',
         height: 115,
@@ -242,19 +308,14 @@
         buttons: {
             "Submit": function() {
               $(this).dialog("close");
-              viewResource(document_id, $("#resource_citation_select").val(), $("#resource_citation_select option:selected").text());
+              callback(document_id, $("#resource_citation_select").val(), $("#resource_citation_select option:selected").text(), event);
             },
             "Cancel": function() {
               $(this).dialog("close");
             }
         }
       });
-      $("#view_resource_citation_div").dialog("open"); 
-    }else if(citations.length == 1) {
-      viewResource(document_id, citations[0].resource_id, citations[0].citation_text);
-    }else{ //0 citations
-      return false;
-    }
+    $("#view_resource_citation_div").dialog("open");
   }
 
   function setupActiveSourceContextMenus(){

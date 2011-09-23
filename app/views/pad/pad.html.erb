@@ -23,3 +23,7 @@
   <div id="view_resource_citation_div" style="display:none;">
     <%= select_tag "citations", "", :id => "resource_citation_select" %>
   </div>
+  <div id="change_citation_dialog" style="display:none;">
+    <div id="message"></div>
+    <%= text_field_tag "citation", "", :id => "citation_text"%>
+  </div>
