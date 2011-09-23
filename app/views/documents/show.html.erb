@@ -1,3 +1,18 @@
+<style>
+    .dashboard_table th {
+        text-align: left;
+    }
+
+    .dashboard_table .contributor_name {
+        max-width: 50px;
+    }
+
+    #contributors {
+        margin-left: 20px;
+        width: 600px
+    }
+</style>
+
 <p>
   <b>Name:</b>
   <%= @document.name %>
@@ -21,28 +36,36 @@
 <p>
   <b>Contributors:</b>
 </p>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th></th>
-  </tr>
-  <% @document.contributors.each do |contributor| %>
-      <tr>
-        <td><%= contributor.name %></td>
-        <td><%= contributor.email %></td>
-        <td><%= link_to 'Remove', remove_contributor_document_path(@document.id, contributor.id),
-                        :confirm => 'Are you sure?', :method => :delete %></td>
-      </tr>
+<div id="contributors">
+  <table class="dashboard_table">
+    <% if @document.contributors.empty? %>
+        <tr>
+          <td class="empty">No Contributors</td>
+        </tr>
+    <% else %>
+        <tr class="dashboard_divider">
+          <td colspan="3"></td>
+        </tr>
+        <% @document.contributors.each do |contributor| %>
+            <tr>
+              <td class="document_name"><%= contributor.name %></td>
+              <td class="document_owner"><%= contributor.email %></td>
+              <td class="document_actions"><%= link_to 'Remove', remove_contributor_document_path(@document.id, contributor.id),
+                                                       :confirm => 'Are you sure?', :method => :delete %></td>
+            </tr>
+            <tr class="dashboard_divider">
+              <td colspan="3"></td>
+            </tr>
+        <% end %>
+    <% end %>
+  </table>
+
+  <%= form_tag(add_contributor_document_path(@document.id)) do %>
+      <%= text_field_tag :contributor_email, params[:contributor_email], :placeholder => "User Email Address", :size => 40 %>
+      <%= submit_tag "Add Contributor" %>
   <% end %>
-</table>
-
-<%= form_tag(add_contributor_document_path(@document.id)) do %>
-    <%= text_field_tag :contributor_email, params[:contributor_email] %>
-    <%= submit_tag "Add" %>
-<% end %>
-
+</div>
 <hr/>
 
-<%= link_to 'Edit Details', edit_document_path(@document) %> | <%= link_to 'View Document', view_pad_path(@document) %> | <%= link_to 'Back to Dashboard', documents_path %>
+<%= link_to 'View Document', view_pad_path(@document) %> | <%= link_to 'Edit Details', edit_document_path(@document) %>
 
