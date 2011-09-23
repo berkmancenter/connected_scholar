@@ -4,7 +4,14 @@ describe ResourcesController do
   include Devise::TestHelpers
 
   let :user do
-    User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    u = User.create! :name => "Test User",
+                 :email => 'test@test.com',
+                 :password => 'password',
+                 :password_confirmation => 'password'
+
+    u.approve!
+    u.save!
+    u
   end
 
   let :document do
