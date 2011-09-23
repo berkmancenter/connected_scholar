@@ -3,7 +3,7 @@ class AddEtherpadNameToDocument < ActiveRecord::Migration
     add_column :documents, :etherpad_name, :string, :length => 256
 
     Document.find_each do |doc|
-      doc.save!
+      execute "update documents set etherpad_name=#{CGI::escape(doc.name)} where id=#{doc.id}"
     end
   end
 
