@@ -26,7 +26,9 @@ ConnectedScholar::Application.routes.draw do
 
   root :to => "dashboard#index"
 
-  devise_for :users, :path_names => { :sign_in => 'sign_in', :sign_out => 'sign_out', :sign_up => "sign_up" }
+  devise_for :users,
+             :controllers => { :registrations => "registrations" },
+             :path_names => { :sign_in => 'sign_in', :sign_out => 'sign_out', :sign_up => "sign_up" }
 
   match 'pad/'                      => 'pad#index'
   match 'view_pad/:document_id'     => 'pad#view_pad',  :document_id => /[^\/]+/, :as => :view_pad
