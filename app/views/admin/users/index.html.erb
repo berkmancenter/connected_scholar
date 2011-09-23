@@ -1,6 +1,6 @@
 <style>
     .dashboard_table th {
-        text-align: center;
+        text-align: left;
     }
 
     .dashboard_table .action, .date {
@@ -32,7 +32,7 @@
             </td>
             <td>
               <% if @user != current_user %>
-                <%= link_to 'Reject', admin_user_path(u), :confirm => 'Are you sure?', :method => :delete %>
+                  <%= link_to 'Reject', admin_user_path(u), :confirm => 'Are you sure?', :method => :delete %>
               <% end %>
             </td>
           </tr>
@@ -42,6 +42,7 @@
     <span style="font-style: italic">There are no unapproved users</span>
 <% end %>
 </p>
+<hr/>
 <p>
 <h2>Active Users</h2>
 <table class="dashboard_table">
@@ -49,7 +50,7 @@
     <th>Name</th>
     <th>Email</th>
     <th>Created At</th>
-    <th>Admin</th>
+    <th class="action">Admin</th>
     <th></th>
   </tr>
 
@@ -57,16 +58,20 @@
       <tr>
         <td><%= u.name %></td>
         <td><%= u.email %></td>
-        <td class="date"><%= u.created_at %></td>
+        <td><%= u.created_at %></td>
         <td class="action">
           <% if u.admin? %>
-              <%= link_to 'Remove', admin_user_demote_path(u), :method => :post %>
+              <% if u != current_user %>
+                  <%= link_to 'Remove', admin_user_demote_path(u), :method => :post %>
+              <% end %>
           <% else %>
               <%= link_to 'Add', admin_user_promote_path(u), :method => :post %>
           <% end %>
         </td>
         <td class="action">
-          <%= link_to 'Delete', admin_user_path(u), :confirm => 'Are you sure?', :method => :delete %>
+          <% if u != current_user %>
+              <%= link_to 'Delete', admin_user_path(u), :confirm => 'Are you sure?', :method => :delete %>
+          <% end %>
         </td>
       </tr>
   <% end %>

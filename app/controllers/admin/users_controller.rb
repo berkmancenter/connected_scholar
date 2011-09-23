@@ -35,8 +35,8 @@ class Admin::UsersController < ApplicationController
   end
 
   def demote
-    if params[:user_id] != current_user.id
-      @user = User.find(params[:user_id])
+    @user = User.find(params[:user_id])
+    if @user != current_user
       authorize! :manage, @user
       @user.demote!
       @user.save!
