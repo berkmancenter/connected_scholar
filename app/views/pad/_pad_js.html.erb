@@ -40,6 +40,7 @@
 
 </script>
 <script type="text/javascript">
+  var copiedText = "";
   function htmlDecode(value){
     return $('<div/>').html(value).text();
   }
@@ -128,6 +129,37 @@
       range.select();
     }
   }
+
+  function pasteText(event){
+    insertTextAtCursor(copiedText);
+  }
+  function getSelectedText(){
+    var win = getWin();
+    var doc = getDoc();
+    if ( win.getSelection ) {
+      return win.getSelection().toString();
+    }else if ( doc.getSelection ) {
+      return doc.getSelection();
+    } else if ( doc.selection ) {
+      return doc.selection.createRange().text;
+    }
+  }
+
+  function insertTextAtCursor(text) {
+    var sel, range, html;
+    var win = getWin();
+    var doc = getDoc();
+    if (win.getSelection) {
+        sel = win.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.insertNode( doc.createTextNode(text) );
+        }
+    } else if (doc.selection && doc.selection.createRange) {
+        range = doc.selection.createRange();
+        range.pasteHTML(text);
+    }
+  }
   
   function setCitation(document_id, resource_id, target){
     $.get("/documents/" + document_id + "/resources/" + resource_id + "/citation", function(data){
@@ -178,6 +210,18 @@
             label: 'Remove',
             action: function(){
               initRemoveCitations(document_id, citationsInParagraph, event);
+            }
+          },
+          {
+            label: 'Copy', 
+            action : function(){
+              copiedText = getSelectedText();
+            }
+          },
+          {
+            label: 'Paste',
+            action: function (){
+              pasteText(event);
             }
           }]
         };
