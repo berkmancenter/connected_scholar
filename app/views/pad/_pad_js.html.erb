@@ -145,6 +145,29 @@
     }
   }
 
+  function deleteSelection() {
+    var win = getWin();
+    var doc = getDoc();
+    if (win.getSelection) {
+      var selection = win.getSelection();
+      if (selection.rangeCount > 0) {
+          win.getSelection().deleteFromDocument();
+          win.getSelection().removeAllRanges();
+      }
+    } else if (doc.selection) {
+      // Internet Explorer
+      var ranges = doc.selection.createRangeCollection();
+      for (var i = 0; i < ranges.length; i++) {
+          ranges[i].text = "";
+      }
+    }
+  }
+  function cutSelectedText(){
+    var text = getSelectedText();
+    deleteSelection();
+    return text;
+  }
+
   function insertTextAtCursor(text) {
     var sel, range, html;
     var win = getWin();
@@ -210,6 +233,12 @@
             label: 'Remove',
             action: function(){
               initRemoveCitations(document_id, citationsInParagraph, event);
+            }
+          },
+          {
+            label: 'Cut',
+            action: function(){
+              copiedText = cutSelectedText();
             }
           },
           {
