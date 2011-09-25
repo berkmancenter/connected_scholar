@@ -138,5 +138,17 @@ describe Document do
          resource.citations.size.should == 1
       end
     end
+
+    context "when citation does exist" do
+      before do 
+        resource.citations << Citation.create(:citation_text => "(Foo 2011)")
+      end
+
+      it "should not add the citation to the list of citations" do 
+        citation_count = subject.active_citations.size
+        subject.add_citation("(Foo 2011)", resource.id).should be_false
+        citation_count.should == subject.active_citations.size
+      end
+    end
   end
 end
