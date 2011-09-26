@@ -4,11 +4,17 @@ describe DocumentsController do
   include Devise::TestHelpers
 
   let :user do
-    User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    u = User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    u.approve!
+    u.save!
+    u
   end
 
   let :contributor do
-    User.create! :name => "Contrib User", :email => 'contrib@test.com', :password => 'password', :password_confirmation => 'password'
+    u = User.create! :approved => true, :name => "Contrib User", :email => 'contrib@test.com', :password => 'password', :password_confirmation => 'password'
+    u.approve!
+    u.save!
+    u
   end
 
   let :document do
@@ -77,4 +83,24 @@ describe DocumentsController do
     end
   end
 
+  describe "POST citation" do
+    let :resource do
+      Resource.create! :document_id => document.id, :active => true, :publication_date => Date.today
+    end
+
+    it "should add the citation" do   
+      post "citation", :id => document.id, :resource_id => resource.id, :citation => "(Foo 2011)"
+      response.body.should == ""
+    end
+
+    context "when citation exists" do
+      before do 
+        resource.citations << Citation.create(:citation_text => "(Foo 2011)")
+      end
+      it "should not add the citation" do
+        post "citation", :id => document.id, :resource_id => resource.id, :citation => "(Foo 2011)"
+        response.body.should == "Duplicate citation."
+      end
+    end
+  end
 end

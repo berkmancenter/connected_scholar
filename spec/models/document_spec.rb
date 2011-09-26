@@ -121,4 +121,34 @@ describe Document do
       subject.etherpad_password.should_not be_nil
     end
   end
+
+  describe "#add_citation" do 
+    subject do
+      Document.create! :name => 'foobar'
+    end
+
+    let :resource do
+      Resource.create! :document => subject, :active => true, :publication_date => Date.today
+    end
+
+    context "when citation does not exist" do 
+      it "should add the citation to the list of citations" do 
+         subject.add_citation("(Foo 2011)", resource.id)  
+         subject.active_citations.size.should == 1
+         resource.citations.size.should == 1
+      end
+    end
+
+    context "when citation does exist" do
+      before do 
+        resource.citations << Citation.create(:citation_text => "(Foo 2011)")
+      end
+
+      it "should not add the citation to the list of citations" do 
+        citation_count = subject.active_citations.size
+        subject.add_citation("(Foo 2011)", resource.id).should be_false
+        citation_count.should == subject.active_citations.size
+      end
+    end
+  end
 end
