@@ -58,23 +58,32 @@
           bottom: 45px;
       }
 
-      #choicesLeft, #searchAccordian, #sourcesAccordian {
+      .padAccordion {
           margin: 10px;
           width: auto;
       }
 
-      #searchAccordian .ui-accordion-content {
+      #detailsAccordion .ui-accordion-content {
+          height: auto;
+      }
+
+      #searchAccordion .ui-accordion-content {
           height: 50px;
       }
 
-      #sourcesAccordian .ui-accordion-content {
+      #sourcesAccordion .ui-accordion-content {
           height: 500px; /* we'll have to resize this with js if we want it to exand and contract with the window */
           overflow-y: auto;
           padding-left: 0;
           padding-right: 0;
       }
 
-      #sourcesAccordian .resource_item {
+      #commentsAccordion .ui-accordion-content {
+          height: 430px; /* we'll have to resize this with js if we want it to exand and contract with the window */
+          overflow-y: auto;
+      }
+
+      #sourcesAccordion .resource_item {
           font-size: 10pt;
       }
 
@@ -85,16 +94,16 @@
           color: #388EB4;
       }
 
-      #sourcesAccordian .resource_item, .resource-legend {
+      #sourcesAccordion .resource_item, .resource-legend {
           margin-left: 24px;
           margin-right: 24px;
       }
 
-      #searchAccordian .ui-accordion-header {
+      #searchAccordion .ui-accordion-header {
           background: #839668;
       }
 
-      #sourcesAccordian .ui-accordion-header {
+      #sourcesAccordion .ui-accordion-header {
           background: #BA745C;
       }
   </style>
