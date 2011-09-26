@@ -234,24 +234,6 @@
             action: function(){
               initRemoveCitations(document_id, citationsInParagraph, event);
             }
-          },
-          {
-            label: 'Cut',
-            action: function(){
-              copiedText = cutSelectedText();
-            }
-          },
-          {
-            label: 'Copy', 
-            action : function(){
-              copiedText = getSelectedText();
-            }
-          },
-          {
-            label: 'Paste',
-            action: function (){
-              pasteText(event);
-            }
           }]
         };
         contextPopup(menuData, event);        
