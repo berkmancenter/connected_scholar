@@ -7,7 +7,7 @@
   <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
   <%= csrf_meta_tags %>
   <style>
-      *{
+      * {
           overflow: hidden;
       }
 
@@ -79,8 +79,42 @@
       }
 
       #commentsAccordion .ui-accordion-content {
-          height: 430px; /* we'll have to resize this with js if we want it to exand and contract with the window */
+          height: 410px; /* we'll have to resize this with js if we want it to exand and contract with the window */
           overflow-y: auto;
+          padding-left: 15px;
+          padding-right: 30px;
+      }
+
+      #commentsAccordion .comment_item {
+          clear: both;
+          margin: 0 0 5px 0;
+      }
+
+      #commentsAccordion .comment_divider {
+          margin-bottom: 15px;
+      }
+
+      #commentsAccordion .comment_date {
+          width: 170px;
+          float: left;
+          color: #999999;
+      }
+
+      #commentsAccordion .comment_delete {
+          width: 16px;
+          float: left;
+      }
+
+      #commentsAccordion .comment_text {
+          margin: 0 0 5px 10px
+      }
+
+      #commentsAccordion .comment_header {
+          margin-bottom: 5px;
+      }
+
+      #commentsAccordion .comment_author {
+          color: #388EB4;
       }
 
       #sourcesAccordion .resource_item {
@@ -90,6 +124,7 @@
       .resource-legend {
           color: #888888;
       }
+
       .resource-legend a:hover {
           color: #388EB4;
       }
