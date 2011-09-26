@@ -4,11 +4,17 @@ describe DocumentsController do
   include Devise::TestHelpers
 
   let :user do
-    User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    u = User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    u.approve!
+    u.save!
+    u
   end
 
   let :contributor do
-    User.create! :name => "Contrib User", :email => 'contrib@test.com', :password => 'password', :password_confirmation => 'password'
+    u = User.create! :approved => true, :name => "Contrib User", :email => 'contrib@test.com', :password => 'password', :password_confirmation => 'password'
+    u.approve!
+    u.save!
+    u
   end
 
   let :document do
