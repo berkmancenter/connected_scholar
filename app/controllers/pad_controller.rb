@@ -30,8 +30,8 @@ class PadController < ApplicationController
         unless is_pad_password_protected(@document)
           set_pad_password(@document, @document.etherpad_password)
         end
-        cookies[:password] = @document.etherpad_password
       end
+      cookies[:password] = @document.etherpad_password
 
       render :action => 'pad'
     else
