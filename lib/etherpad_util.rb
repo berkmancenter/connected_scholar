@@ -99,6 +99,14 @@ module EtherpadUtil
     end
   end
 
+  def set_pad_text(document, text)
+    with_apikey do |url, apikey|
+      JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/setText?apikey=#{apikey}&padID=#{document.pad_id}&text=#{CGI::escape(text)}" do |data|
+        return data['code']
+      end
+    end
+  end
+
   def get_pad_text(document)
     with_apikey do |url, apikey|
       JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/getText?apikey=#{apikey}&padID=#{document.pad_id}" do |data|
