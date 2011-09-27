@@ -18,23 +18,29 @@
 
     <div>
       <p>
-        <b>Name:</b>
+        <b>Title:</b>
+        <br/>
         <%= @document.name %>
       </p>
 
       <p>
         <b>Owner:</b>
+        <br/>
         <%= @document.owner.name %>
+        <br/>
+        <%= @document.owner.email %>
       </p>
 
       <p>
         <b>Created At:</b>
-        <%= @document.created_at %>
+        <br/>
+        <%= render :inline => format_datetime(@document.created_at, "mmm d, yyyy 'at' h:MM tt") %>
       </p>
 
       <p>
         <b>Updated At:</b>
-        <%= @document.updated_at %>
+        <br/>
+        <%= render :inline => format_datetime(@document.updated_at, "mmm d, yyyy 'at' h:MM tt") %>
       </p>
 
       <p><%= link_to 'Manage this Document', @document %></p>
