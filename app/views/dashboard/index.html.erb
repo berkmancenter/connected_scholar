@@ -7,7 +7,9 @@
       <% @my_documents.each do |doc| %>
           <tr>
             <td class="document_name"><%= link_to doc.name, "/view_pad/#{doc.id}" %></td>
-            <td class="document_created"><%= doc.created_at %></td>
+            <td class="document_created" id="doc_<%= doc.id %>_date">
+              <%= render :inline => set_element_datetime(doc.created_at, "mmm d, yyyy h:MM tt", "doc_#{doc.id}_date") %>
+            </td>
             <td class="document_actions"><%= link_to 'Delete', doc, :confirm => 'Are you sure?', :method => :delete %></td>
           </tr>
           <tr class="dashboard_divider">

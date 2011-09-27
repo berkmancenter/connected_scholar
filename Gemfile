@@ -7,6 +7,7 @@ gem 'devise', '1.4.5'
 gem 'rest-client', '1.6.7'
 gem 'jquery-rails', '1.0.13'
 gem "cancan", "1.6.5"
+gem "uuid", "2.3.4"
 
 # Gems used only for assets and not required
 # in production environments by default.
