@@ -44,7 +44,13 @@
     <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
 
     <div>
-      <%= render :partial => "comments/comment", :collection => @document.comments %>
+      <% if @document.comments.empty? %>
+          <p style="color:#999999">
+            <em>No Comments</em>
+          </p>
+      <% else %>
+          <%= render :partial => "comments/comment", :collection => @document.comments %>
+      <% end %>
       <br/>
       <%= render :partial => "comments/form_dialog" %>
     </div>
