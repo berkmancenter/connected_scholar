@@ -1,6 +1,6 @@
 <div class="comment_item">
   <p class="comment_header">
-    <span class="comment_author"><%= comment.author.name %></span> said...
+    <span class="comment_author"><%= comment.author.name %> said...</span>
   </p>
 
   <p class="comment_text">
@@ -11,11 +11,7 @@
 
     <p>
       at
-      <% if comment.created_at.to_date == Date.today %>
-          <%= comment.created_at.strftime("%I:%M %p") %>
-      <% else %>
-          <%= comment.created_at.strftime("%d/%m/%y %I:%M %p") %>
-      <% end %>
+      <%= render :inline => display_datetime(comment.created_at, "comment_#{comment.id}_date") %>
     </p>
   </div>
   <div class="comment_delete">
