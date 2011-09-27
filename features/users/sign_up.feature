@@ -15,7 +15,7 @@ Feature: Sign up
         | Password              | please          |
         | Password confirmation | please          |
       And I press "Sign up"
-      Then I should see "You need to sign in or sign up before continuing."
+      Then I should see "Your account has been submitted for approval."
       
     Scenario: User signs up with invalid email
       And I fill in the following:
