@@ -6,6 +6,20 @@
   <%= stylesheet_link_tag "application" %>
   <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
   <%= csrf_meta_tags %>
+  <script>
+      $(window).resize(function() {
+          resizeDivs();
+      });
+      $(window).load(function() {
+          resizeDivs();
+      });
+
+      function resizeDivs() {
+          // TODO determine if other accordions are collapsed.  And adjust height accordingly?
+          $('#commentsAccordion .ui-accordion-content').height($(window).height().toString()-400);
+          $('#sourcesAccordion .ui-accordion-content').height($(window).height().toString()-255);
+      }
+  </script>
   <style>
       * {
           overflow: hidden;
@@ -76,14 +90,14 @@
       }
 
       #sourcesAccordion .ui-accordion-content {
-          height: 500px; /* we'll have to resize this with js if we want it to exand and contract with the window */
+          height: 2000px; /* just a place holder until the js resizes me */
           overflow-y: auto;
           padding-left: 0;
           padding-right: 0;
       }
 
       #commentsAccordion .ui-accordion-content {
-          height: 410px; /* we'll have to resize this with js if we want it to exand and contract with the window */
+          height: 2000px; /* just a place holder until the js resizes me */
           overflow-y: auto;
           padding-left: 15px;
           padding-right: 30px;
@@ -99,14 +113,14 @@
       }
 
       #commentsAccordion .comment_date {
-          width: 178px;
+          width: auto;
           float: left;
           color: #999999;
       }
 
       #commentsAccordion .comment_delete {
           width: 16px;
-          float: left;
+          float: right;
       }
 
       #commentsAccordion .comment_text {
