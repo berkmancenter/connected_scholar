@@ -9,12 +9,12 @@ module ApplicationHelper
     end
   end
 
-  def display_datetime(datetime, span_id)
+  def display_datetime_en(datetime, span_id)
     # really should do this in the client timezone.  which means it would need to be done in JS
     if datetime.to_date == Date.today
-      format = "h:MM TT"
+      format = "'at' h:MM TT"
     else
-      format = "h:MM TT 'on' mmm d, yyyy"
+      format = "'on' mmm d, yyyy"
     end
     <<HTML
 <script>

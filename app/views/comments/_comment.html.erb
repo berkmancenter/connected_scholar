@@ -10,8 +10,7 @@
   <div class="comment_date">
 
     <p>
-      at
-      <%= render :inline => display_datetime(comment.created_at, "comment_#{comment.id}_date") %>
+      <%= render :inline => display_datetime_en(comment.created_at, "comment_#{comment.id}_date") %>
     </p>
   </div>
   <div class="comment_delete">
