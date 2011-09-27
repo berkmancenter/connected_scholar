@@ -37,7 +37,7 @@ Feature: Add Comment
     @javascript
     Scenario: User destroys a comment from the document
       When I preconfirm
-      And I follow "Destroy Comment"
+      And I follow "Delete Comment"
       And I follow "Comments"
       And I wait 1 seconds
       Then I should not see "This is a great document"

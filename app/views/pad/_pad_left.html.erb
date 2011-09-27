@@ -1,13 +1,18 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        $("#choicesLeft").accordion({
-            collapsible: true
+        $("#detailsAccordion").accordion({
+            collapsible: false
+        });
+    });
+    jQuery(document).ready(function() {
+        $("#commentsAccordion").accordion({
+            collapsible: false
         });
     });
 </script>
 
 <div id="padLeft">
-   <div id="choicesLeft">
+  <div id="detailsAccordion" class="padAccordion">
 
     <h3 style="font-weight: bold;"><a href="#">Document Details</a></h3>
 
@@ -34,7 +39,8 @@
 
       <p><%= link_to 'Manage this Document', @document %></p>
     </div>
-
+  </div>
+  <div id="commentsAccordion" class="padAccordion">
     <h3 style="font-weight: bold;"><a href="#">Comments</a></h3>
 
     <div>

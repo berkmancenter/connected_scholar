@@ -43,6 +43,5 @@ Feature: Delete user
       Then I should see "Active Users"
       And I should see "foo"
       And I should see "admin@test.com"
-      Then I follow "Delete"
-      And I should see "You cannot delete yourself"
+      And I should not see "Delete"
 

@@ -7,7 +7,7 @@
   <%= stylesheet_link_tag "/static/css/custom-theme1/jquery-ui-1.8.16.custom.css" %>
   <%= csrf_meta_tags %>
   <style>
-      *{
+      * {
           overflow: hidden;
       }
 
@@ -58,43 +58,88 @@
           bottom: 45px;
       }
 
-      #choicesLeft, #searchAccordian, #sourcesAccordian {
+      .padAccordion {
           margin: 10px;
           width: auto;
       }
 
-      #searchAccordian .ui-accordion-content {
+      #detailsAccordion .ui-accordion-content {
+          height: auto;
+      }
+
+      #searchAccordion .ui-accordion-content {
           height: 50px;
       }
 
-      #sourcesAccordian .ui-accordion-content {
+      #sourcesAccordion .ui-accordion-content {
           height: 500px; /* we'll have to resize this with js if we want it to exand and contract with the window */
           overflow-y: auto;
           padding-left: 0;
           padding-right: 0;
       }
 
-      #sourcesAccordian .resource_item {
+      #commentsAccordion .ui-accordion-content {
+          height: 410px; /* we'll have to resize this with js if we want it to exand and contract with the window */
+          overflow-y: auto;
+          padding-left: 15px;
+          padding-right: 30px;
+      }
+
+      #commentsAccordion .comment_item {
+          clear: both;
+          margin: 0 0 5px 0;
+      }
+
+      #commentsAccordion .comment_divider {
+          margin-bottom: 15px;
+      }
+
+      #commentsAccordion .comment_date {
+          width: 178px;
+          float: left;
+          color: #999999;
+      }
+
+      #commentsAccordion .comment_delete {
+          width: 16px;
+          float: left;
+      }
+
+      #commentsAccordion .comment_text {
+          margin: 0 0 5px 10px
+      }
+
+      #commentsAccordion .comment_header {
+          margin-bottom: 5px;
+      }
+
+      #commentsAccordion .comment_author {
+          color: #777777;
+          font-style: italic;
+      }
+
+      #sourcesAccordion .resource_item {
           font-size: 10pt;
       }
 
       .resource-legend {
           color: #888888;
       }
+
       .resource-legend a:hover {
           color: #388EB4;
       }
 
-      #sourcesAccordian .resource_item, .resource-legend {
+      #sourcesAccordion .resource_item, .resource-legend {
           margin-left: 24px;
           margin-right: 24px;
       }
 
-      #searchAccordian .ui-accordion-header {
+      #searchAccordion .ui-accordion-header {
           background: #839668;
       }
 
-      #sourcesAccordian .ui-accordion-header {
+      #sourcesAccordion .ui-accordion-header {
           background: #BA745C;
       }
   </style>
