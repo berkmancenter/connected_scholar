@@ -6,7 +6,7 @@ When /^I drag a resource to the document$/ do
     var draggable_clone = draggable.clone();
     draggable_clone.appendTo($("#dragzone"));
     draggable_clone.draggable({zIndex: 100, iframeFix: true, start: startDrag });      
-  })
+  });
   draggable = nil;
   within("#dragzone") do
     draggable = page.find(".draggable")
@@ -24,6 +24,11 @@ Then /^I should see "([^"]*)" in the document$/ do |arg1|
   within("#innerdocbody") do 
     page.should have_content(arg1)
   end
+end
+
+When /^I set the text "([^"]*)" to the "([^"]*)"$/ do |text, doc_name|
+  document = Document.find_by_name(doc_name)
+  set_pad_text(document, text)
 end
 
 When /^I ensure "([^"]*)" pad is new$/ do |arg1|
