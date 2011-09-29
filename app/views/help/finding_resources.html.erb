@@ -1,0 +1,46 @@
+<h1>Finding Resources</h1>
+<p>
+  Connected Scholar helps you find resources from the Harvard University Library system.
+</p>
+<p>
+  First, open up one of your documents.
+</p>
+<p>
+  <%= image_tag "help/dashboard.my.document.png" %>
+</p>
+<p>
+  Next, enter a search term into the query box on the right side of the page and press "Go".
+</p>
+<p>
+  <%= image_tag "help/pad.search.simple.png" %>
+</p>
+<p>
+  A dialog should appear that displays some search results.
+</p>
+<p>
+  <%= image_tag "help/pad.search.results.png" %>
+</p>
+<p>
+  Each of these results represents an item in the library. Most items will have a link to "Hollis", which will open the
+  Hollis information page for the resource.
+</p>
+<p>
+  <%= image_tag "help/hollis.example.png" %>
+</p>
+<p>
+  Pick a item that you want to include in your document by clicking the "Recommend" link.
+</p>
+<p>
+  This will add it to the list of sources.
+</p>
+<p>
+  <%= image_tag "help/pad.sources.first.png" %>
+</p>
+<p>
+  You can recommend resources yourself. Or your contributors (the users
+  you <%= link_to "shared your document with", help_sharing_documents_path %>) can recommend them.
+</p>
+<p>
+  A source that has been recommended but has not been cited in the document will be colored black.  When you
+  <%= link_to "cite the source", help_citing_resources_path %> it will turn red.
+</p>

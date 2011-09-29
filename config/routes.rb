@@ -41,4 +41,6 @@ ConnectedScholar::Application.routes.draw do
 
   get "help/getting_started"
   get "help/sharing_documents"
+  get "help/finding_resources"
+  get "help/citing_resources"
 end
