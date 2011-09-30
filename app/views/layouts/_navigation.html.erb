@@ -7,16 +7,21 @@
         <br/>
         <a href="#">Edit Preferences</a><br/>
         <% if current_user.admin? %>
-            <%= link_to "Manage Users", admin_users_path %><br/>
+            <%= link_to "Manage Users", admin_users_path %>
+            <br/>
         <% end %>
       </div>
   <% end %>
   <h3><a href="#">Help</a></h3>
 
   <div>
-    <%= link_to "Getting Started", help_getting_started_path %><br/>
-    <%= link_to "Sharing Documents", help_sharing_documents_path %><br/>
-    <a href="#">Finding Resources</a><br/>
-    <a href="#">Citing Resources</a><br/>
+    <%= link_to "Getting Started", help_getting_started_path %>
+    <br/>
+    <%= link_to "Sharing Documents", help_sharing_documents_path %>
+    <br/>
+    <%= link_to "Finding Resources", help_finding_resources_path %>
+    <br/>
+    <%= link_to "Citing Resources", help_citing_resources_path %>
+    <br/>
   </div>
 </div>
