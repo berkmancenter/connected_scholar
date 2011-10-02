@@ -131,6 +131,18 @@
     }
   }
 
+  function setFocus(target){
+    var doc = getDoc();
+    var node = doc.getElementById(target.attr("id"));
+    target.focus(function() {
+      window.setTimeout(function() {
+        setCursorPosition(0, node, doc, getWin());
+      }, 0);
+    });
+    target.attr('tabindex', -1).focus();
+    target.removeAttr('tabindex');
+  }
+
   function pasteText(event){
     insertTextAtCursor(copiedText);
   }
@@ -316,15 +328,7 @@
         }
         
         target.text(text);
-        var doc = getDoc();
-        var node = doc.getElementById(target.attr("id"));
-        target.focus(function() {
-          window.setTimeout(function() {
-            setCursorPosition(0, node, doc, getWin());
-          }, 0);
-        });
-        target.attr('tabindex', -1).focus();
-        target.removeAttr('tabindex');
+        setFocus(target);
         $("#change_citation_dialog").dialog("close");
         return true;
       }else{
@@ -401,15 +405,7 @@
       }
     }
     target.text(text);
-    var doc = getDoc();
-    var node = doc.getElementById(target.attr("id"));
-    target.focus(function() {
-      window.setTimeout(function() {
-        setCursorPosition(0, node, doc, getWin());
-      }, 0);
-    });
-    target.attr('tabindex', -1).focus();
-    target.removeAttr('tabindex');
+    setFocus(target);
   }
 
   function initViewCitations(document_id, citations){
