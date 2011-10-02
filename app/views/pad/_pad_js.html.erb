@@ -339,18 +339,67 @@
       $.each(citations, function(index, citation){
         $("#resource_citation_select").append($("<option>").val(citation.resource_id).text(citation.citation_text));
       });
-      citationSelectDialog(document_id, event, removeCitation);       
+      citationSelectDialog(document_id, event, removeCitationDialog);
     }else if(citations.length == 1) {
-      removeCitation(document_id, citations[0].resource_id, citations[0].citation_text, event);
+      removeCitationDialog(document_id, citations[0].resource_id, citations[0].citation_text, event, -1);
     }else{ //0 citations
       return false;
-    }    
+    } 
+  }
+  function removeCitationDialog(document_id, resource_id, citation, event, occurrence){
+    target = $(event.currentTarget);
+    text = target.text();
+    $("#citation_remove_paragraph").text(text);
+    var matches = text.match(new RegExp( regexEscape(citation), "g" ));
+    if(matches.length > 1){
+      $("#citation_remove_match_select").empty();
+      $("#citation_remove_match_select").append($("<option>").val("-1").text("All Occurrences"));
+      $.each(matches, function(index, data){
+        v = index + 1
+        $("#citation_remove_match_select").append($("<option>").val("" + v).text("Occurrence " + v));
+      }); 
+      $("#citation_remove_dialog").dialog({
+        autoOpen: false,
+        title: citation,
+        height: 230,
+        width: 330,
+        modal: true,
+        buttons: {
+            "Submit": function() {
+              $(this).dialog("close");
+              occurrence = $("#citation_remove_match_select").val();
+              removeCitation(document_id, resource_id, citation, event, occurrence);
+            },
+            "Cancel": function() {
+              $(this).dialog("close");
+            }
+        }
+      });
+      $("#citation_remove_dialog").dialog("open");    
+    }else{
+      removeCitation(document_id, resource_id, citation, event, -1);
+    }
+        
   }
   
-  function removeCitation(document_id, resource_id, citation, event){
+  function removeCitation(document_id, resource_id, citation, event, occurrence){
     target = $(event.currentTarget)
     text = target.text();
-    text = text.replace(new RegExp( regexEscape(citation), "g" ), '');
+    if(occurrence == -1){
+      text = text.replace(new RegExp( regexEscape(citation), "g" ), '');
+    }else{
+      s = text.split(citation);
+      text = "";
+      for(i=0; i < s.length; i++){
+        text = text + s[i];
+        v = i + 1;
+        if(occurrence == v){
+          text = text + '';
+        }else if(i != s.length - 1){
+          text = text + citation;
+        }
+      }
+    }
     target.text(text);
     var doc = getDoc();
     var node = doc.getElementById(target.attr("id"));
