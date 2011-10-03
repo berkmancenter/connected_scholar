@@ -17,6 +17,9 @@ class Resource < ActiveRecord::Base
     self.save!
   end
 
+  # This method needs to return quickly because its called on the drag-and-drop.
+  # So don't load it up with unnessecary DB calls.
+  #
   def default_citation!
     d = self.citations.where(:default => true).first
 
