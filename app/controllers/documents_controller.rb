@@ -100,13 +100,4 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id])
     render :json => @document.active_citations
   end
-
-  def citation
-    @document = Document.find(params[:id])
-    if @document.add_citation(params[:citation], params[:resource_id])
-      render :text => ""
-    else
-      render :text => "Duplicate citation."
-    end
-  end
 end

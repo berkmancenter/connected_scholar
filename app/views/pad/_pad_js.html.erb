@@ -291,7 +291,7 @@
             "Submit": function() {
               new_citation = $("#citation_text").val();
               occurrence = $("#citation_match_select").val();
-              if(changeCitation(document_id, resource_id, citation, event, new_citation, occurrence)){
+              if(changeCitation(document_id, resource_id, citation, event, new_citation, occurrence)) {
                 $(this).dialog("close");
               }else{
                 $("#message").text("Citation already in use.  Cannot change citation.  Please try again.");
@@ -299,6 +299,7 @@
             },
             "Cancel": function() {
               $(this).dialog("close");
+              $("#message").empty();
             }
         }
       });
@@ -307,8 +308,8 @@
   }
 
   function changeCitation(document_id, resource_id, citation, event, new_citation, occurrence){
-    $.post("/documents/"+document_id+"/citation", {citation: new_citation, resource_id: resource_id}, function(data){
-      if(data.length == 0){
+    $.post("/documents/"+document_id+"/resources/"+resource_id+"/citations.json", {citation: {citation_text: new_citation}}, function(data){
+      if(data['error'] == undefined){
         target = $(event.currentTarget);
         text = replaceOccurrence(target.text(), citation, new_citation, occurrence);        
         target.text(text);
@@ -319,6 +320,7 @@
         return false;
       }
     });
+    return false;
   }
 
   function replaceOccurrence(text, citation, str, occurrence){
