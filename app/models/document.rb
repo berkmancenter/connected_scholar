@@ -28,9 +28,8 @@ class Document < ActiveRecord::Base
 
   def add_citation(citation, resource_id)
     unless active_citations.any?{|c| c["citation_text"] == citation}
-      return Citation.create!(:resource_id => resource_id, :citation_text => citation, :default => false)
+      return Citation.create(:resource_id => resource_id, :citation_text => citation)
     end
-    return false
   end
 
   def recommended_resources
