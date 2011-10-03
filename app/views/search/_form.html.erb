@@ -5,23 +5,30 @@
             resetAdvancedSearch();
             $("#advanced_query").val($("#query").val());
             $("#advanced_search_dialog").dialog("open");
-            // TODO add spining wheel
+            $('#ajax_loading').show();
+        });
+
+        $('#advanced_search_form').bind('ajax:before', function() {
+            $('#advanced_search_results').empty();
+            $('#ajax_loading').show();
         });
 
         $('#search_form').bind('ajax:success', function(evt, data, status, xhr) {
+            $('#ajax_loading').hide();
             $('#advanced_search_results').html(xhr.responseText);
         });
 
         $('#search_form').bind('ajax:error', function(evt, xhr, status, error) {
-            // todo
+            $('#ajax_loading').hide();
         });
 
         $('#advanced_search_form').bind('ajax:success', function(evt, data, status, xhr) {
+            $('#ajax_loading').hide();
             $('#advanced_search_results').html(xhr.responseText)
         });
 
         $('#advanced_search_form').bind('ajax:error', function(evt, xhr, status, error) {
-            // todo
+            $('#ajax_loading').hide();
         });
     });
 </script>
@@ -73,6 +80,7 @@
   <% end %>
   <br/>
 
+  <div id="ajax_loading" style="display: none;"><img src="/static/img/ajax-loader.gif" alt="Loading..."></div>
   <div id="advanced_search_results"></div>
 </div>
 <script>
