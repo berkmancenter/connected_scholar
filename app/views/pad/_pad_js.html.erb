@@ -309,24 +309,8 @@
   function changeCitation(document_id, resource_id, citation, event, new_citation, occurrence){
     $.post("/documents/"+document_id+"/citation", {citation: new_citation, resource_id: resource_id}, function(data){
       if(data.length == 0){
-        target = $(event.currentTarget)
-        text = target.text();
-        if(occurrence == -1){
-          text = text.replace(new RegExp( regexEscape(citation), "g" ), new_citation);
-        }else{
-          s = text.split(citation);
-          text = "";
-          for(i=0; i < s.length; i++){
-            text = text + s[i];
-            v = i + 1;
-            if(occurrence == v){
-              text = text + new_citation;
-            }else if(i != s.length - 1){
-              text = text + citation;
-            }
-          }
-        }
-        
+        target = $(event.currentTarget);
+        text = replaceOccurrence(target.text(), citation, new_citation, occurrence);        
         target.text(text);
         setFocus(target);
         $("#change_citation_dialog").dialog("close");
@@ -335,6 +319,25 @@
         return false;
       }
     });
+  }
+
+  function replaceOccurrence(text, citation, str, occurrence){
+    if(occurrence == -1){
+      text = text.replace(new RegExp( regexEscape(citation), "g" ), str);
+    }else{
+      s = text.split(citation);
+      text = "";
+      for(i=0; i < s.length; i++){
+        text = text + s[i];
+        v = i + 1;
+        if(occurrence == v){
+          text = text + str;
+        }else if(i != s.length - 1){
+          text = text + citation;
+        }
+      }
+    }
+    return text;
   }
 
   function initRemoveCitations(document_id, citations, event){
@@ -388,22 +391,7 @@
   
   function removeCitation(document_id, resource_id, citation, event, occurrence){
     target = $(event.currentTarget)
-    text = target.text();
-    if(occurrence == -1){
-      text = text.replace(new RegExp( regexEscape(citation), "g" ), '');
-    }else{
-      s = text.split(citation);
-      text = "";
-      for(i=0; i < s.length; i++){
-        text = text + s[i];
-        v = i + 1;
-        if(occurrence == v){
-          text = text + '';
-        }else if(i != s.length - 1){
-          text = text + citation;
-        }
-      }
-    }
+    text = replaceOccurrence(target.text(), citation, '', occurrence);
     target.text(text);
     setFocus(target);
   }
