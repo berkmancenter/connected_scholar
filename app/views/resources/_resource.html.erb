@@ -30,7 +30,7 @@
   <% end %>
 </ul>
 </p>
-<hr/>
+<hr style="margin: 5px 0 5px 0"/>
 <p>
   <b>Links:</b>
 <ul>
@@ -39,20 +39,69 @@
   <% end %>
 </ul>
 </p>
-<hr/>
+
+<hr style="margin: 5px 0 5px 0"/>
 
 <p>
-  <b>Citation Formats:</b>
-<ul>
-  <% for c in resource.citations %>
-      <li><%= c.citation_text %></li>
-  <% end %>
-</ul>
+  <b>Recognized Citations:</b>
+<%= form_for([resource.document, resource, resource.citations.build]) do |f| %>
+    <table style="width:100%">
+      <% for c in resource.citations %>
+          <% if c.id %> <!-- The call to .build created a bogus one -->
+              <tr>
+                <td><%= c.citation_text %></td>
+                <td style="width:auto">
+                  <%= link_to "delete", [resource.document, resource, c],
+                              :confirm => <<TXT, :method => :delete
+The following citation will no longer be recognized:
+
+   #{c.citation_text}
+
+Are you sure?
+TXT
+                  %>
+                </td>
+              </tr>
+          <% end %>
+      <% end %>
+      <tr>
+        <td><%= f.text_field :citation_text, :size => 30, :placeholder => "Add Recognized Citation" %></td>
+        <td style="width:auto"><%= f.submit "add" %></td>
+      </tr>
+    </table>
+<% end %>
 </p>
 
-<hr/>
+<hr style="margin: 5px 0 5px 0"/>
+
 <p>
   <%= link_to 'Delete this Resource', [resource.document, resource],
               :confirm => 'Are you sure?',
               :method => :delete %>
 </p>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+//        $("#add-recognized-citation-link").click(function() {
+//            $("#add-recognized-citation-dialog").dialog("open");
+//            return false;
+//        });
+
+        $("#add-recognized-citation-dialog").dialog({
+            title: "Add Citation",
+            autoOpen: false,
+            height: 200,
+            width: 330,
+            modal: true,
+            buttons: {
+                "Add Citation": function() {
+                    $(":button:contains('Add Citation')").attr("disabled", "disabled").addClass('ui-state-disabled');
+                    $("#new_citation").submit();
+                },
+                "Cancel": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+</script>

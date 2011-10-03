@@ -5,6 +5,7 @@ ConnectedScholar::Application.routes.draw do
   resources :documents do
     resources :comments, :only => [:create, :destroy]
     resources :resources, :only => [:show, :create, :destroy] do
+      resources :citations, :only => [:create, :destroy]
       get 'citation', :on => :member
       post 'activate', :on => :member
     end
