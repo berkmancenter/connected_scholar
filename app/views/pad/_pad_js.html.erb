@@ -131,6 +131,18 @@
     }
   }
 
+  function setFocus(target){
+    var doc = getDoc();
+    var node = doc.getElementById(target.attr("id"));
+    target.focus(function() {
+      window.setTimeout(function() {
+        setCursorPosition(0, node, doc, getWin());
+      }, 0);
+    });
+    target.attr('tabindex', -1).focus();
+    target.removeAttr('tabindex');
+  }
+
   function pasteText(event){
     insertTextAtCursor(copiedText);
   }
@@ -170,7 +182,7 @@
   }
 
   function insertTextAtCursor(text) {
-    var sel, range, html;
+    var sel, range;
     var win = getWin();
     var doc = getDoc();
     if (win.getSelection) {
@@ -251,7 +263,7 @@
       });
       citationSelectDialog(document_id, event, changeCitationDialog);
     }else if(citations.length == 1) {
-      changeCitationDialog(document_id, citations[0].resource_id, citations[0].citation_text, event);
+      changeCitationDialog(document_id, citations[0].resource_id, citations[0].citation_text, event, -1);
     }else{ //0 citations
       return false;
     } 
@@ -259,7 +271,17 @@
 
   function changeCitationDialog(document_id, resource_id, citation, event){
     $("#citation_text").val(citation);
-    $("#change_citation_dialog").dialog({
+    target = $(event.currentTarget);
+    text = target.text();
+    $("#citation_paragraph").text(text);
+    var matches = text.match(new RegExp( regexEscape(citation), "g" ));
+    $("#citation_match_select").empty();
+    $("#citation_match_select").append($("<option>").val("-1").text("All Occurrences"));
+    $.each(matches, function(index, data){
+      v = index + 1
+      $("#citation_match_select").append($("<option>").val("" + v).text("Occurrence " + v));
+    });
+      $("#change_citation_dialog").dialog({
         autoOpen: false,
         title: citation,
         height: 200,
@@ -268,7 +290,8 @@
         buttons: {
             "Submit": function() {
               new_citation = $("#citation_text").val();
-              if(changeCitation(document_id, resource_id, citation, event, new_citation)){
+              occurrence = $("#citation_match_select").val();
+              if(changeCitation(document_id, resource_id, citation, event, new_citation, occurrence)){
                 $(this).dialog("close");
               }else{
                 $("#message").text("Citation already in use.  Cannot change citation.  Please try again.");
@@ -279,25 +302,17 @@
             }
         }
       });
+    
       $("#change_citation_dialog").dialog("open");
   }
 
-  function changeCitation(document_id, resource_id, citation, event, new_citation){
+  function changeCitation(document_id, resource_id, citation, event, new_citation, occurrence){
     $.post("/documents/"+document_id+"/citation", {citation: new_citation, resource_id: resource_id}, function(data){
       if(data.length == 0){
-        target = $(event.currentTarget)
-        text = target.text();
-        text = text.replace(new RegExp( regexEscape(citation), "g" ), new_citation);
+        target = $(event.currentTarget);
+        text = replaceOccurrence(target.text(), citation, new_citation, occurrence);        
         target.text(text);
-        var doc = getDoc();
-        var node = doc.getElementById(target.attr("id"));
-        target.focus(function() {
-          window.setTimeout(function() {
-            setCursorPosition(0, node, doc, getWin());
-          }, 0);
-        });
-        target.attr('tabindex', -1).focus();
-        target.removeAttr('tabindex');
+        setFocus(target);
         $("#change_citation_dialog").dialog("close");
         return true;
       }else{
@@ -306,34 +321,78 @@
     });
   }
 
+  function replaceOccurrence(text, citation, str, occurrence){
+    if(occurrence == -1){
+      text = text.replace(new RegExp( regexEscape(citation), "g" ), str);
+    }else{
+      s = text.split(citation);
+      text = "";
+      for(i=0; i < s.length; i++){
+        text = text + s[i];
+        v = i + 1;
+        if(occurrence == v){
+          text = text + str;
+        }else if(i != s.length - 1){
+          text = text + citation;
+        }
+      }
+    }
+    return text;
+  }
   function initRemoveCitations(document_id, citations, event){
     if(citations.length > 1){
       $("#resource_citation_select").empty();
       $.each(citations, function(index, citation){
         $("#resource_citation_select").append($("<option>").val(citation.resource_id).text(citation.citation_text));
       });
-      citationSelectDialog(document_id, event, removeCitation);       
+      citationSelectDialog(document_id, event, removeCitationDialog);
     }else if(citations.length == 1) {
-      removeCitation(document_id, citations[0].resource_id, citations[0].citation_text, event);
+      removeCitationDialog(document_id, citations[0].resource_id, citations[0].citation_text, event, -1);
     }else{ //0 citations
       return false;
-    }    
+    } 
+  }
+  function removeCitationDialog(document_id, resource_id, citation, event, occurrence){
+    target = $(event.currentTarget);
+    text = target.text();
+    $("#citation_remove_paragraph").text(text);
+    var matches = text.match(new RegExp( regexEscape(citation), "g" ));
+    if(matches.length > 1){
+      $("#citation_remove_match_select").empty();
+      $("#citation_remove_match_select").append($("<option>").val("-1").text("All Occurrences"));
+      $.each(matches, function(index, data){
+        v = index + 1
+        $("#citation_remove_match_select").append($("<option>").val("" + v).text("Occurrence " + v));
+      }); 
+      $("#citation_remove_dialog").dialog({
+        autoOpen: false,
+        title: citation,
+        height: 230,
+        width: 330,
+        modal: true,
+        buttons: {
+            "Submit": function() {
+              $(this).dialog("close");
+              occurrence = $("#citation_remove_match_select").val();
+              removeCitation(document_id, resource_id, citation, event, occurrence);
+            },
+            "Cancel": function() {
+              $(this).dialog("close");
+            }
+        }
+      });
+      $("#citation_remove_dialog").dialog("open");    
+    }else{
+      removeCitation(document_id, resource_id, citation, event, -1);
+    }
+        
   }
   
-  function removeCitation(document_id, resource_id, citation, event){
+  function removeCitation(document_id, resource_id, citation, event, occurrence){
     target = $(event.currentTarget)
-    text = target.text();
-    text = text.replace(new RegExp( regexEscape(citation), "g" ), '');
+    text = replaceOccurrence(target.text(), citation, '', occurrence);
     target.text(text);
-    var doc = getDoc();
-    var node = doc.getElementById(target.attr("id"));
-    target.focus(function() {
-      window.setTimeout(function() {
-        setCursorPosition(0, node, doc, getWin());
-      }, 0);
-    });
-    target.attr('tabindex', -1).focus();
-    target.removeAttr('tabindex');
+    setFocus(target);
   }
 
   function initViewCitations(document_id, citations){
