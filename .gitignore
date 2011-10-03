@@ -7,3 +7,4 @@ vendor/etherpad-lite
 vendor/node
 .idea
 .DS_Store
+.rvmrc
