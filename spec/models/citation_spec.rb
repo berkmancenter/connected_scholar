@@ -67,6 +67,14 @@ describe Citation do
       resource.save!
     end
 
+    it "should do nothing if its already the default" do
+      old_default = resource.citations.first
+      c = resource.citations.create!(:resource => resource, :citation_text => "(Smith 1999)", :default => false)
+      old_default.make_default!
+      c.default.should be_false
+      old_default.reload.default.should be_true
+    end
+
     it "should atomically swap default value" do
       old_default = resource.citations.first
       c = resource.citations.create!(:resource => resource, :citation_text => "(Smith 1999)", :default => false)
@@ -89,6 +97,21 @@ describe Citation do
 
       c.reload.default.should be_false
       old_default.reload.default.should be_true
+    end
+
+    it "should promote the other one if the default is destroyed" do
+      old_default = resource.citations.first
+      c = resource.citations.create!(:resource => resource, :citation_text => "(Smith 1999)", :default => false)
+
+      old_default.destroy
+
+      c.reload.default.should be_true
+    end
+
+    it "should not have a default if the only citation is destroyed" do
+      old_default = resource.citations.first
+      old_default.destroy
+      resource.citations.size.should == 0
     end
   end
 end

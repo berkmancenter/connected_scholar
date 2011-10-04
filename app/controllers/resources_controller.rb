@@ -55,6 +55,13 @@ class ResourcesController < ApplicationController
       render :partial => 'item', :locals => {:item => @resource, :make_draggable => true, :class_name => 'active_source'}
     end
   end
+
+  def promote_citation
+    @document = Document.find(params[:document_id])
+    @citation = Citation.find(params[:citation_id])
+    @citation.make_default!
+    redirect_to view_pad_path(@document)
+  end
   
   private
 
