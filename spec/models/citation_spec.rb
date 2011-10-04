@@ -56,4 +56,39 @@ describe Citation do
       end
     end
   end
+
+  describe "#make_default!" do
+    before do
+      resource.title = "Hello World"
+      resource.creators << "John Doe"
+      resource.publication_date = Date.parse('2000-01-01')
+      resource.save!
+      resource.default_citation!
+      resource.save!
+    end
+
+    it "should atomically swap default value" do
+      old_default = resource.citations.first
+      c = resource.citations.create!(:resource => resource, :citation_text => "(Smith 1999)", :default => false)
+      c.make_default!
+      c.default.should be_true
+      old_default.reload.default.should_not be_true
+    end
+
+    it "should not change values if there is an error" do
+      old_default = resource.citations.first
+      c = resource.citations.create!(:resource => resource, :citation_text => "(Smith 1999)", :default => false)
+
+      def c.save!
+        raise "Fake Error"
+      end
+      
+      expect {
+        c.make_default!
+      }.to raise_error(StandardError)
+
+      c.reload.default.should be_false
+      old_default.reload.default.should be_true
+    end
+  end
 end

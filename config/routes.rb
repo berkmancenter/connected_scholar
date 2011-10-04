@@ -8,6 +8,9 @@ ConnectedScholar::Application.routes.draw do
       resources :citations, :only => [:create, :destroy]
       get 'citation', :on => :member
       post 'activate', :on => :member
+      member do
+        post "default_citation/:citation_id", :action => "promote_citation", :as => :promote_citation
+      end
     end
     member do
       get "active_citations", :action => "active_citations", :as => :active_citations

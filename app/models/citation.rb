@@ -7,6 +7,16 @@ class Citation < ActiveRecord::Base
 
   validate :ensure_default
 
+  def make_default!
+    default_cit = Citation.where(:default => true, :resource_id => resource_id).first
+    transaction do
+      default_cit.default = false
+      self.default = true
+      default_cit.save!
+      self.save!
+    end
+  end
+
   private
 
   def ensure_default
