@@ -20,6 +20,9 @@ module NavigationHelpers
     when /the user admin page/
       '/admin/users'
 
+    when /the user preferences page/
+      '/users/preferences'
+
     when /the hollis page for "(.*)"/
       "http://hollis.harvard.edu/?itemid=|library/m/aleph|#{$1}"
 

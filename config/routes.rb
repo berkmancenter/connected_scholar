@@ -31,7 +31,10 @@ ConnectedScholar::Application.routes.draw do
 
   devise_for :users,
              :controllers => { :registrations => "registrations" },
-             :path_names => { :sign_in => 'sign_in', :sign_out => 'sign_out', :sign_up => "sign_up" }
+             :path_names => { :sign_in => 'sign_in', :sign_out => 'sign_out', :sign_up => "sign_up" } do
+    get "users/preferences" => "users#preferences", :as => :user_preferences
+    post "users/preferences" => "users#save_preferences", :as => :user_preferences
+  end
 
   match 'pad/'                      => 'pad#index'
   match 'view_pad/:document_id'     => 'pad#view_pad',  :document_id => /[^\/]+/, :as => :view_pad
