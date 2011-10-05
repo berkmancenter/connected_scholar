@@ -5,7 +5,7 @@
        <%= select_tag :citation_format,
                       options_for_select(
                               [['MLA', :mla], ['APA', :apa]],
-                              current_user.preferences[:citation_format] || :mla) %>
+                              current_user.preferences_with_defaults[:citation_format]) %>
     </p>
 
     <p><%= submit_tag "Save" %></p>

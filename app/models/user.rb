@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
   include EtherpadUtil
 
+  DEFAULT_PREFS = {
+      :citation_format => :mla
+  }
+
   serialize :preferences, Hash
 
   has_and_belongs_to_many :groups
@@ -15,10 +19,11 @@ class User < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
 
-  # i can't remember if i decided to keep this or not. it isn't breaking anything.  but if its not necessary we should
-  # dump it.
-  after_find do |u|
-    u.preferences ||= {}
+  # we can't just call this method :preferences because then changes like u.preferences[:format] = :mla  won't be
+  # persisted.
+  #
+  def preferences_with_defaults
+    DEFAULT_PREFS.merge(read_attribute(:preferences) || {})
   end
 
   def etherpad_author_id
