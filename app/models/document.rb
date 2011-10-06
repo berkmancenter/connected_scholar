@@ -72,6 +72,11 @@ class Document < ActiveRecord::Base
     "#{etherpad_group_id}$#{CGI::escape(etherpad_name)}"
   end
 
+  def citation_format
+    # TODO lookup in user preferences
+    :mla
+  end
+
   private
 
   def init_group

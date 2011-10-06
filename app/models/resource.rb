@@ -35,31 +35,16 @@ class Resource < ActiveRecord::Base
   private
 
   def default_citation
-    # TODO expand this to different formats
-    # format (Smith 2011)
-
-    citation = "(#{author_for_citation} #{pub_year})"
-    if Citation.includes(:resource).where(
+    formatter = CitationFactory.citation_formatter(self.document.citation_format)
+    citations = formatter.format(self)
+    citations.each do |citation|
+      unless(Citation.includes(:resource).where(
             :resources => {:document_id => self[:document_id]},
             :citation_text => citation)
           .where("resource_id <> ?", self.id)
-          .exists?
-      "(#{author_for_citation}, \"#{title}\" #{pub_year})"
-    else
-      citation
-    end
-  end
-
-  def pub_year
-    publication_date ? publication_date.year : ""
-  end
-
-  def author_for_citation
-    if !creators.blank? && creators.size > 0
-      creator = creators.first
-      creator.index(",").nil? ? creator.split(" ").last : creator[0, creator.index(",")]
-    else
-      ""
-    end
+          .exists?)
+        return citation
+      end
+    end        
   end
 end
