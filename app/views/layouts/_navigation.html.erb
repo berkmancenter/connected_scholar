@@ -5,7 +5,8 @@
       <div>
         <%= link_to 'Edit Account', edit_registration_path(current_user) %>
         <br/>
-        <a href="#">Edit Preferences</a><br/>
+        <%= link_to 'Edit Preferences', user_preferences_path %>
+        <br/>
         <% if current_user.admin? %>
             <%= link_to "Manage Users", admin_users_path %>
             <br/>

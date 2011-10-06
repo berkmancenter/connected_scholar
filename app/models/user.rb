@@ -1,6 +1,12 @@
 class User < ActiveRecord::Base
   include EtherpadUtil
 
+  DEFAULT_PREFS = {
+      :citation_format => :mla
+  }
+
+  serialize :preferences, Hash
+
   has_and_belongs_to_many :groups
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
@@ -12,6 +18,13 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
+
+  # we can't just call this method :preferences because then changes like u.preferences[:format] = :mla  won't be
+  # persisted.
+  #
+  def preferences_with_defaults
+    DEFAULT_PREFS.merge(read_attribute(:preferences) || {})
+  end
 
   def etherpad_author_id
     @etherpad_author_id ||= create_author_if_not_exists_for(self)

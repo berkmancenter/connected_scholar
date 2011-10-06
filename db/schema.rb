@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110922181145) do
+ActiveRecord::Schema.define(:version => 20111005144540) do
 
   create_table "citations", :force => true do |t|
     t.string   "citation_text"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20110922181145) do
     t.string   "confirmation_token"
     t.time     "confirmation_sent_at"
     t.boolean  "admin",                                 :default => false
+    t.text     "preferences"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -247,3 +247,11 @@ Then /^it should open a new window on (.+)$/ do |arg1|
   assert_equal current_url, path_to(arg1)
   page.driver.browser.switch_to.window(current_page)
 end
+
+Then /^"([^"]*)" should be selected for "([^"]*)"$/ do |value, field|
+  find_field(field).find("option[@selected = 'selected']").text.should =~ /#{value}/
+end
+
+Then /^"([^"]*)" should not be selected for "([^"]*)"$/ do |value, field|
+  find_field(field).find("option[@selected = 'selected']").text.should_not =~ /#{value}/
+end
