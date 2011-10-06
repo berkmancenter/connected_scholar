@@ -78,8 +78,11 @@ describe Document do
   end
 
   describe "#active_citations" do
+    let :user do
+      User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    end
     subject do
-      Document.create! :name => 'foobar'
+      Document.create! :name => 'foobar', :owner => user
     end
 
     let :resource do

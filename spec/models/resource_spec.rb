@@ -1,8 +1,13 @@
 require 'spec_helper'
 
 describe Resource do
+  
+  let :user do
+    User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+  end
+
   let :document do
-    Document.create! :name => 'foobar'
+    Document.create! :name => 'foobar', :owner => user
   end
 
   subject do
@@ -92,7 +97,7 @@ describe Resource do
 
       describe "and the document is different" do
         before do
-          r = Resource.create! :document => Document.create!(:name => "something else"),
+          r = Resource.create! :document => Document.create!(:name => "something else", :owner => user),
                                :title => "Goodbye World",
                                :creators => ["John Doe"],
                                :publication_date => Date.parse('2000-01-01')
