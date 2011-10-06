@@ -30,16 +30,18 @@
         }
 
         .search_results_count {
+            float: left;
             margin-bottom: 5px;
             color: #777777;
             font-style: italic;
         }
 
-        .more_search_results {
-            margin-top: 15px;
+        .search_prev_next {
+            float: right;
+            color: #777777;
         }
 
-        .more_search_results a {
+        .search_prev_next a {
             color: #777777;
         }
     </style>
@@ -47,6 +49,33 @@
       Showing
       <%= "#{"#{start+1} to " if num_found != searchresults.size}#{searchresults.size + start}" %>
       <%= " of #{num_found} result#{"s" unless num_found == 1}" %>
+    </div>
+    <div class="search_prev_next">
+      <% if start == 0 %>
+          <<
+      <% else %>
+          <a href="#" id="search_results_prev"><<</a>
+          <script type="text/javascript">
+              $("#search_results_prev").click(function() {
+                  $("#start").val(<%= start-limit %>);
+                  $("#advanced_search_form").submit();
+                  return false;
+              });
+          </script>
+      <% end %>
+      |
+      <% if num_found == searchresults.size + start %>
+          >>
+      <% else %>
+          <a href="#" id="search_results_next">>></a>
+          <script type="text/javascript">
+              $("#search_results_next").click(function() {
+                  $("#start").val(<%= start+limit %>);
+                  $("#advanced_search_form").submit();
+                  return false;
+              });
+          </script>
+      <% end %>
     </div>
     <table class="search_results">
       <tr>
@@ -87,16 +116,5 @@
           </tr>
       <% end %>
     </table>
-    <% if num_found != searchresults.size + start %>
-        <div id="more_search_results_<%= "#{start}_to_#{limit}" %>" class="more_search_results">
-          <a href="#">Show More Results</a>
-          <script type="text/javascript">
-              $("#more_search_results_<%= "#{start}_to_#{limit}" %>").click(function() {
-                  $("#more_search_results_<%= "#{start}_to_#{limit}" %>").hide();
-                  return false;
-              })
-          </script>
-        </div>
-    <% end %>
 
 <% end %>

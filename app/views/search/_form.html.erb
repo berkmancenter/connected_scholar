@@ -77,6 +77,8 @@
         <br/>
         <%= submit_tag "Reset", :id => "advanced_search_reset", :type => "reset" %>
         <%= submit_tag "Search" %>
+        <%= hidden_field_tag :limit, 25 %>
+        <%= hidden_field_tag :start, 0  %>
     <% end %>
   <br/>
 

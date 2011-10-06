@@ -16,7 +16,7 @@ class SearchController < ApplicationController
       end
     end
 
-    @items = item_search(params[:search_type], params[:query], filters)
+    @items = item_search(params[:search_type], params[:query], params[:limit], params[:start], filters)
 
     render_items
   end
