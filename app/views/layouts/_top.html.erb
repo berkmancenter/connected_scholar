@@ -15,7 +15,7 @@
         |
         <%= link_to 'Account', edit_registration_path(current_user) %>
         |
-        <a href="#">Help</a>
+        <%= link_to 'Help', help_getting_started_path %>
         |
         <%= link_to('Logout', destroy_user_session_path) %>
     <% else %>
