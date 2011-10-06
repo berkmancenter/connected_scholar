@@ -1,8 +1,6 @@
 class SearchController < ApplicationController
   include SearchUtil
 
-  DEF_LIMIT = 25
-
   def keyword
     @items = item_search(params[:search_type], params[:query])
 
@@ -35,7 +33,9 @@ class SearchController < ApplicationController
                    :layout => false,
                    :locals => {
                        :searchresults => @items['docs'],
-                       :num_found => @items['num_found']
+                       :limit => @items['limit'].to_i,
+                       :start => @items['start'].to_i,
+                       :num_found => @items['num_found'].to_i
                    }
           end
           format.js {render :json => @items['docs']}

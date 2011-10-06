@@ -8,37 +8,47 @@
 
 <% else %>
     <style type="text/css">
-        table#search_results {
+        table.search_results {
             width: 100%;
         }
 
-        table#search_results th {
+        table.search_results th {
             text-align: left;
         }
 
-        table#search_results td.title {
+        table.search_results td.title {
             font-style: italic;
             max-width: 325px;
         }
 
-        table#search_results td.info {
+        table.search_results td.info {
             padding-right: 20px;
         }
 
-        table#search_results hr {
+        table.search_results hr {
             margin: 5px 0 5px 0;
         }
 
-        #results_count {
+        .search_results_count {
             margin-bottom: 5px;
             color: #777777;
             font-style: italic;
         }
+
+        .more_search_results {
+            margin-top: 15px;
+        }
+
+        .more_search_results a {
+            color: #777777;
+        }
     </style>
-    <div id="results_count">
-      <%= "Showing #{searchresults.size} of #{num_found} result#{"s" unless num_found == 1} " %>
+    <div class="search_results_count">
+      Showing
+      <%= "#{"#{start+1} to " if num_found != searchresults.size}#{searchresults.size + start}" %>
+      <%= " of #{num_found} result#{"s" unless num_found == 1}" %>
     </div>
-    <table id="search_results">
+    <table class="search_results">
       <tr>
         <th class="title">Title</th>
         <th>Creator</th>
@@ -77,4 +87,16 @@
           </tr>
       <% end %>
     </table>
+    <% if num_found != searchresults.size + start %>
+        <div id="more_search_results_<%= "#{start}_to_#{limit}" %>" class="more_search_results">
+          <a href="#">Show More Results</a>
+          <script type="text/javascript">
+              $("#more_search_results_<%= "#{start}_to_#{limit}" %>").click(function() {
+                  $("#more_search_results_<%= "#{start}_to_#{limit}" %>").hide();
+                  return false;
+              })
+          </script>
+        </div>
+    <% end %>
+
 <% end %>
