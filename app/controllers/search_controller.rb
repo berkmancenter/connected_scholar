@@ -1,6 +1,8 @@
 class SearchController < ApplicationController
   include SearchUtil
 
+  DEF_LIMIT = 25
+
   def keyword
     @items = item_search(params[:search_type], params[:query])
 
@@ -27,7 +29,15 @@ class SearchController < ApplicationController
     if @items
       if @items['docs']
         respond_to do |format|
-          format.html {render :partial=>'search/results', :content_type => "text/html", :layout => false, :locals => {:searchresults => @items['docs']}}
+          format.html do
+            render :partial=>'search/results',
+                   :content_type => "text/html",
+                   :layout => false,
+                   :locals => {
+                       :searchresults => @items['docs'],
+                       :num_found => @items['num_found']
+                   }
+          end
           format.js {render :json => @items['docs']}
         end
       else

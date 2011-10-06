@@ -32,10 +32,11 @@
         #results_count {
             margin-bottom: 5px;
             color: #777777;
+            font-style: italic;
         }
     </style>
     <div id="results_count">
-      <%= "#{searchresults.size} result#{"s" unless searchresults.size == 1}" %>
+      <%= "Showing #{searchresults.size} of #{num_found} result#{"s" unless num_found == 1} " %>
     </div>
     <table id="search_results">
       <tr>
