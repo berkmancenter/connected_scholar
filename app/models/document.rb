@@ -73,8 +73,7 @@ class Document < ActiveRecord::Base
   end
 
   def citation_format
-    # TODO lookup in user preferences
-    :mla
+    self.owner.preferences_with_defaults[:citation_format]
   end
 
   private
