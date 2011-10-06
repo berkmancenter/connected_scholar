@@ -7,34 +7,73 @@
     <p>You must enter a search term.</p>
 
 <% else %>
-    <% for r in searchresults %>
-        <p>
-          <b>Title:</b>
-          <%= r['title'] %>
-        </p>
-        <p>
-          <b>Creator:</b>
-          <%= r['creator'].first if r['creator'] %>
-        </p>
-        <p>
-          <b>Links:</b>
-          <% if r['id_inst'] and r['id_inst'].strip != "" %>
-            <%= link_to "Hollis", item_link(r['id_inst']), :target => "_blank" %>
-          <% end %>
-        </p>
-        <p>
-          <a href="#" id="recommend_<%= r['id'] %>">Recommend</a>
+    <style type="text/css">
+        table#search_results {
+            width: 100%;
+        }
 
-          <script>
-            $("#recommend_<%= r['id'] %>").click(function() {
-                recommend_resource("<%= r['id'] %>");
-                window.location.reload();
-                return false;
-            })
-          </script>
-        </p>
-        <br/>
-        <hr/>
-        <br/>
-    <% end %>
+        table#search_results th {
+            text-align: left;
+        }
+
+        table#search_results td.title {
+            font-style: italic;
+            max-width: 325px;
+        }
+
+        table#search_results td.info {
+            padding-right: 20px;
+        }
+
+        table#search_results hr {
+            margin: 5px 0 5px 0;
+        }
+
+        #results_count {
+            margin-bottom: 5px;
+            color: #777777;
+        }
+    </style>
+    <div id="results_count">
+      <%= "#{searchresults.size} result#{"s" unless searchresults.size == 1}" %>
+    </div>
+    <table id="search_results">
+      <tr>
+        <th class="title">Title</th>
+        <th>Creator</th>
+        <th>Links</th>
+        <th></th>
+      </tr>
+      <% for r in searchresults %>
+          <tr>
+            <td colspan="4">
+              <hr/>
+            </td>
+          </tr>
+          <tr class="item">
+            <td class="title info">
+              <%= r['title'] %>
+            </td>
+            <td class="info">
+              <%= r['creator'].first if r['creator'] %>
+            </td>
+            <td class="info">
+              <% if r['id_inst'] and r['id_inst'].strip != "" %>
+                  <%= link_to "Hollis", item_link(r['id_inst']), :target => "_blank" %>
+              <% end %>
+            </td>
+            <td>
+              <button id="recommend_<%= r['id'] %>">+</button>
+              <script>
+                  $("#recommend_<%= r['id'] %>").click(function() {
+                      recommend_resource("<%= r['id'] %>");
+                      window.location.reload();
+                      return false;
+                  })
+              </script>
+            </td>
+            <td colspan="2"></td>
+          </tr>
+      <% end %>
+    </table>
 <% end %>
