@@ -52,10 +52,16 @@
     </div>
     <div class="search_prev_next">
       <% if start == 0 %>
-          <<
+          << <
       <% else %>
-          <a href="#" id="search_results_prev"><<</a>
+          <a href="#" id="search_results_start"><<</a>
+          <a href="#" id="search_results_prev"><</a>
           <script type="text/javascript">
+              $("#search_results_start").click(function() {
+                  $("#start").val(0);
+                  $("#advanced_search_form").submit();
+                  return false;
+              });
               $("#search_results_prev").click(function() {
                   $("#start").val(<%= start-limit %>);
                   $("#advanced_search_form").submit();
@@ -65,9 +71,9 @@
       <% end %>
       |
       <% if num_found == searchresults.size + start %>
-          >>
+          >
       <% else %>
-          <a href="#" id="search_results_next">>></a>
+          <a href="#" id="search_results_next">></a>
           <script type="text/javascript">
               $("#search_results_next").click(function() {
                   $("#start").val(<%= start+limit %>);
@@ -79,8 +85,8 @@
     </div>
     <table class="search_results">
       <tr>
-        <th class="title">Title</th>
-        <th>Creator</th>
+        <th><a href="#" id="search_results_sort_by_title">Title</a></th>
+        <th><a href="#" id="search_results_sort_by_creator">Creator</a></th>
         <th>Links</th>
         <th></th>
       </tr>
@@ -116,5 +122,19 @@
           </tr>
       <% end %>
     </table>
+    <script type="text/javascript">
+      $("#search_results_sort_by_title").click(function() {
+          $("#start").val(0);
+          $("#sort").val("title");
+          $("#advanced_search_form").submit();
+          return false;
+      });
+      $("#search_results_sort_by_creator").click(function() {
+          $("#start").val(0);
+          $("#sort").val("creator");
+          $("#advanced_search_form").submit();
+          return false;
+      });
+    </script>
 
 <% end %>

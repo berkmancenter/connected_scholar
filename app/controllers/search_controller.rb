@@ -16,7 +16,7 @@ class SearchController < ApplicationController
       end
     end
 
-    @items = item_search(params[:search_type], params[:query], params[:limit], params[:start], filters)
+    @items = item_search(params[:search_type], params[:query], params[:limit], params[:start], params[:sort], filters)
 
     render_items
   end
@@ -35,7 +35,8 @@ class SearchController < ApplicationController
                        :searchresults => @items['docs'],
                        :limit => @items['limit'].to_i,
                        :start => @items['start'].to_i,
-                       :num_found => @items['num_found'].to_i
+                       :num_found => @items['num_found'].to_i,
+                       :sort => @items['sort']
                    }
           end
           format.js {render :json => @items['docs']}

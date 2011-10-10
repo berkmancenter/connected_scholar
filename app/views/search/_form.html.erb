@@ -77,8 +77,9 @@
         <br/>
         <%= submit_tag "Reset", :id => "advanced_search_reset", :type => "reset" %>
         <%= submit_tag "Search" %>
-        <%= hidden_field_tag :limit, 25 %>
-        <%= hidden_field_tag :start, 0  %>
+        <%= hidden_field_tag :limit, params[:limit] || 25 %>
+        <%= hidden_field_tag :start, params[:start] || 0  %>
+        <%= hidden_field_tag :sort, params[:sort] || nil  %>
     <% end %>
   <br/>
 
@@ -111,6 +112,9 @@
         $("#filter3_type").val("keyword");
 
         $('#advanced_search_results').empty();
+        $("#start").val(0);
+        $("#limit").val(25);
+        $("#sort").removeAttr("value");
     }
 
     $(function() {
