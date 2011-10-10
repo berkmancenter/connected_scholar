@@ -1,6 +1,8 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
 
+        $("#search-tabs").tabs();
+
         $('#search_form').bind('ajax:before', function() {
             resetAdvancedSearch();
             $("#advanced_query").val($("#query").val());
@@ -41,47 +43,58 @@
 <a href="#" id="advanced_search_link">Advanced Search</a>
 <br/>
 <div id="advanced_search_dialog" style="display: none;">
-  <%= form_tag('/search/advanced', :remote => true, :id => 'advanced_search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
-      <%= label_tag "Query:" %>
-      <div>
-        <%= text_field_tag :query, params[:query], :id => 'advanced_query', :size => 50 %>
-        <%= select_tag :search_type, "<option value='keyword'>Keyword</option>
-                                    <option value='title_exact'>Exact Title</option>
-                                    <option value='creator_exact'>Exact Creator</option>
-                                    <option value='desc_subject_exact'>Exact Subject</option>
-                                    <option value='title_keyword'>Title Keyword</option>
-                                    <option value='creator_keyword'>Creator Keyword</option>
-                                    <option value='desc_subject_keyword'>Subject Keyword</option>
-                                    <option value='id_isbn'>Exact ISBN</option>
-                                    <option value='id_lccn'>Exact LCCN</option>
-                                    <option value='id_oclc'>Exact OCLN</option>".html_safe, :id => "advanced_search_type" %>
-        <% for i in (1..3) %>
-            <a href="#" id="add_filter<%= i %>">Add Filter</a>
+  <div id="search-tabs">
+    <ul style="border: none">
+      <li><a href="#search-tabs-1">LibraryCloud</a></li>
+      <li><a href="#search-tabs-2">Google Scholar</a></li>
+    </ul>
+    <div id="search-tabs-1">
+      <%= form_tag('/search/advanced', :remote => true, :id => 'advanced_search_form', :method => :get, 'data-type' => 'html', :format => :html) do %>
+          <%= label_tag "Query:" %>
+          <div>
+            <%= text_field_tag :query, params[:query], :id => 'advanced_query', :size => 50 %>
+            <%= select_tag :search_type, "<option value='keyword'>Keyword</option>
+                                        <option value='title_exact'>Exact Title</option>
+                                        <option value='creator_exact'>Exact Creator</option>
+                                        <option value='desc_subject_exact'>Exact Subject</option>
+                                        <option value='title_keyword'>Title Keyword</option>
+                                        <option value='creator_keyword'>Creator Keyword</option>
+                                        <option value='desc_subject_keyword'>Subject Keyword</option>
+                                        <option value='id_isbn'>Exact ISBN</option>
+                                        <option value='id_lccn'>Exact LCCN</option>
+                                        <option value='id_oclc'>Exact OCLN</option>".html_safe, :id => "advanced_search_type" %>
+            <% for i in (1..3) %>
+                <a href="#" id="add_filter<%= i %>">Add Filter</a>
+                </div>
+                <div id="filter<%= i %>_div" style="display:none;">
+                  <%= label_tag "Filter:" %>
+                  <br/>
+                  <%= text_field_tag "filter#{i}", params["filter#{i}"], :id => "advanced_filter#{i}", :size => 50 %>
+                  <%= select_tag "filter#{i}_type", "<option value='keyword'>Keyword</option>
+                                                <option value='title_exact'>Exact Title</option>
+                                                <option value='creator_exact'>Exact Creator</option>
+                                                <option value='desc_subject_exact'>Exact Subject</option>
+                                                <option value='title_keyword'>Title Keyword</option>
+                                                <option value='creator_keyword'>Creator Keyword</option>
+                                                <option value='desc_subject_keyword'>Subject Keyword</option>
+                                                <option value='id_isbn'>Exact ISBN</option>
+                                                <option value='id_lccn'>Exact LCCN</option>
+                                                <option value='id_oclc'>Exact OCLN</option>".html_safe %>
+            <% end %>
             </div>
-            <div id="filter<%= i %>_div" style="display:none;">
-              <%= label_tag "Filter:" %>
-              <br/>
-              <%= text_field_tag "filter#{i}", params["filter#{i}"], :id => "advanced_filter#{i}", :size => 50 %>
-              <%= select_tag "filter#{i}_type", "<option value='keyword'>Keyword</option>
-                                            <option value='title_exact'>Exact Title</option>
-                                            <option value='creator_exact'>Exact Creator</option>
-                                            <option value='desc_subject_exact'>Exact Subject</option>
-                                            <option value='title_keyword'>Title Keyword</option>
-                                            <option value='creator_keyword'>Creator Keyword</option>
-                                            <option value='desc_subject_keyword'>Subject Keyword</option>
-                                            <option value='id_isbn'>Exact ISBN</option>
-                                            <option value='id_lccn'>Exact LCCN</option>
-                                            <option value='id_oclc'>Exact OCLN</option>".html_safe %>
-        <% end %>
-        </div>
-        <br/>
-        <%= submit_tag "Reset", :id => "advanced_search_reset", :type => "reset" %>
-        <%= submit_tag "Search" %>
-        <%= hidden_field_tag :limit, params[:limit] || 25 %>
-        <%= hidden_field_tag :start, params[:start] || 0  %>
-        <%= hidden_field_tag :sort, params[:sort] || nil  %>
-    <% end %>
-  <br/>
+            <br/>
+            <%= submit_tag "Reset", :id => "advanced_search_reset", :type => "reset" %>
+            <%= submit_tag "Search" %>
+            <%= hidden_field_tag :limit, params[:limit] || 25 %>
+            <%= hidden_field_tag :start, params[:start] || 0 %>
+            <%= hidden_field_tag :sort, params[:sort] || nil %>
+      <% end %>
+      <br/>
+    </div>
+    <div id="search-tabs-2">
+      <p>Coming Soon!</p>
+    </div>
+  </div>
 
   <div id="ajax_loading" style="display: none;"><img src="/static/img/ajax-loader.gif" alt="Loading..."></div>
   <div id="advanced_search_results"></div>
@@ -115,6 +128,8 @@
         $("#start").val(0);
         $("#limit").val(25);
         $("#sort").removeAttr("value");
+        
+        $("#search-tabs").tabs( "option", "selected", 0 );
     }
 
     $(function() {

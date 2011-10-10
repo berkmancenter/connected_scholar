@@ -16,8 +16,8 @@
 
       function resizeDivs() {
           // TODO determine if other accordions are collapsed.  And adjust height accordingly?
-          $('#commentsAccordion .ui-accordion-content').height($(window).height().toString()-400);
-          $('#sourcesAccordion .ui-accordion-content').height($(window).height().toString()-255);
+          $('#commentsAccordion .ui-accordion-content').height($(window).height().toString() - 400);
+          $('#sourcesAccordion .ui-accordion-content').height($(window).height().toString() - 255);
       }
   </script>
   <style>
@@ -163,6 +163,17 @@
       #sourcesAccordion .ui-accordion-header {
           background: #BA745C;
       }
+
+      .ui-tabs .ui-tabs-selected.ui-state-active.ui-state-default.ui-corner-top {
+          background-color: #F2F7F7;
+          background-image: none;
+          border-bottom: none;
+      }
+
+      .ui-tabs .ui-tabs-selected.ui-state-active.ui-state-default.ui-corner-top a {
+          color: black;
+      }
+
   </style>
 </head>
 <body>
