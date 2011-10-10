@@ -21,6 +21,11 @@ class SearchController < ApplicationController
     render_items
   end
 
+  def google
+    @items = google_search(params[:query], params[:limit], params[:start])
+    render_items
+  end
+
   private
 
   def render_items

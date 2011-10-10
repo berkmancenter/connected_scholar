@@ -32,6 +32,20 @@
         $('#advanced_search_form').bind('ajax:error', function(evt, xhr, status, error) {
             $('#ajax_loading').hide();
         });
+
+        $('#google_search_form').bind('ajax:before', function() {
+            $('#google_search_results').empty();
+            $('#ajax_loading').show();
+        });
+
+        $('#google_search_form').bind('ajax:success', function(evt, data, status, xhr) {
+            $('#ajax_loading').hide();
+            $('#google_search_results').html(xhr.responseText)
+        });
+
+        $('#google_search_form').bind('ajax:error', function(evt, xhr, status, error) {
+            $('#ajax_loading').hide();
+        });
     });
 </script>
 
@@ -88,16 +102,26 @@
             <%= hidden_field_tag :limit, params[:limit] || 25 %>
             <%= hidden_field_tag :start, params[:start] || 0 %>
             <%= hidden_field_tag :sort, params[:sort] || nil %>
+            <div style="margin-top:10px">
+                <div id="advanced_search_results"></div>
+            </div>
       <% end %>
-      <br/>
     </div>
     <div id="search-tabs-2">
-      <p>Coming Soon!</p>
+      <%= form_tag('/search/google', :id => "google_search_form", :remote => true, :method => :get, 'data-type' => 'html', :format => :html) do %>
+          <%= text_field_tag :query, params[:query], :size => 80 %>
+
+          <%= submit_tag "Search" %>
+          <%= hidden_field_tag :limit, (params[:limit] || 25), :id => :google_limit %>
+          <%= hidden_field_tag :start, (params[:start] || 0), :id => :google_start %>
+          <div style="margin-top:10px">
+            <div id="google_search_results"></div>
+          </div>
+      <% end %>
     </div>
   </div>
+  <div id="ajax_loading" style="display: none; width: 100%; text-align: center"><img src="/static/img/ajax-loader.gif" alt="Loading..."></div>
 
-  <div id="ajax_loading" style="display: none;"><img src="/static/img/ajax-loader.gif" alt="Loading..."></div>
-  <div id="advanced_search_results"></div>
 </div>
 <script>
     function recommend_resource(item_id) {

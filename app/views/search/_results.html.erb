@@ -48,7 +48,10 @@
     <div class="search_results_count">
       Showing
       <%= "#{"#{start+1} to " if num_found != searchresults.size}#{searchresults.size + start}" %>
-      <%= " of #{num_found} result#{"s" unless num_found == 1}" %>
+      <% unless num_found.nil? or num_found < 0 %>
+        <%= "of #{num_found} result#{"s" unless num_found == 1}" %>
+      <% end %>
+      &nbsp;
     </div>
     <div class="search_prev_next">
       <% if start == 0 %>
@@ -58,13 +61,13 @@
           <a href="#" id="search_results_prev"><</a>
           <script type="text/javascript">
               $("#search_results_start").click(function() {
-                  $("#start").val(0);
-                  $("#advanced_search_form").submit();
+                  $(this).closest("form").children("input[name='start']").val(0);
+                  $(this).closest('form').submit();
                   return false;
               });
               $("#search_results_prev").click(function() {
-                  $("#start").val(<%= start-limit %>);
-                  $("#advanced_search_form").submit();
+                  $(this).closest("form").children("input[name='start']").val(<%= start-limit %>);
+                  $(this).closest('form').submit();
                   return false;
               });
           </script>
@@ -76,8 +79,8 @@
           <a href="#" id="search_results_next">></a>
           <script type="text/javascript">
               $("#search_results_next").click(function() {
-                  $("#start").val(<%= start+limit %>);
-                  $("#advanced_search_form").submit();
+                  $(this).closest("form").children("input[name='start']").val(<%= start+limit %>);
+                  $(this).closest('form').submit();
                   return false;
               });
           </script>

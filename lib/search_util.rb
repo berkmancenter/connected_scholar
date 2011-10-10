@@ -14,12 +14,40 @@ module SearchUtil
       Rails.logger.info "LibraryCloud service returned a response"
       x
     end
+  rescue RestClient::RequestTimeout => e
+    return {
+        "errors" => e.message
+    }
   end
 
   def item_link(hollis_id)
     with_hollis do |url, item_prefix|
       "#{url}#{item_prefix}#{hollis_id}"
     end
+  end
+
+  def google_search(query, limit, start)
+    with_google do |url|
+      search_url = "#{url}?q=#{CGI::escape(query)}&num=#{limit}&start=#{start}"
+      JsonUtil::get_html(search_url) do |html|
+        # remove uni-code chars
+        doc = Hpricot(html.gsub!(/[\x80-\xff]/, ""))
+        return {
+            "docs" => (doc/"div.gs_r").map { |gs_r|
+              {
+                  "title" => (gs_r/"div.gs_rt").inner_text,
+                  "creator" => (gs_r/"span.gs_a").inner_text,
+                  "desc_subject" => (gs_r/"font").inner_text
+              }
+            },
+            "limit" => limit,
+            "start" => start,
+            "num_found" => -1
+        }
+      end
+    end
+  rescue ArgumentError => e
+    puts e.backtrace.join("\n")
   end
 
   private
@@ -32,5 +60,10 @@ module SearchUtil
   def with_hollis
     yaml = YAML.load_file("#{Rails.root}/config/hollis.yml")
     yield yaml['url'], yaml['item_prefix']
+  end
+
+  def with_google
+    yaml = YAML.load_file("#{Rails.root}/config/googlescholar.yml")
+    yield yaml['url']
   end
 end
