@@ -36,7 +36,7 @@ module SearchUtil
             "docs" => (doc/"div.gs_r").map { |gs_r|
               {
                   "title" => (gs_r/"div.gs_rt").inner_text,
-                  "creator" => (gs_r/"span.gs_a").inner_text,
+                  "creator" => [(gs_r/"span.gs_a").inner_text.split('-').first],
                   "desc_subject" => (gs_r/"font").inner_text
               }
             },
