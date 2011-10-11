@@ -138,8 +138,8 @@
               <%= r['creator'].first if r['creator'] %>
             </td>
             <td class="info">
-              <% if r['id_inst'] and r['id_inst'].strip != "" %>
-                  <%= link_to "Hollis", item_link(r['id_inst']), :target => "_blank" %>
+              <% r['links'].each do |link| %>
+                  <%= link_to link[0], link[1], :target => "_blank" %>
               <% end %>
             </td>
             <td>
