@@ -97,7 +97,7 @@
             <% end %>
             </div>
             <br/>
-            <%= submit_tag "Reset", :id => "advanced_search_reset", :type => "reset" %>
+            <%= submit_tag "Reset", :type => "reset", :onclick => "resetAdvancedSearch()" %>
             <%= submit_tag "Search" %>
             <%= hidden_field_tag :limit, params[:limit] || 25 %>
             <%= hidden_field_tag :start, params[:start] || 0 %>
@@ -109,9 +109,9 @@
     </div>
     <div id="search-tabs-2">
       <%= form_tag('/search/google', :id => "google_search_form", :remote => true, :method => :get, 'data-type' => 'html', :format => :html) do %>
-          <%= text_field_tag :query, params[:query], :size => 80 %>
-
+          <%= text_field_tag :query, params[:query], :size => 75 %>
           <%= submit_tag "Search" %>
+          <%= submit_tag "Reset", :type => "reset", :onclick => "resetGoogleSearch()" %>
           <%= hidden_field_tag :limit, (params[:limit] || 25), :id => :google_limit %>
           <%= hidden_field_tag :start, (params[:start] || 0), :id => :google_start %>
           <div style="margin-top:10px">
@@ -156,6 +156,14 @@
         $("#search-tabs").tabs( "option", "selected", 0 );
     }
 
+    function resetGoogleSearch() {
+        $("#google_start").val(0);
+        $("#google_limit").val(25);
+        $('#google_search_results').empty();
+        $("#search-tabs").tabs( "option", "selected", 1 );
+        return false;
+    }
+
     $(function() {
         $("#advanced_search_link").click(function() {
             $("#advanced_search_dialog").dialog("open");
@@ -169,10 +177,6 @@
             return false;
         });
         <% end %>
-
-        $("#advanced_search_reset").click(function() {
-            resetAdvancedSearch();
-        });
 
         $("#advanced_search_dialog").dialog({
             title: "Advanced Search",
