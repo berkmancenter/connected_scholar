@@ -41,7 +41,8 @@ class SearchController < ApplicationController
                        :limit => @items['limit'].to_i,
                        :start => @items['start'].to_i,
                        :num_found => @items['num_found'].to_i,
-                       :sort => @items['sort']
+                       :sort => @items['sort'],
+                       :sortable => @items['sortable'] != false
                    }
           end
           format.js {render :json => @items['docs']}

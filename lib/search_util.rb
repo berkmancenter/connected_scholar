@@ -42,7 +42,8 @@ module SearchUtil
             },
             "limit" => limit,
             "start" => start,
-            "num_found" => -1
+            "num_found" => -1,
+            "sortable" => false
         }
       end
     end

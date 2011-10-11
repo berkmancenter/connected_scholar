@@ -88,8 +88,20 @@
     </div>
     <table class="search_results">
       <tr>
-        <th><a href="#" id="search_results_sort_by_title">Title</a></th>
-        <th><a href="#" id="search_results_sort_by_creator">Creator</a></th>
+        <th>
+          <% if sortable %>
+              <a href="#" id="search_results_sort_by_title">Title</a>
+          <% else %>
+              Title
+          <% end %>
+        </th>
+        <th>
+          <% if sortable %>
+              <a href="#" id="search_results_sort_by_creator">Creator</a>
+          <% else %>
+              Creator
+          <% end %>
+        </th>
         <th>Links</th>
         <th></th>
       </tr>
@@ -112,14 +124,16 @@
               <% end %>
             </td>
             <td>
-              <button id="recommend_<%= r['id'] %>">+</button>
-              <script>
-                  $("#recommend_<%= r['id'] %>").click(function() {
-                      recommend_resource("<%= r['id'] %>");
-                      window.location.reload();
-                      return false;
-                  })
-              </script>
+              <% if r['id'] %>
+                  <button id="recommend_<%= r['id'] %>">+</button>
+                  <script>
+                      $("#recommend_<%= r['id'] %>").click(function() {
+                          recommend_resource("<%= r['id'] %>");
+                          window.location.reload();
+                          return false;
+                      })
+                  </script>
+              <% end %>
             </td>
             <td colspan="2"></td>
           </tr>
