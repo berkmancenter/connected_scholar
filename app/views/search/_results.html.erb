@@ -44,6 +44,23 @@
         .search_prev_next a {
             color: #777777;
         }
+
+        .search_results tr.details {
+            display: none;
+        }
+
+        .search_results tr.details td {
+            padding-top: 10px;
+            color: #777777;
+        }
+
+        .search_results tr.details td p {
+            margin: 10px 0 10px 0;
+        }
+
+        .search_results tr.details td p a {
+            color: #388EB4;
+        }
     </style>
     <div class="search_results_count">
       Showing
@@ -113,7 +130,7 @@
           </tr>
           <tr class="item">
             <td class="title info">
-              <%= r['title'] %>
+              <a href="#" onclick="return titleClick('<%= r.object_id %>')"><%= r['title'] %></a>
             </td>
             <td class="info">
               <%= r['creator'].first if r['creator'] %>
@@ -124,34 +141,50 @@
               <% end %>
             </td>
             <td>
-              <% if r['id'] %>
-                  <button id="recommend_<%= r['id'] %>">+</button>
-                  <script>
-                      $("#recommend_<%= r['id'] %>").click(function() {
-                          recommend_resource("<%= r['id'] %>");
-                          window.location.reload();
-                          return false;
-                      })
-                  </script>
-              <% end %>
             </td>
-            <td colspan="2"></td>
+          </tr>
+          <tr class="details" id="details_<%= r.object_id %>">
+            <td colspan="3">
+              <% unless r['desc_subject'].nil? %>
+                  <%= r['desc_subject'] %>
+              <% else %>
+                  No Description
+              <% end %>
+              <p>
+                <% if r['id'] %>
+                    <a href="#" onclick="return recommendClick('<%= r['id'] %>')">Recommend</a>
+                <% end %>
+              </p>
+            </td>
           </tr>
       <% end %>
     </table>
     <script type="text/javascript">
       $("#search_results_sort_by_title").click(function() {
-          $("#start").val(0);
-          $("#sort").val("title");
-          $("#advanced_search_form").submit();
+          $(this).closest("form").children("input[name='start']").val(0);
+          $(this).closest("form").children("input[name='sort']").val("title");
+          $(this).closest('form').submit();
           return false;
       });
       $("#search_results_sort_by_creator").click(function() {
-          $("#start").val(0);
-          $("#sort").val("creator");
-          $("#advanced_search_form").submit();
+          $(this).closest("form").children("input[name='start']").val(0);
+          $(this).closest("form").children("input[name='sort']").val("creator");
+          $(this).closest('form').submit();
           return false;
       });
     </script>
 
 <% end %>
+
+<script type="text/javascript">
+    function titleClick(i) {
+        $("#details_" + i).toggle();
+        return false;
+    }
+
+    function recommendClick(id) {
+        recommend_resource(id);
+        window.location.reload();
+        return false;
+    }
+</script>
