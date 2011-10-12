@@ -23,6 +23,9 @@ Feature: Recommend a Resources
       Then the resource "A Test Resource" should be not used
       When I follow "A Test Resource"
       Then I should see "Title: A Test Resource"
+      And I should see "Recommended By: foo (admin@test.com)"
+      And I should see "Links:"
+      And I should see "Recognized Citations:"
       And I should see "Delete this Resource"
 
     @javascript

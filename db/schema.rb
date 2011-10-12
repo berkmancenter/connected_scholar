@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111012141014) do
+ActiveRecord::Schema.define(:version => 20111012203623) do
 
   create_table "citations", :force => true do |t|
     t.string   "citation_text"
@@ -74,8 +74,9 @@ ActiveRecord::Schema.define(:version => 20111012141014) do
     t.integer  "document_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",           :default => false
+    t.boolean  "active",            :default => false
     t.text     "links"
+    t.integer  "recommended_by_id"
   end
 
   create_table "users", :force => true do |t|

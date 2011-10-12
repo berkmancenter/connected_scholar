@@ -32,6 +32,15 @@
 </p>
 <hr style="margin: 5px 0 5px 0"/>
 <p>
+  <b>Recommended By:</b>
+  <% if resource.recommended_by %>
+    <%= resource.recommended_by.name %> (<%= resource.recommended_by.email %>)
+  <% else %>
+    Unknown
+  <% end %>
+</p>
+<hr style="margin: 5px 0 5px 0"/>
+<p>
   <b>Links:</b>
 <ul>
   <% for link in resource.links %>

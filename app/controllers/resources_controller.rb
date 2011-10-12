@@ -16,9 +16,9 @@ class ResourcesController < ApplicationController
         params[:resource][:id_isbn] = params[:resource][:id_isbn].split("\n") if params[:resource][:id_isbn]
         params[:resource][:desc_subject] = params[:resource][:desc_subject].split("\n") if params[:resource][:desc_subject]
 
-        @resource = @document.resources.create(params[:resource])
+        @resource = @document.resources.create(params[:resource].merge(:recommended_by => current_user))
       elsif params[:item]
-        @resource = @document.resources.create(item_to_resource(params[:item]))
+        @resource = @document.resources.create(item_to_resource(params[:item]).merge(:recommended_by => current_user))
       end
       redirect_to view_pad_path(@document)
     else
@@ -28,7 +28,7 @@ class ResourcesController < ApplicationController
 
       raise "No Item: #{item_id.inspect}" if item.nil? or item['id'] != item_id
 
-      @resource = @document.resources.create(item_to_resource(item))
+      @resource = @document.resources.create(item_to_resource(item).merge(:recommended_by => current_user))
 
       respond_to do |format|
         format.js {render :json => @resource}

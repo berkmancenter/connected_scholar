@@ -6,6 +6,8 @@ class Resource < ActiveRecord::Base
   serialize :id_isbn, Array
   serialize :links, Array
 
+  belongs_to :recommended_by, :class_name => 'User'
+
   scope :active_sources, lambda {
     where(:active => true)
   }
