@@ -4,6 +4,7 @@ class Resource < ActiveRecord::Base
   serialize :creators, Array
   serialize :desc_subject, Array
   serialize :id_isbn, Array
+  serialize :links, Array
 
   scope :active_sources, lambda {
     where(:active => true)

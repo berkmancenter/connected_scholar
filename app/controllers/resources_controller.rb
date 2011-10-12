@@ -90,6 +90,7 @@ class ResourcesController < ApplicationController
     resource[:id_lc_call_num] = item['id_lc_call_num']
     resource[:id_hollis] = item['id_inst']
     resource[:language] = item['language']
+    resource[:links] = item["links"].nil? ? [] : (item["links"].is_a?(Array) ? item["links"] : item["links"].values)
 
     resource
   end

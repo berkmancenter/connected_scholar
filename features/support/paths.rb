@@ -26,6 +26,9 @@ module NavigationHelpers
     when /the hollis page for "(.*)"/
       "http://hollis.harvard.edu/?itemid=|library/m/aleph|#{$1}"
 
+    when /the ACM Digital Library/
+      "http://dl.acm.org"
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

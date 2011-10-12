@@ -34,8 +34,8 @@
 <p>
   <b>Links:</b>
 <ul>
-  <% if resource.id_hollis %>
-      <li><%= link_to "Hollis", item_link(resource.id_hollis), :target => "_blank" %></li>
+  <% for link in resource.links %>
+      <li><%= link_to link[0], link[1], :target => "_blank" %></li>
   <% end %>
 </ul>
 </p>

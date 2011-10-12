@@ -109,8 +109,8 @@
     </div>
     <div id="search-tabs-2">
       <%= form_tag('/search/google', :id => "google_search_form", :remote => true, :method => :get, 'data-type' => 'html', :format => :html) do %>
-          <%= text_field_tag :query, params[:query], :size => 75 %>
-          <%= submit_tag "Search" %>
+          <%= text_field_tag :query, params[:query], :size => 75, :id => :google_query %>
+          <%= submit_tag "Search", :id => :google_search %>
           <%= submit_tag "Reset", :type => "reset", :onclick => "resetGoogleSearch()" %>
           <%= hidden_field_tag :limit, (params[:limit] || 25), :id => :google_limit %>
           <%= hidden_field_tag :start, (params[:start] || 0), :id => :google_start %>

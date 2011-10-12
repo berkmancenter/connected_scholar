@@ -21,10 +21,24 @@ Feature: Search for Resources
       When I fill in "query" with "Cars"
       And I press "Go"
       And I wait 3 seconds
-      Then I should see "Title:"
+      Then I should see "Title"
       And I should see "Creator"
-      And I should see "Recommend"
-      And I should see "Links:"
+      And I should see "Links"
+      And I should see "Showing 1 to 25"
+      And I should see ">"
+      When I follow ">"
+      Then I should see "Title"
+      And I should see "Creator"
+      And I should see "Links"
+      And I should see "Showing 26 to 50"
+      When I follow ">"
+      And I should see "Showing 51 to 75"
+      When I follow ">"
+      And I should see "Showing 76 to 100"
+      When I follow "<"
+      And I should see "Showing 51 to 75"
+      When I follow "<<"
+      And I should see "Showing 1 to 25"
 
     @javascript
     Scenario: User executes an Advanced Search for a resource and recommends it
@@ -33,13 +47,15 @@ Feature: Search for Resources
       And I select "Exact Title" from "search_type"
       And I press "Search"
       And I wait 3 seconds
-      Then I should see "Title: Aspect-oriented programming with the e verification language"
-      And I should see "Creator: Robinson, David."
-      And I should see "Recommend"
-      And I should see "Links:"
+      Then I should see "Aspect-oriented programming with the e verification language"
+      And I should see "Robinson, David."
+      And I should see "Links"
+      And I should see "Showing 1 of 1 result"
       And I should see "Hollis"
       When I follow "Hollis"
       Then it should open a new window on the hollis page for "012099054"
+      Then I follow "Aspect-oriented programming with the e verification language"
+      And I should see "Recommend"
       When I follow "Recommend"
       Then I should see "Aspect-oriented programming with the e verification language"
       And the resource "Aspect-oriented programming with the e verification language" should be not used
@@ -51,10 +67,9 @@ Feature: Search for Resources
       And I select "Title Keyword" from "advanced_search_type"
       And I press "Search"
       Then I wait 3 seconds
-      And I should see "Title:"
+      And I should see "Title"
       And I should see "Creator"
-      And I should see "Recommend"
-      And I should see "Links:"
+      And I should see "Links"
 #      Then I press "advanced_search_reset"
 #      And I should not see "Title:"
 #      And I should not see "Creator"
@@ -63,3 +78,31 @@ Feature: Search for Resources
 #      And the "Query" field should be empty
 #      And I follow "Sources"
 #      And I wait 1 seconds
+
+    @javascript
+    Scenario: User executes an Google Search for a resource and recommends it
+      When I follow "Advanced Search"
+      And I follow "Google Scholar"
+      And I fill in "google_query" with "goto considered harmful"
+      And I press "google_search"
+      And I wait 3 seconds
+      Then I should see "Letters to the editor: go to statement considered harmful"
+      And I should see "EW Dijkstra"
+      And I should see "Links"
+      And I should see "Showing 1 to 25"
+      And I should see "portal.acm.org"
+      When I follow "portal.acm.org"
+      Then it should open a new window with the domain of the ACM Digital Library
+      Then I follow "Letters to the editor: go to statement considered harmful"
+      And I should see "Recommend"
+      When I follow "Recommend"
+      And I wait 1 seconds
+      Then I should see "Letters to the editor: go to statement considered harmful"
+      And the resource "Letters to the editor: go to statement considered harmful" should be not used
+      When I follow "Letters to the editor: go to statement considered harmful"
+      Then I should see "1968-01-01"
+      And I should see "EW Dijkstra"
+      And I should see "Communications of the ACM"
+      And I should see "portal.acm.org"
+      When I follow "portal.acm.org"
+      Then it should open a new window with the domain of the ACM Digital Library

@@ -68,35 +68,83 @@ module SearchUtil
   end
 
   def parse_google_record(gs_r)
-    {
-        "title" => build_google_title(gs_r),
-        "creator" => build_google_creator(gs_r),
-        "desc_subject" => (gs_r/"font").inner_text,
-        "pub_date" => parse_pub_date(gs_r),
-        "links" => build_google_links(gs_r)
-    }
+    parse_gs_a(gs_r)
   end
 
-  def build_google_title(gs_r)
-    (gs_r/"div.gs_rt").inner_text.
+  def build_google_links(gs_r, title)
+    ((a = (gs_r/"div.gs_rt > h3 > a")) && a.first) ? [[title, a.first[:href]]] : []
+  end
+
+  def parse_cite(gs_r)
+    yield((gs_r/"span.gs_a").inner_text)
+  end
+
+  def parse_gs_a(gs_r)
+    parse_cite(gs_r) do |cite|
+      parse_creator(cite) do |creator, x|
+        parse_publisher(x) do |publisher, y|
+          parse_year(y) do |year, z|
+            parse_link_title(z) do |link_title|
+              parse_desc(gs_r, cite) do |desc|
+                parse_title(gs_r) do |title|
+                  return {
+                      "title" => title,
+                      "creator" => [creator],
+                      "desc_subject" => desc,
+                      "pub_date" => year,
+                      "publisher" => publisher,
+                      "links" => build_google_links(gs_r, link_title)
+                  }
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def parse_title(gs_r)
+    yield((gs_r/"div.gs_rt").inner_text.
         gsub('[PDF] ', '').
         gsub('[BOOK] ', '').
-        gsub('[CITATION] ', '')
+        gsub('[CITATION] ', ''))
   end
 
-  def build_google_creator(gs_r)
-    [(gs_r/"span.gs_a").inner_text.split('-').first]
+  def parse_desc(gs_r, cite)
+    yield (gs_r/"font").inner_text.gsub(cite, "").strip
   end
 
-  def build_google_links(gs_r)
-    ((a = (gs_r/"div.gs_rt > h3 > a")) && a.first) ? [[parse_source(gs_r), a.first[:href]]] : []
+  def parse_creator(cite)
+    first_dash = cite.index('-')
+    if first_dash
+      yield cite[0..first_dash-1].strip, cite[first_dash+1..-1].strip
+    else
+      yield cite.strip, ""
+    end
   end
 
-  def parse_pub_date(gs_r)
-    (gs_r/"span.gs_a").inner_text.split('-')[-2]
+  def parse_year(gs_r_tail)
+    first_dash = gs_r_tail.index('-')
+    if first_dash
+      year = gs_r_tail[0..first_dash-1].strip
+      yield((year.scan(/19\d\d|20\d\d/)[0]), gs_r_tail[first_dash+1..-1].strip)
+    else
+      yield gs_r_tail.strip, ""
+    end
   end
 
-  def parse_source(gs_r)
-    (gs_r/"span.gs_a").inner_text.split('-').last
+  def parse_publisher(gs_r_tail)
+    first_dash = gs_r_tail.index('-')
+    if first_dash
+      pub_and_year = gs_r_tail[0..first_dash-1].strip
+      yield pub_and_year.gsub(/(, )?(19\d\d|20\d\d)$/, ''), gs_r_tail.strip
+    else
+      yield gs_r_tail.strip, ""
+    end
+  end
+
+  def parse_link_title(gs_r_tail)
+    yield gs_r_tail.empty? ? nil : gs_r_tail.strip
   end
 end
