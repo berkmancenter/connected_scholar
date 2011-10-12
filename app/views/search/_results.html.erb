@@ -146,7 +146,9 @@
               <% end %>
               <p>
                 <% if r['id'] %>
-                    <a href="#" onclick="return recommendClick('<%= r['id'] %>')">Recommend</a>
+                    <a href="#" onclick="return recommendByIdClick('<%= r['id'] %>')">Recommend</a>
+                <% else %>
+                    <a href="#" onclick="return recommendByJsonClick(<%= JSON.generate(r) %>)">Recommend</a>
                 <% end %>
               </p>
             </td>
@@ -176,8 +178,14 @@
         return false;
     }
 
-    function recommendClick(id) {
-        recommend_resource(id);
+    function recommendByIdClick(id) {
+        recommend_resource_by_id(id);
+        window.location.reload();
+        return false;
+    }
+
+    function recommendByJsonClick(json) {
+        recommend_resource_by_properties(json);
         window.location.reload();
         return false;
     }

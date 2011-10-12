@@ -11,11 +11,15 @@ class ResourcesController < ApplicationController
     @document = Document.find(params[:document_id])
     item_id = params["item_id"]
     if item_id.nil?
-      params[:resource][:creators] = params[:resource][:creators].split("\n")
-      params[:resource][:id_isbn] = params[:resource][:id_isbn].split("\n")
-      params[:resource][:desc_subject] = params[:resource][:desc_subject].split("\n")
+      if params[:resource]
+        params[:resource][:creators] = params[:resource][:creators].split("\n") if params[:resource][:creators]
+        params[:resource][:id_isbn] = params[:resource][:id_isbn].split("\n") if params[:resource][:id_isbn]
+        params[:resource][:desc_subject] = params[:resource][:desc_subject].split("\n") if params[:resource][:desc_subject]
 
-      @resource = @document.resources.create(params[:resource])
+        @resource = @document.resources.create(params[:resource])
+      elsif params[:item]
+        @resource = @document.resources.create(item_to_resource(params[:item]))
+      end
       redirect_to view_pad_path(@document)
     else
 
