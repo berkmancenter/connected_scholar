@@ -72,6 +72,7 @@ module SearchUtil
         "title" => build_google_title(gs_r),
         "creator" => build_google_creator(gs_r),
         "desc_subject" => (gs_r/"font").inner_text,
+        "pub_date" => parse_pub_date(gs_r),
         "links" => build_google_links(gs_r)
     }
   end
@@ -88,6 +89,14 @@ module SearchUtil
   end
 
   def build_google_links(gs_r)
-    ((a = (gs_r/"div.gs_rt > h3 > a")) && a.first) ? [["Google", a.first[:href]]] : []
+    ((a = (gs_r/"div.gs_rt > h3 > a")) && a.first) ? [[parse_source(gs_r), a.first[:href]]] : []
+  end
+
+  def parse_pub_date(gs_r)
+    (gs_r/"span.gs_a").inner_text.split('-')[-2]
+  end
+
+  def parse_source(gs_r)
+    (gs_r/"span.gs_a").inner_text.split('-').last
   end
 end
