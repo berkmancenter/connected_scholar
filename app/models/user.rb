@@ -61,4 +61,8 @@ class User < ActiveRecord::Base
   def send_confirmation_instructions
     # nope
   end
+
+  def owns?(doc)
+    doc.owner == self 
+  end
 end

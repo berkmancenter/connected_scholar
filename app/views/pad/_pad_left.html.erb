@@ -55,6 +55,12 @@
             <em>No Comments</em>
           </p>
       <% else %>
+          <% if current_user.owns?(@document) &&
+                  (new_comments = @document.comments.select {|c| !c.is_read }).any? %>
+              <div id="new_comments_notice" style="width:78%" class="flash notice">
+                <%= new_comments.size %> new comments
+              </div>
+          <% end %>
           <%= render :partial => "comments/comment", :collection => @document.comments %>
       <% end %>
       <br/>

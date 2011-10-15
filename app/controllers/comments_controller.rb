@@ -8,7 +8,6 @@ class CommentsController < ApplicationController
   def read
     @comment = Comment.find(params[:id])
     @comment.read_by(current_user)
-    @comment.save
     render :nothing => true
   end
  

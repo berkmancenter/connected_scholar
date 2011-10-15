@@ -1,13 +1,26 @@
-<div class="comment_item">
-  <p class="comment_header">
+<div class="comment_item <% if (current_user.owns?(@document) && !comment.is_read) %>unread<% end %>"
+     id="comment_<%= comment.id %>">
+  <p class="comment_header"
+     <% if (current_user.owns?(@document) && !comment.is_read)  %>
+        onclick='return markCommentAsRead("<%= @document.id %>", "<%= comment.id %>")'
+    <% end %>
+    >
     <span class="comment_author"><%= comment.author.name %> said...</span>
   </p>
 
-  <p class="comment_text">
+  <p class="comment_text"
+     <% if (current_user.owns?(@document) && !comment.is_read)  %>
+        onclick='return markCommentAsRead("<%= @document.id %>", "<%= comment.id %>")'
+    <% end %>
+    >
     <%= comment.comment_text %>
   </p>
 
-  <div class="comment_date">
+  <div class="comment_date"
+     <% if (current_user.owns?(@document) && !comment.is_read)  %>
+        onclick='return markCommentAsRead("<%= @document.id %>", "<%= comment.id %>")'
+    <% end %>
+    >
 
     <p>
       <%= render :inline => display_datetime(comment.created_at) %>

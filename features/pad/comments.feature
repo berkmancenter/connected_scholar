@@ -15,12 +15,11 @@ Feature: Add Comment
       And I fill in "comment_comment_text" with "This is a great document"
       And I press "Create"
       And I wait 1 seconds
-      And I follow "Comments"
-      And I wait 1 seconds
 
     @javascript
     Scenario: User adds a comment to the document
       Then I should see "This is a great document"
+      And I should not see "new comment"
 
     @javascript
     Scenario: User adds a second comment to the document
@@ -33,6 +32,7 @@ Feature: Add Comment
       And I wait 1 seconds
       Then I should see "This is a great document"
       And I should see "This is STILL a great document"
+      And I should not see "new comment"
 
     @javascript
     Scenario: User destroys a comment from the document
@@ -41,3 +41,4 @@ Feature: Add Comment
       And I follow "Comments"
       And I wait 1 seconds
       Then I should not see "This is a great document"
+      
