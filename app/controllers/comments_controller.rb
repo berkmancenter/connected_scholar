@@ -4,6 +4,13 @@ class CommentsController < ApplicationController
     @comment = @document.comments.create(params[:comment].merge(:author => current_user))
     redirect_to view_pad_path(@document)
   end
+
+  def read
+    @comment = Comment.find(params[:id])
+    @comment.read_by(current_user)
+    @comment.save
+    render :nothing => true
+  end
  
   def destroy
     @document = Document.find(params[:document_id])
