@@ -75,3 +75,12 @@ Given /^I am logged in$?/ do
   When %{I sign in as "admin@test.com/password"}
   Then %{I should be signed in}
 end
+
+Given /^There is a contributor$/ do
+  Given %{I am a user named "contributor" with an email "contributor@test.com" and password "password"}
+end
+
+Given /^I log in as the contributor$?/ do
+  When %{I sign in as "contributor@test.com/password"}
+  Then %{I should be signed in}
+end

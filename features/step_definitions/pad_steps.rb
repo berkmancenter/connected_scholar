@@ -50,3 +50,11 @@ Then /^the resource "(.+)" should be used$/ do |resource_name|
   resource_elem = find_link(resource_name)
   resource_elem['class'].should == "active_source"
 end
+
+Given /^I share the document with the contributor$/ do
+  Given %{I follow "Manage this Document"}
+  Then %{I fill in "contributor_email" with "contributor@test.com"}
+  And %{I submit the form}
+  And %{I wait 1 seconds}
+  Then %{I should see "contributor@test.com"}
+end

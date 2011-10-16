@@ -118,6 +118,10 @@ Then /^(?:|I )should see "([^"]*)"$/ do |text|
   end
 end
 
+When /^(?:|I )submit the form$/ do
+  page.evaluate_script("document.forms[0].submit()")
+end
+
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
