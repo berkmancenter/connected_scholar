@@ -39,12 +39,19 @@
       // rebuild timeslider link
       $("#timesliderlink").click(function(event){
           document.location = document.location.pathname +  '/timeslider' + document.location.search;
-      })
+      });
   });
-
 </script>
 <script type="text/javascript">
   var copiedText = "";
+
+  function setOwnerColor(){
+    var newColor = "#ffffff";
+    myUserInfo.colorId = newColor;
+    pad.notifyChangeColor(newColor);
+    paduserlist.renderMyUserInfo();
+  }
+
   function htmlDecode(value){
     return $('<div/>').html(value).text();
   }
@@ -453,6 +460,9 @@
       }, 1);
     }else{
       setupDynamicContextMenus();
+      <% if(current_user.owns?(@document)) %>
+        setOwnerColor();
+      <% end %>
     }
   }
 
