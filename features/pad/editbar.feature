@@ -10,7 +10,7 @@ Feature: View editbar functionality
       And I fill in "Name" with "Test Document"
       And I press "Create Document"
 
-    Scenario: User selects readonly and views the readonly link
+    Scenario: User selects read-only and views the read-only link
       And I click "#readonlylink"  
       Then I should see "Use this link to share a read-only version of your pad:"
 
