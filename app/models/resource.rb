@@ -1,4 +1,5 @@
-
+require 'bibtex'
+require 'citeproc'
 class Resource < ActiveRecord::Base
   has_many :citations
   belongs_to :document
@@ -41,10 +42,10 @@ class Resource < ActiveRecord::Base
     end
   end
 
-  
-
-  def to_citeproc
-    bibtex.to_citeproc
+  def format(options={})
+    _options = {:style => :mla, :mode => :citation}
+    _options.merge!(options)
+    CiteProc.process(bibtex.to_citeproc, _options)
   end
 
   private
@@ -65,6 +66,6 @@ class Resource < ActiveRecord::Base
   end
 
   def default_citation
-    CitationFormatter.format(self, :mode => :citation, :style => self.document.citation_format.to_s)      
+    format(:mode => :citation, :style => self.document.citation_format.to_s)      
   end
 end
