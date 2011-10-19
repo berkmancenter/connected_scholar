@@ -105,12 +105,15 @@ module EtherpadUtil
         return data['code']
       end
     end
+  rescue RestClient::RequestTimeout => e
+    Rails.logger.error "RestClient::RequestTimeout: #{e.inspect} set_pad_text"
+    return 1
   end
 
   def get_pad_text(document)
     with_apikey do |url, apikey|
       JsonUtil::get_json "#{url}/api/#{ETHERPAD_API_VERSION}/getText?apikey=#{apikey}&padID=#{document.pad_id}" do |data|
-        return data #['code'] #== 0 && data['data'] && data['data']['isPasswordProtected']
+        return data['data']['text'] || ""
       end
     end
   end

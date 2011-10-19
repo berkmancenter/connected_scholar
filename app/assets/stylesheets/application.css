@@ -97,14 +97,12 @@ div.flash {
 }
 
 div.notice {
-    border-top: 2px solid green;
-    border-bottom: 2px solid green;
+    border: 2px solid green;
     background: #e0eeee
 }
 
 div.alert {
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    border: 2px solid black;
     background: #993300;
     color: white;
 }

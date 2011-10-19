@@ -28,7 +28,12 @@
 
     <div>
       <div class="resource-legend">
-        <span><span id="activeLegend"></span> Used <span id="inactiveLegend"></span> Not Used</span> | <%= render :partial => "resources/form_dialog" %>
+        <span><span id="activeLegend"></span> Used <span id="inactiveLegend"></span> Not Used</span> |
+        <%= render :partial => "resources/form_dialog" %> 
+        <%= link_to content_tag(:span, 'Refresh Sources', :class => "ui-icon ui-icon-refresh"),
+                    refresh_resources_document_path(@document),
+                :style => "float:right",
+                    :method => :post %>
       </div>
       <div id="active_sources">
         <%= render :partial => "resources/item", :collection => @document.active_sources, :locals => {:make_draggable => true, :class_name => 'active_source'} %>

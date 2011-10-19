@@ -6,7 +6,7 @@ Feature: Drag and Drop
     @javascript
     Scenario: User drags and drops a resource onto the document
       Given I am logged in
-	    And I follow "New Document"
+	  And I follow "New Document"
   	  And I fill in "Name" with "Test Document"
       And I press "Create Document"
       And I ensure "Test Document" pad is new

@@ -18,6 +18,7 @@ ConnectedScholar::Application.routes.draw do
     member do
       get "active_citations", :action => "active_citations", :as => :active_citations
       post "contributors", :action => "add_contributor", :as => :add_contributor
+      post "refresh_resources", :action => "refresh_resources", :as => :refresh_resources
       delete "contributors/:contributor_id", :action => "remove_contributor", :as => :remove_contributor
     end
   end

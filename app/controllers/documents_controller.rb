@@ -87,7 +87,7 @@ class DocumentsController < ApplicationController
   def refresh_resources
     @document = Document.find(params[:id])
     @document.refresh_resources!
-    redirect_to @document
+    redirect_to view_pad_path(@document)
   end
 
   # DELETE /documents/1
