@@ -125,4 +125,74 @@ describe Document do
     end
   end
 
+  describe "#refresh_resources" do
+    let :owner do
+      User.create! :name => "Test User", :email => 'test@test.com', :password => 'password', :password_confirmation => 'password'
+    end
+
+    subject do
+      Document.create! :name => 'foobar', :owner => owner
+    end
+
+    let :resource do
+      Resource.create! :document => subject, :active => false
+    end
+
+    before do
+      resource.title = "Hello World"
+      resource.creators << "John Doe"
+      resource.publication_date = Date.parse('2000-01-01')
+      resource.save!
+      resource.default_citation!
+      resource.save!
+    end
+
+    it "activates the resource" do
+      subject.stub!(:get_pad_text).and_return(<<-TXT)
+        It was the best of times, it was the blurst of times #{resource.default_citation!}.
+      TXT
+
+      resource.active.should be_false
+      subject.refresh_resources!
+      resource.reload
+      resource.active.should be_true
+    end
+
+    it "deactivates the resource" do
+      subject.stub!(:get_pad_text).and_return(<<-TXT)
+        It was the best of times, it was the blurst of times.
+      TXT
+
+      resource.activate!
+
+      resource.active.should be_true
+      subject.refresh_resources!
+      resource.reload
+      resource.active.should be_false
+    end
+
+    it "keeps the resource active" do
+      subject.stub!(:get_pad_text).and_return(<<-TXT)
+        It was the best of times, it was the blurst of times #{resource.default_citation!}.
+      TXT
+
+      resource.activate!
+
+      resource.active.should be_true
+      subject.refresh_resources!
+      resource.reload
+      resource.active.should be_true
+    end
+
+    it "keeps the resource unactive" do
+      subject.stub!(:get_pad_text).and_return(<<-TXT)
+        It was the best of times, it was the blurst of times.
+      TXT
+
+      resource.active.should be_false
+      subject.refresh_resources!
+      resource.reload
+      resource.active.should be_false
+    end
+  end
 end

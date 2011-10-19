@@ -84,6 +84,12 @@ class DocumentsController < ApplicationController
     redirect_to @document
   end
 
+  def refresh_resources
+    @document = Document.find(params[:id])
+    @document.refresh_resources!
+    redirect_to @document
+  end
+
   # DELETE /documents/1
   # DELETE /documents/1.json
   def destroy

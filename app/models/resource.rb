@@ -20,6 +20,11 @@ class Resource < ActiveRecord::Base
     self.save!
   end
 
+  def deactivate!
+    self.active = false
+    self.save!
+  end
+
   # This method needs to return quickly because its called on the drag-and-drop.
   # So don't load it up with unnessecary DB calls.
   #

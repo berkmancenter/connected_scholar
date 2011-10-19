@@ -29,6 +29,19 @@ class Document < ActiveRecord::Base
   def recommended_resources
     self.resources.recommended_resources
   end
+
+  def refresh_resources!
+    # get the document text
+    text = get_pad_text(self)
+
+    resources.each do |r|
+      if r.citations.inject(false) {|prev, c| prev || text.include?(c.citation_text) }
+        r.activate!
+      else
+        r.deactivate!
+      end
+    end
+  end
   
   def self.find_shared_documents(user)
     groups = Group.joins(:users).where(:users => {:id => user.id})
