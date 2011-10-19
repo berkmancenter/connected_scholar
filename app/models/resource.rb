@@ -1,3 +1,4 @@
+
 class Resource < ActiveRecord::Base
   has_many :citations
   belongs_to :document
@@ -40,19 +41,30 @@ class Resource < ActiveRecord::Base
     end
   end
 
+  
+
+  def to_citeproc
+    bibtex.to_citeproc
+  end
+
   private
 
+  def bibtex
+    year = self.publication_date ? self.publication_date.year : ""
+    bib = ::BibTeX::Entry.new({
+      :author => self.creators.join(' and '),
+      :year => "#{year}",
+      :publisher => self.publisher,
+      :title => self.title,
+      :address => self.pub_location
+    })
+    #necessary in bibtex 2.0.0
+    #can remove for bibtex 2.0.1
+    bib.parse_names
+    return bib
+  end
+
   def default_citation
-    formatter = CitationFactory.citation_formatter(self.document.citation_format)
-    citations = formatter.format(self)
-    citations.each do |citation|
-      unless(Citation.includes(:resource).where(
-            :resources => {:document_id => self[:document_id]},
-            :citation_text => citation)
-          .where("resource_id <> ?", self.id)
-          .exists?)
-        return citation
-      end
-    end        
+    CitationFormatter.format(self, :mode => :citation, :style => self.document.citation_format.to_s)      
   end
 end
