@@ -4,7 +4,7 @@
       <%= label_tag "Default Citation Format:" %>
        <%= select_tag :citation_format,
                       options_for_select(
-                              [['MLA', :mla], ['APA', :apa]],
+                              [['MLA', :mla], ['APA', :apa],['Chicago Author Date', 'chicago-author-date']],
                               current_user.preferences_with_defaults[:citation_format]) %>
     </p>
 
