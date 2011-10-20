@@ -45,7 +45,7 @@ class Resource < ActiveRecord::Base
   def format(options={})
     _options = {:style => :mla, :mode => :citation}
     _options.merge!(options)
-    CiteProc.process(bibtex.to_citeproc, _options)
+    CiteProc.process(bibtex.to_citeproc, _options).first
   end
 
   private
@@ -59,9 +59,6 @@ class Resource < ActiveRecord::Base
       :title => self.title,
       :address => self.pub_location
     })
-    #necessary in bibtex 2.0.0
-    #can remove for bibtex 2.0.1
-    bib.parse_names
     return bib
   end
 

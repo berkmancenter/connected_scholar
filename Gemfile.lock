@@ -33,8 +33,8 @@ GEM
     ansi (1.3.0)
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
-    bibtex-ruby (2.0.0)
-      latex-decode (>= 0.0.3)
+    bibtex-ruby (2.0.1)
+      latex-decode (>= 0.0.6)
       multi_json (~> 1.0)
     builder (3.0.0)
     cancan (1.6.5)
@@ -90,8 +90,8 @@ GEM
       thor (~> 0.14)
     json (1.6.0)
     json_pure (1.6.0)
-    latex-decode (0.0.3)
-      unicode (>= 0.4)
+    latex-decode (0.0.7)
+      unicode (~> 0.4)
     libv8 (3.3.10.2)
     little-plugger (1.1.2)
     logging (1.6.1)
@@ -195,7 +195,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bibtex-ruby (= 2.0.0)
+  bibtex-ruby (= 2.0.1)
   cancan (= 1.6.5)
   capybara
   citeproc-ruby (= 0.0.2)
