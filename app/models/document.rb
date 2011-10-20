@@ -97,7 +97,7 @@ class Document < ActiveRecord::Base
   end
 
   def set_citation_format
-    self.citation_format = self.owner.preferences_with_defaults[:citation_format] if self.owner
+    self.citation_format =  self.owner ? self.owner.preferences_with_defaults[:citation_format] : 'mla'
   end
 
   def set_etherpad_password
