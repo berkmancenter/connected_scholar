@@ -1,6 +1,11 @@
 class Document < ActiveRecord::Base
   include EtherpadUtil
 
+  CITATION_FORMATS = [['MLA', 'mla'], 
+                      ['APA', 'apa'],
+                      ['Chicago Author Date', 'chicago-author-date']]
+
+
   has_many :comments, :dependent => :destroy
   has_many :resources, :dependent => :destroy
 
@@ -12,7 +17,7 @@ class Document < ActiveRecord::Base
   validates_uniqueness_of :etherpad_name, :scope => :owner_id
   validates_uniqueness_of :name, :scope => :owner_id
 
-  before_create :init_group, :set_etherpad_password
+  before_create :init_group, :set_etherpad_password, :set_citation_format
 
   before_validation :set_etherpad_name
 
@@ -85,14 +90,14 @@ class Document < ActiveRecord::Base
     "#{etherpad_group_id}$#{CGI::escape(etherpad_name)}"
   end
 
-  def citation_format
-    self.owner.preferences_with_defaults[:citation_format]
-  end
-
   private
 
   def init_group
     self.group = Group.create
+  end
+
+  def set_citation_format
+    self.citation_format = self.owner.preferences_with_defaults[:citation_format]
   end
 
   def set_etherpad_password

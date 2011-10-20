@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111015163407) do
+ActiveRecord::Schema.define(:version => 20111020182121) do
 
   create_table "citations", :force => true do |t|
     t.string   "citation_text"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20111015163407) do
     t.integer  "group_id"
     t.string   "etherpad_password"
     t.string   "etherpad_name"
+    t.string   "citation_format"
   end
 
   create_table "groups", :force => true do |t|
