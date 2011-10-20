@@ -97,7 +97,7 @@ class Document < ActiveRecord::Base
   end
 
   def set_citation_format
-    self.citation_format = self.owner.preferences_with_defaults[:citation_format]
+    self.citation_format = self.owner.preferences_with_defaults[:citation_format] if self.owner
   end
 
   def set_etherpad_password
