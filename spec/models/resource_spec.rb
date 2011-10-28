@@ -41,10 +41,10 @@ describe Resource do
         subject.save!
       end
 
-      it "should equal '(Doe 2000)'" do
-        subject.default_citation!.should == "(Doe 2000)"
+      it "should equal '(Doe)'" do
+        subject.default_citation!.should == "(Doe)"
         subject.citations.size.should == 1
-        subject.citations.first.citation_text.should == "(Doe 2000)"
+        subject.citations.first.citation_text.should == "(Doe)"
         subject.citations.first.default.should be_true
         subject.citations.first.resource.id.should == subject.id
       end
@@ -60,10 +60,10 @@ describe Resource do
         subject.save!
       end
 
-      it "should equal '(Doe 2000)'" do
-        subject.default_citation!.should == "(Doe 2000)"
+      it "should equal '(Doe)'" do
+        subject.default_citation!.should == "(Doe)"
         subject.citations.size.should == 1
-        subject.citations.first.citation_text.should == "(Doe 2000)"
+        subject.citations.first.citation_text.should == "(Doe)"
         subject.citations.first.default.should be_true
         subject.citations.first.resource.id.should == subject.id
       end
@@ -87,6 +87,7 @@ describe Resource do
         end
 
         it "should equal '(Doe, Hello World 2000)'" do
+          pending
           subject.default_citation!.should == "(Doe, \"Hello World\" 2000)"
           subject.citations.size.should == 1
           subject.citations.first.citation_text.should == "(Doe, \"Hello World\" 2000)"
@@ -110,10 +111,10 @@ describe Resource do
           subject.save!
         end
 
-        it "should equal '(Doe 2000)'" do
-          subject.default_citation!.should == "(Doe 2000)"
+        it "should equal '(Doe)'" do
+          subject.default_citation!.should == "(Doe)"
           subject.citations.size.should == 1
-          subject.citations.first.citation_text.should == "(Doe 2000)"
+          subject.citations.first.citation_text.should == "(Doe)"
           subject.citations.first.default.should be_true
           subject.citations.first.resource.id.should == subject.id
         end
