@@ -43,12 +43,11 @@ class Resource < ActiveRecord::Base
   end
 
   def format(options={})
-    _options = {:style => :mla, :mode => :citation}
+    _options = {:style => 'mla', :mode => :citation}
     _options.merge!(options)
+    _options[:style] = File.join(Rails.root, 'public', 'vendor', citation_dir, "#{_options[:style].to_s}.csl")
     CiteProc.process(bibtex.to_citeproc, _options).first
   end
-
-  private
 
   def bibtex
     year = self.publication_date ? self.publication_date.year : ""
@@ -59,7 +58,14 @@ class Resource < ActiveRecord::Base
       :title => self.title,
       :address => self.pub_location
     })
+
     return bib
+  end
+
+  private
+
+  def citation_dir
+    @@citation_dir ||= YAML.load_file('config/citation_styles.yml')['dir']
   end
 
   def default_citation
