@@ -98,3 +98,34 @@ TXT
               :confirm => 'Are you sure?',
               :method => :delete %>
 </p>
+
+<hr style="margin: 5px 0 5px 0"/>
+
+<p>
+  <b>Quotations:</b>
+    <table style="width:100%">
+      <% for q in resource.quotations %>
+        <tr>
+          <td><%= q.quote %></td>
+          <td style="width:auto">
+            <%= link_to "delete", [resource.document, resource, q],
+                        :confirm => <<TXT, :method => :delete
+The following quotation will be deleted:
+
+#{q.quote}
+
+Are you sure?
+TXT
+            %>
+          </td>
+        </tr>
+    <% end %>
+  </table>
+  <div>Add Quotation:</div>
+  <div id="quotation_drop_zone">
+    <%= form_for([resource.document, resource, resource.quotations.build]) do |f| %>
+      <%= f.text_area :quote, :rows => 6, :cols => 65 %>
+      <%= f.submit 'Add Quote' %>
+    <% end %>
+  </div>
+</p>

@@ -2,6 +2,7 @@ require 'bibtex'
 require 'citeproc'
 class Resource < ActiveRecord::Base
   has_many :citations
+  has_many :quotations
   belongs_to :document
   serialize :creators, Array
   serialize :desc_subject, Array

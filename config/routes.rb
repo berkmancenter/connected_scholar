@@ -8,6 +8,7 @@ ConnectedScholar::Application.routes.draw do
       post 'read', :on => :member
     end
     resources :resources, :only => [:show, :create, :destroy] do
+      resources :quotations, :only => [:show, :create, :destroy]
       resources :citations, :only => [:create, :destroy]
       get 'citation', :on => :member
       post 'activate', :on => :member

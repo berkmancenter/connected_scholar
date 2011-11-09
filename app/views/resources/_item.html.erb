@@ -3,4 +3,11 @@
 	<div class="draggable resource_item" id="drag_resource_<%= item.id %>">
 		<a id="item_<%=item.id%>" class="<%= class_name %>" href="#"><%= item.title %></a>
 	</div>
+	<% unless item.quotations.blank? %>
+	  <% for q in item.quotations %>
+	  <div class="draggable_quote" id="drag_quote_<%= item.id %>_<%= q.id %>">
+	    <%= q.quote %>
+	  </div>
+	  <% end %>
+	<% end %>
 </div>

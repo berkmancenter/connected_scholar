@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111020182121) do
+ActiveRecord::Schema.define(:version => 20111105174942) do
 
   create_table "citations", :force => true do |t|
     t.string   "citation_text"
@@ -53,6 +53,15 @@ ActiveRecord::Schema.define(:version => 20111020182121) do
     t.integer "group_id", :null => false
     t.integer "user_id",  :null => false
   end
+
+  create_table "quotations", :force => true do |t|
+    t.text     "quote"
+    t.integer  "resource_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "quotations", ["resource_id"], :name => "index_quotations_on_resource_id"
 
   create_table "resources", :force => true do |t|
     t.string   "title"

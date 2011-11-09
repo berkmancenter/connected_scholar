@@ -74,6 +74,7 @@
 
   function setupDraggables(){
     $(".draggable").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startDrag });
+    $(".draggable_quote").draggable({zIndex: 100, helper: 'clone', handle: "p", appendTo: 'body', iframeFix: true, start: startQuoteDrag });
   }
 
   function setupViewSources(){
@@ -87,24 +88,54 @@
     });    
   }
 
+  function startQuoteDrag(event,ui){
+    $(ui.helper).prepend('<div class="preDrag"></div>');
+    $(this).data('draggable').offset.click.top += 124;
+    setupDropzone(true);
+  }
+  
   function startDrag(event,ui){
     $(ui.helper).prepend('<div class="preDrag"></div>');
     $(this).data('draggable').offset.click.top += 124;
-    setupDropzone();
+    setupDropzone(false);
   }
   
-  function setupDropzone(){
+  function setupDropzone(quote){
     var doc = getDoc();
     var innerdocbody = $(doc).find("#innerdocbody");
     var allmagic = innerdocbody.find('div[id^="magicdomid"]');
     allmagic.droppable({
     hoverClass: 'custom-hover',
       drop: function(event, ui){
-        dropCitation(event, ui);
+        if(quote){
+          dropQuote(event, ui);
+        }else{
+          dropCitation(event, ui);
+        }        
       }
     });
   }
 
+  function dropQuote(event, ui){
+    var target = $(event.target);
+    if(target.prev() != undefined && target.prev().attr("id") != undefined && target.prev().attr("id").match(/^magicdomid/)){
+      target = target.prev();
+    }
+    var doc = getDoc();
+    var node = doc.getElementById(target.attr("id"));
+    target.focus(function() {
+      window.setTimeout(function() {
+        setCursorPosition(0, node, doc, getWin());
+      }, 0);
+    });
+    ids = ui.draggable.attr("id").replace("drag_quote_", "").split("_");
+    resource_id = ids[0];
+    quote_id = ids[1];
+    document_id = getDocumentId();
+    setQuote(document_id, resource_id, quote_id, target);
+    return true;
+  }
+  
   function dropCitation(event, ui){
     var target = $(event.target);
     if(target.prev() != undefined && target.prev().attr("id") != undefined && target.prev().attr("id").match(/^magicdomid/)){
@@ -205,6 +236,16 @@
         range = doc.selection.createRange();
         range.pasteHTML(text);
     }
+  }
+  
+  function setQuote(document_id, resource_id, qutoe_id, target){
+    $.get("/documents/" + document_id + "/resources/" + resource_id + "/quotations/" + quote_id, function(data){
+      var quote = data["quote"];
+      var citation = data["citation"];
+      target.after('<div>'+quote+' '+citation+'</div>');
+      target.attr('tabindex', -1).focus();
+      target.removeAttr('tabindex');
+    }, 'json');
   }
   
   function setCitation(document_id, resource_id, target){
