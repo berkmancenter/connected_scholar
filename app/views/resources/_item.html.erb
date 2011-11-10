@@ -5,8 +5,8 @@
 	</div>
 	<% unless item.quotations.blank? %>
 	  <% for q in item.quotations %>
-	  <div class="draggable_quote" id="drag_quote_<%= item.id %>_<%= q.id %>">
-	    <%= q.quote %>
+	  <div class="draggable_quote resource_item resource_quote" id="drag_quote_<%= item.id %>_<%= q.id %>">
+	    "<%= q.quote.first(60) %><%= q.quote.size > 60 ? " ..." : "" %>"
 	  </div>
 	  <% end %>
 	<% end %>
