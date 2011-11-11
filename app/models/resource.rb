@@ -47,7 +47,9 @@ class Resource < ActiveRecord::Base
     _options = {:style => 'mla', :mode => :citation}
     _options.merge!(options)
     _options[:style] = File.join(Rails.root, 'public', 'vendor', citation_dir, "#{_options[:style].to_s}.csl")
-    CiteProc.process(bibtex.to_citeproc, _options).first
+    citations = CiteProc.process(bibtex.to_citeproc, _options)
+    citations ? citations.first : "(Citation not recognized)"
+    
   end
 
   def bibtex

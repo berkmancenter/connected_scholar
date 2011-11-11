@@ -10,7 +10,9 @@ gem "cancan", "1.6.5"
 gem "uuid", "2.3.4"
 gem "hpricot", "0.8.4"
 gem 'bibtex-ruby', "2.0.1"
-gem 'citeproc-ruby', "0.0.2"
+gem 'citeproc', "0.0.8"
+gem 'citeproc-js', "0.0.8"
+gem 'johnson', '2.0.0.pre3'
 
 # Gems used only for assets and not required
 # in production environments by default.

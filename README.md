@@ -21,6 +21,15 @@ Next, check to make sure RubyGems installed by running the following command, an
 If the commands above were not succesful, then [read through this guide](http://rubyonrails.org/download) on downloading
 and installing Ruby and RubyGems.
 
+Checkout johnson from https://github.com/inukshuk/johnson.git.
+  
+  git clone https://github.com/inukshuk/johnson.git
+  cd johnson
+  git checkout experimental
+  rake compile
+  rake gem
+  gem install pkg/johnson-2.0.0.pre3.gem
+
 Next, install Bundler.  This is a tool that will manage your RubyGems for this application.  Run the following command:
 
     gem install bundler
