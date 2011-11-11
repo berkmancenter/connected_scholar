@@ -70,6 +70,6 @@ class Resource < ActiveRecord::Base
   end
 
   def default_citation
-    format(:mode => :citation, :style => self.document.citation_format.to_s)      
+    self.document.citation_format ? format(:mode => :citation, :style => self.document.citation_format.to_s) : format(:mode => :citation, :style => 'mla')     
   end
 end

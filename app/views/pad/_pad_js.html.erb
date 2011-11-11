@@ -242,7 +242,7 @@
     $.get("/documents/" + document_id + "/resources/" + resource_id + "/quotations/" + quote_id, function(data){
       var quote = data["quote"];
       var citation = data["citation"];
-      target.after('<div>'+quote+' '+citation+'</div>');
+      target.after('<div>"'+quote+'" '+citation+'</div>');
       target.attr('tabindex', -1).focus();
       target.removeAttr('tabindex');
     }, 'json');
