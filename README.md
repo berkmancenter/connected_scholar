@@ -41,6 +41,12 @@ location you have this project checked out, and run the following command:
 
 This will install Rails as well as a host of other Gems.
 
+### Checkout Citation Styles
+
+Run the following command to checkout the citation styles needed by the app:
+
+    rake citation_styles:checkout
+    
 ### Install etherpad-lite
 
 (Note: these steps are only designed to work on *nix systems.  And they have only been tested on Mac OS X).
